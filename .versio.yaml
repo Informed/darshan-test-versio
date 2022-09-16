@@ -1,6 +1,10 @@
 options:
   prev_tag: "versio-prev"
 
+version:
+  tags:
+    default: "0.0.0"
+
 sizes:
   use_angular: true
   fail: ["*"]
