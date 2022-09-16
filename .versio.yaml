@@ -1,9 +1,16 @@
 options:
   prev_tag: "versio-prev"
 
-version:
-  tags:
-    default: "0.0.0"
+projects:
+    id: 0
+    tag_prefix: ""
+    labels: cargo
+    changelog: "CHANGELOG.html"
+    version:
+      file: "Cargo.toml"
+      toml: "package.version"
+    hooks:
+      post_write: cargo update --workspace
 
 sizes:
   use_angular: true
