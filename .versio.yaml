@@ -2,6 +2,7 @@ options:
   prev_tag: "versio-prev"
 
 projects:
+  - name: "darshan-test-versio"
     id: 0
     tag_prefix: ""
     labels: cargo
