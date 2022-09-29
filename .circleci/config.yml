@@ -15,9 +15,13 @@ jobs:
     steps:
       - checkout
       - run:
+          requires:
+          - checkout
           name: "Say hello"
           command: "echo Hello, World!"
       - run:
+          requires:
+          - "Say Hello"
           name: "Tag resources"
           command: ./auto_tag.sh
 
