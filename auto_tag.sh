@@ -10,7 +10,6 @@ VERSION_BITS=(${APPVERSIONS[1]//./ })
 #get number parts and increase last one by 1
 
 VNUM1=${VERSION_BITS[0]}
-
 VNUM2=${VERSION_BITS[1]}
 VNUM3=${VERSION_BITS[2]}
 VNUM3=`echo $VNUM3 | sed 's/-.*//'`
@@ -32,7 +31,6 @@ else
     echo "INFO: Update patch version"
     VNUM3=$((VNUM3+1))
 fi
-
 
 #create new tag
 NEW_TAG="$APPNAME-$VNUM1.$VNUM2.$VNUM3"
