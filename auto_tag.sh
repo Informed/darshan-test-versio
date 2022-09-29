@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #get highest tag number
-VERSION=`git describe --abbrev=0 --tags`
+APPNAME=$1
+VERSION=`git describe  --match "*$APPNAME*" --abbrev=0 --tags`
 #replace . with space so can split into an array
 APPVERSIONS=(${VERSION//-/ })
-APPNAME=$1
 VERSION_BITS=(${APPVERSIONS[1]//./ })
 
 #get number parts and increase last one by 1
