@@ -4,7 +4,7 @@
 VERSION=`git describe --abbrev=0 --tags`
 #replace . with space so can split into an array
 APPVERSIONS=(${VERSION//-/ })
-APPNAME=${APPVERSIONS[0]}
+APPNAME=$1
 VERSION_BITS=(${APPVERSIONS[1]//./ })
 
 #get number parts and increase last one by 1
