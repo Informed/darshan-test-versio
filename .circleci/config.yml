@@ -17,7 +17,7 @@ jobs:
       - run:
           requires:
           - checkout
-          name: "Say hello"
+          name: "Say hello hi"
           command: "echo Hello, World!"
       - run:
           requires:
