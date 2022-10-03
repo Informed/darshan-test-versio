@@ -93,7 +93,7 @@ jobs:
       - checkout
       - tag_commit:
           app: api_handler
-      - python-package
+      - python-package:
           directory: api_handler/
       - build_app:
           directory: api_handler/
