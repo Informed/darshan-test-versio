@@ -23,7 +23,7 @@ commands:
   
   python-package:
     parameters:
-      directory: ""
+      directory: "/"
       type: string
     steps:
       - python/install-packages:
