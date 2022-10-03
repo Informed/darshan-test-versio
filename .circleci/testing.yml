@@ -21,14 +21,14 @@ commands:
     steps:
       - run : ./.circleci/auto_tag.sh <<parameters.app>>
   
-  python-package:
-    parameters:
-      directory: "/"
-      type: string
-    steps:
-      - python/install-packages:
-          app-dir: <<parameters.directory>>
-          pkg-manager: poetry
+  # python-package:
+  #   parameters:
+  #     directory: "/"
+  #     type: string
+  #   steps:
+  #     - python/install-packages:
+  #         app-dir: <<parameters.directory>>
+  #         pkg-manager: poetry
 
   build_app:
     parameters:
