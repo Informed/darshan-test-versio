@@ -160,3 +160,7 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+
+check1.yml
+plan.txt

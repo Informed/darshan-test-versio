@@ -94,13 +94,13 @@ jobs:
       - tag_commit:
           app: api_handler
       - python-package
-          directory: ~/project/apps/api_handler
+          directory: api_handler/
       - build_app:
-          directory: ~/project/apps/api_handler
+          directory: api_handler/
       - create_package:
-          directory: ~/project/apps/api_handler/package
+          directory: api_handler/package/
       - upload_artifacts:
-          from: ~/project/apps/api_handler/package/out
+          from: api_handler/package/out/
           to: s3://informed-techno-core-<<parameters.target-env>>-lambda-images
       - start_lambda
 
