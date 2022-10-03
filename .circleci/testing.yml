@@ -44,7 +44,7 @@ commands:
                       poetry run pip install --upgrade -t package dist/*.whl
 
   create_package:
-    parameteres:
+    parameters:
       directory:
         default: ""
         type: string
