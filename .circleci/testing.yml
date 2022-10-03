@@ -35,8 +35,9 @@ commands:
       directory:
         default: ""
         type: string
-      steps:
-        - run:  |
+    steps:
+      - run:  
+        command: |
                 cd <<parameters.directory>>
                 echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
                 poetry build
@@ -47,12 +48,13 @@ commands:
       directory:
         default: ""
         type: string
-      steps:
-        - run:  |
-                cd <<parameters.directory>>
-                echo Zipping the code in `pwd`
-                mkdir -p out
-                zip -r out/api_handler.zip . -x '*.pyc'
+    steps:
+      - run:
+          command:  |
+              cd <<parameters.directory>>
+              echo Zipping the code in `pwd`
+              mkdir -p out
+              zip -r out/api_handler.zip . -x '*.pyc'
 
   upload_artifacts:
     parameters: 
