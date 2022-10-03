@@ -93,8 +93,9 @@ jobs:
       - checkout
       - tag_commit:
           app: api_handler
-      - python-package:
-          directory: api_handler
+      - python/install-packages:
+          app-dir: ~/project/apps/api_handler
+          pkg-manager: poetry
       - build_app:
           directory: api_handler
       - create_package:
