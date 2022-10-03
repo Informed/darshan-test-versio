@@ -1,45 +1,114 @@
 version: 2.1
 
+orbs:
+  python: circleci/python@2.0.3
+  aws-s3: circleci/aws-s3@3.0.0
+
 parameters:
   run-api_handler:
     type: boolean
     default: false
-  run-docs:
+  tf-dev_api_handler:
     type: boolean
     default: false
 
+commands:
+  tag_commit:
+    parameters:
+      app:
+        default: ""
+        type: string
+    steps:
+      - run : ./.circleci/auto_tag.sh <<parameters.app>>
+  
+  python-package:
+    parameters:
+      directory: ""
+      type: string
+    steps:
+      - python/install-packages:
+          app-dir: <<parameters.directory>>
+          pkg-manager: poetry
+
+  build_app:
+    parameters:
+      directory:
+        default: ""
+        type: string
+      steps:
+        - run: 
+            command: |
+                      cd <<parameters.directory>>
+                      echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
+                      poetry build
+                      poetry run pip install --upgrade -t package dist/*.whl
+
+  create_package:
+    parameteres:
+      directory:
+        default: ""
+        type: string
+      steps:
+        - run: 
+            command: |
+                      cd <<parameters.directory>>
+                      echo Zipping the code in `pwd`
+                      mkdir -p out
+                      zip -r out/api_handler.zip . -x '*.pyc'
+
+  upload_artifacts:
+    parameters: 
+      from:
+        type: string
+        description: A local *directory* path to sync with S3
+      to:
+        type: string
+        description: A URI to an S3 bucket, i.e. 's3://the-name-my-bucket'
+    steps:
+      - aws-s3/sync:
+          aws-region: AWS_REGION
+          from: <<parameters.from>>
+          to:   <<parameters.to>>
+
+  start_lambda:
+    steps:
+      - run:
+          name: Update the lambda
+          command: |
+            aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-api-handler --region ${AWS_REGION} --s3-bucket informed-techno-core-<<parameters.target-env>>-lambda-images --s3-key api_handler.zip
+
 jobs:
-  api_handler:
+  api_handler_app_deploy:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: cimg/base:stable
+    executor:
+      name: python/default
+      tag: "3.8"
+    parameters:
+      target-env:
+        type: string
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
-      - run:
-          name: "Tag resources"
-          command: ./auto_tag.sh api_handler
-  docs:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-    steps:
-      - checkout
-      - run:
-          name: "Tag resources"
-          command: ./auto_tag.sh docs
+      - tag_commit:
+          app: api_handler
+      - python-package
+          directory: ~/project/apps/api_handler
+      - build_app:
+          directory: ~/project/apps/api_handler
+      - create_package:
+          directory: ~/project/apps/api_handler/package
+      - upload_artifacts:
+          from: ~/project/apps/api_handler/package/out
+          to: s3://informed-techno-core-<<parameters.target-env>>-lambda-images
+      - start_lambda
 
 workflows:
   api_handler_run:
     when: << pipeline.parameters.run-api_handler >>
     jobs:
-      - api_handler
-  docs_run:
-    when: << pipeline.parameters.run-docs >>
-    jobs:
-      - docs
+      - api_handler_app_deploy:
+          target-env: "darshan"
+          context: 
+            - dshah-aws-user-creds

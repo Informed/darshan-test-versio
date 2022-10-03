@@ -15,6 +15,6 @@ workflows:
 
           mapping: |
             api_handler/.* run-api_handler true
-            docs/.* run-docs true
+            infrastructure/api_handler/dev/.* tf-dev_api_handler true
           base-revision: main
           config-path: .circleci/testing.yml
