@@ -36,8 +36,7 @@ commands:
         default: ""
         type: string
     steps:
-      - run:  
-        command: |
+      - run: |
                 cd <<parameters.directory>>
                 echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
                 poetry build
@@ -49,8 +48,7 @@ commands:
         default: ""
         type: string
     steps:
-      - run:
-          command:  |
+      - run: |
               cd <<parameters.directory>>
               echo Zipping the code in `pwd`
               mkdir -p out
@@ -76,9 +74,7 @@ commands:
         type: string
         default: ""
     steps:
-      - run:
-          name: Update the lambda
-          command: |
+      - run: |
             aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-api-handler --region ${AWS_REGION} --s3-bucket informed-techno-core-<<parameters.target-env>>-lambda-images --s3-key api_handler.zip
 
 jobs:
