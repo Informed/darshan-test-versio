@@ -71,6 +71,10 @@ commands:
           to:   <<parameters.to>>
 
   start_lambda:
+    parameters:
+      target-env:
+        type: string
+        default: ""
     steps:
       - run:
           name: Update the lambda
@@ -103,7 +107,8 @@ jobs:
       - upload_artifacts:
           from: api_handler/package/out
           to: s3://informed-techno-core-<<parameters.target-env>>-lambda-images
-      - start_lambda
+      - start_lambda:
+          target-env: <<parameters.target-env>>
 
 workflows:
   api_handler_run:
