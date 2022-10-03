@@ -94,7 +94,7 @@ jobs:
       - tag_commit:
           app: api_handler
       - python/install-packages:
-          app-dir: ~/project/apps/api_handler
+          app-dir: ~/project/api_handler
           pkg-manager: poetry
       - build_app:
           directory: api_handler
