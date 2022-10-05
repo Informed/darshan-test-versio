@@ -12,9 +12,9 @@ workflows:
     jobs:
       - split-config/generate-config:
           fixed-config-paths: |
-            ./commons/.circleci/config.yml
             ./apps/api_handler/.circleci/config.yml
             ./apps/partner_profile/.circleci/config.yml
+          find-config-regex: \./commons/\.circleci/.*\.yml
           generated-config-path: /tmp/generated_config.yml
           continuation: false
           post-steps:
