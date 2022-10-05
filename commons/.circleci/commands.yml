@@ -5,7 +5,7 @@ commands:
         default: ""
         type: string
     steps:
-      - run : sh /commons/auto_tag.sh <<parameters.app>>
+      - run : sh commons/auto_tag.sh <<parameters.app>>
 
   build_app:
     parameters:
