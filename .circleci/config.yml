@@ -11,7 +11,7 @@ workflows:
   always-run:
     jobs:
       - split-config/generate-config:
-          find-config-paths: |
+          fixed-config-paths: |
             ./common/.circleci/config.yml
             ./apps/api_handler/.circleci/config.yml
             ./apps/partner_profile/.circleci/config.yml
