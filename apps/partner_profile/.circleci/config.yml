@@ -11,7 +11,7 @@ workflows:
             - dshah-aws-user-creds
       - app_deploy:
           target-env: "dshah"
-          appName   : "api_handler"
+          appName   : "partner_profile"
           context: 
             - dshah-aws-user-creds
           requires:
