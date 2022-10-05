@@ -12,7 +12,7 @@ workflows:
     jobs:
       - split-config/generate-config:
           fixed-config-paths: |
-            ./common/.circleci/config.yml
+            ./commons/.circleci/config.yml
             ./apps/api_handler/.circleci/config.yml
             ./apps/partner_profile/.circleci/config.yml
           generated-config-path: /tmp/generated_config.yml
