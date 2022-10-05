@@ -18,6 +18,7 @@ jobs:
           name: Build the Api Handler
           command: |
                 echo `pwd`
+                echo `ls`
       - tag_commit:
           app: api_handler
       - python/install-packages:
