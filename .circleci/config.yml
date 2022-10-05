@@ -10,11 +10,20 @@ orbs:
 workflows:
   always-run:
     jobs:
+      - split-config/generate-config:
+          find-config-regex: .*/\.circleci/.*\.yml
+          generated-config-path: /tmp/generated_config.yml
+          continuation: false
+          post-steps:
+            - persist_to_workspace:
+                root: /tmp
+                paths:
+                  - generated_config.yml
       - path-filtering/filter:
           name: check-updated-files
-
+          config-path: /tmp/generated_config.yml
           mapping: |
             api_handler/.* run-api_handler true
-            infrastructure/api_handler/dev/.* tf-dev_api_handler true
           base-revision: main
-          config-path: .circleci/testing.yml
+          requires:
+            - split-config/generate-config

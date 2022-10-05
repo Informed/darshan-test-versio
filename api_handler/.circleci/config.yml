@@ -1,149 +1,39 @@
 version: 2.1
 
-orbs:
-  python: circleci/python@2.0.3
-  aws-s3: circleci/aws-s3@3.0.0
-
 jobs:
-  api-handler-deploy-service:
+  api_handler_app_deploy:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     executor:
       name: python/default
       tag: "3.8"
     parameters:
       target-env:
         type: string
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
+      - tag_commit:
+          app: api_handler
       - python/install-packages:
-          app-dir: ~/project/apps/api_handler
+          app-dir: ~/project/api_handler
           pkg-manager: poetry
-      - run:
-          name: Build the Api Handler
-          working_directory: ~/project/apps/api_handler
-          command: |
-            echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
-            poetry build
-            poetry run pip install --upgrade -t package dist/*.whl
-      - run:
-          name: zip the code
-          working_directory: ~/project/apps/api_handler/package
-          command: |
-            echo Zipping the code in `pwd`
-            mkdir -p out
-            zip -r out/api_handler.zip . -x '*.pyc'
-      - aws-s3/sync:
-          aws-region: AWS_REGION
-          from: ~/project/apps/api_handler/package/out
+      - build_app:
+          directory: api_handler
+      - create_package:
+          directory: api_handler/package
+      - upload_artifacts:
+          from: api_handler/package/out
           to: s3://informed-techno-core-<<parameters.target-env>>-lambda-images
-      - run:
-          name: Update the lambda
-          command: |
-            aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-api-handler --region ${AWS_REGION} --s3-bucket informed-techno-core-<<parameters.target-env>>-lambda-images --s3-key api_handler.zip
-
-  api-handler-linter:
-    executor:
-      name: python/default
-      tag: "3.8"
-    steps:
-      - checkout
-      - python/install-packages:
-          app-dir: ~/project/apps/api_handler
-          pkg-manager: poetry
-      - run:
-          name: run linting and metrics
-          working_directory: ~/project/apps/api_handler
-          command: |
-            poetry run flake8
-
-  api-handler-pytests:
-    executor:
-      name: python/default
-      tag: "3.8"
-    steps:
-      - checkout
-      - python/install-packages:
-          app-dir: ~/project/apps/api_handler/tests
-          pkg-manager: poetry
-      - run:
-          name: run unit tests
-          working_directory: ~/project/apps/api_handler/tests
-          command: |
-            poetry run pytest -v
+      - start_lambda:
+          target-env: <<parameters.target-env>>
 
 workflows:
-  api-handler-commit:
+  api_handler_run:
+    when: << pipeline.parameters.run-api_handler >>
     jobs:
-      - api-handler-linter:
-          filters:
-            tags:
-              ignore: /.*/
-      - api-handler-pytests:
-          filters:
-            tags:
-              ignore: /.*/
-  api-handler-tc-prod-deploy:
-    jobs:
-      - api-handler-deploy-service:
-          target-env: "prod"
-          context:
-            - prod-aws-user-creds
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^api_handler-\d+\.\d+\.\d+-tc-prod/
-  api-handler-tc-staging-deploy:
-    jobs:
-      - api-handler-deploy-service:
-          target-env: "staging"
-          context:
-            - staging-aws-user-creds
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^api_handler-\d+\.\d+\.\d+-tc-staging/
-  api-handler-tc-qa-deploy:
-    jobs:
-      - api-handler-deploy-service:
-          target-env: "qa"
-          context:
-            - qa-aws-user-creds
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^api_handler-\d+\.\d+\.\d+-tc-qa/
-  api-handler-dev-deploy:
-    jobs:
-      - api-handler-deploy-service:
-          target-env: "dev"
-          context:
-            - dev-aws-user-creds
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^api_handler-\d+\.\d+\.\d+-dev$/
-  api-handler-rsalla-deploy:
-    jobs:
-      - api-handler-deploy-service:
-          target-env: "rsalla"
-          context:
-            - rsalla-aws-user-creds
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^api_handler-\d+\.\d+\.\d+-rsalla$/
-  api-handler-rberger-deploy:
-    jobs:
-      - api-handler-deploy-service:
-          target-env: "rberger"
-          context:
-            - rberger-aws-user-creds
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^api_handler-\d+\.\d+\.\d+-rberger$/
+      - api_handler_app_deploy:
+          target-env: "dshah"
+          context: 
+            - dshah-aws-user-creds

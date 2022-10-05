@@ -1,0 +1,53 @@
+commands:
+  tag_commit:
+    parameters:
+      app:
+        default: ""
+        type: string
+    steps:
+      - run : sh auto_tag.sh <<parameters.app>>
+
+  build_app:
+    parameters:
+      directory:
+        default: ""
+        type: string
+    steps:
+      - run: |
+                cd <<parameters.directory>>
+                echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
+                poetry build
+                poetry run pip install --upgrade -t package dist/*.whl
+  create_package:
+    parameters:
+      directory:
+        default: ""
+        type: string
+    steps:
+      - run: |
+              cd <<parameters.directory>>
+              echo Zipping the code in `pwd`
+              mkdir -p out
+              zip -r out/api_handler.zip . -x '*.pyc'
+  upload_artifacts:
+    parameters: 
+      from:
+        type: string
+        description: A local *directory* path to sync with S3
+      to:
+        type: string
+        description: A URI to an S3 bucket, i.e. 's3://the-name-my-bucket'
+    steps:
+      - aws-s3/sync:
+          aws-region: AWS_REGION
+          from: <<parameters.from>>
+          to:   <<parameters.to>>
+
+  start_lambda:
+    parameters:
+      target-env:
+        type: string
+        default: ""
+    steps:
+      - run: |
+            aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-api-handler --region ${AWS_REGION} --s3-bucket informed-techno-core-<<parameters.target-env>>-lambda-images --s3-key api_handler.zip
