@@ -1,4 +1,6 @@
 commands:
+
+##### APP DEPLOY COMMANDS ######
   tag_commit:
     parameters:
       app:
@@ -14,7 +16,7 @@ commands:
         type: string
     steps:
       - run: |
-                cd <<parameters.directory>>
+                cd apps/<<parameters.directory>>
                 echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
                 poetry build
                 poetry run pip install --upgrade -t package dist/*.whl
@@ -25,7 +27,7 @@ commands:
         type: string
     steps:
       - run: |
-              cd <<parameters.directory>>
+              cd apps/<<parameters.directory>>
               echo Zipping the code in `pwd`
               mkdir -p out
               zip -r out/api_handler.zip . -x '*.pyc'
@@ -51,3 +53,27 @@ commands:
     steps:
       - run: |
             aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-api-handler --region ${AWS_REGION} --s3-bucket informed-techno-core-<<parameters.target-env>>-lambda-images --s3-key api_handler.zip
+
+################################
+
+##### APP LINTER COMMANDS ######
+  linting_and_metrics:
+    parameters:
+      directory:
+        default: ""
+        type: string
+    steps:
+        - run: |
+                cd apps/<<parameters.directory>>
+                poetry run flake8
+  py_tests:
+    parameters:
+      directory:
+        default: ""
+        type: string
+    steps:
+        - run: |
+                cd apps/<<parameters.directory>>/tests
+                poetry run pytest -v
+            
+###################################

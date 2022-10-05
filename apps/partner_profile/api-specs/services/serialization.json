@@ -1,0 +1,33 @@
+{
+  "title": "Serialization",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "title": "Apiversion",
+      "type": "string"
+    },
+    "withBeta": {
+      "title": "Withbeta",
+      "type": "boolean"
+    },
+    "useSecureUrls": {
+      "title": "Usesecureurls",
+      "type": "boolean"
+    },
+    "secureUrlExpiration": {
+      "title": "Secureurlexpiration",
+      "type": "object"
+    },
+    "disableSerializedUrls": {
+      "title": "Disableserializedurls",
+      "type": "boolean"
+    },
+    "downloadsIpWhitelist": {
+      "title": "Downloadsipwhitelist",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

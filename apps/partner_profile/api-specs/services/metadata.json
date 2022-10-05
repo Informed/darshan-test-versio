@@ -1,0 +1,61 @@
+{
+  "title": "Metadata",
+  "type": "object",
+  "properties": {
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "email": {
+      "title": "Email",
+      "type": "string"
+    },
+    "address": {
+      "title": "Address",
+      "type": "string"
+    },
+    "status": {
+      "title": "Status",
+      "type": "string"
+    },
+    "password": {
+      "title": "Password",
+      "type": "string"
+    },
+    "tollFreeNumber": {
+      "title": "Tollfreenumber",
+      "type": "string"
+    },
+    "lenderType": {
+      "title": "Lendertype",
+      "type": "string"
+    },
+    "loanType": {
+      "title": "Loantype",
+      "type": "string"
+    },
+    "lenderless": {
+      "title": "Lenderless",
+      "type": "boolean"
+    },
+    "parentPartner": {
+      "$ref": "#/definitions/ParentPartner"
+    }
+  },
+  "definitions": {
+    "ParentPartner": {
+      "title": "ParentPartner",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

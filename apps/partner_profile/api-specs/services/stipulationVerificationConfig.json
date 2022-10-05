@@ -1,0 +1,18 @@
+{
+  "title": "StipulationVerificationConfig",
+  "type": "object",
+  "properties": {
+    "f3Partner": {
+      "title": "F3Partner",
+      "type": "string"
+    },
+    "lastUpdated": {
+      "title": "Lastupdated",
+      "type": "string"
+    },
+    "rules": {
+      "title": "Rules",
+      "type": "object"
+    }
+  }
+}

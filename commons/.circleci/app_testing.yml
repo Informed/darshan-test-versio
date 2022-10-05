@@ -1,0 +1,18 @@
+ 
+jobs:
+  app_testing:
+    executor:
+      name: python/default
+      tag: "3.8"
+    parameters:
+      appName:
+        type: string
+    steps:
+      - checkout
+      - python/install-packages:
+          app-dir: ~/project/apps/api_handler
+          pkg-manager: poetry
+      - linting_and_metrics:
+          directory: <<parameters.appName>>
+      - py_tests:
+          directory: <<parameters.appName>>

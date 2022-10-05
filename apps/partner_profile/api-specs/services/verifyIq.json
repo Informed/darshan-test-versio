@@ -1,0 +1,141 @@
+{
+  "title": "VerifyIq",
+  "type": "object",
+  "properties": {
+    "subdomain": {
+      "title": "Subdomain",
+      "type": "string"
+    },
+    "viqSdkTokenSecret": {
+      "title": "Viqsdktokensecret",
+      "type": "string"
+    },
+    "uiTheme": {
+      "$ref": "#/definitions/UiTheme"
+    },
+    "providerType": {
+      "title": "Providertype",
+      "type": "string"
+    },
+    "userRoles": {
+      "title": "Userroles",
+      "type": "object"
+    },
+    "rolePermissions": {
+      "title": "Rolepermissions",
+      "type": "object"
+    },
+    "ignoreVerifyiqApplicationLimit": {
+      "title": "Ignoreverifyiqapplicationlimit",
+      "type": "boolean"
+    },
+    "showFailDocs": {
+      "title": "Showfaildocs",
+      "type": "boolean"
+    },
+    "enableRequestDocuments": {
+      "title": "Enablerequestdocuments",
+      "type": "boolean"
+    },
+    "webhookSetting": {
+      "title": "Webhooksetting",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BasicAuth"
+        },
+        {
+          "$ref": "#/definitions/OAuth"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "UiTheme": {
+      "title": "UiTheme",
+      "type": "object",
+      "properties": {
+        "logoName": {
+          "title": "Logoname",
+          "type": "string"
+        },
+        "logoStyles": {
+          "title": "Logostyles",
+          "type": "string"
+        },
+        "displayName": {
+          "title": "Displayname",
+          "type": "string"
+        },
+        "primaryColor": {
+          "title": "Primarycolor",
+          "type": "object"
+        },
+        "secondaryColor": {
+          "title": "Secondarycolor",
+          "type": "object"
+        },
+        "quicksightEnabled": {
+          "title": "Quicksightenabled",
+          "type": "boolean"
+        }
+      }
+    },
+    "BasicAuth": {
+      "title": "BasicAuth",
+      "type": "object",
+      "properties": {
+        "authScheme": {
+          "title": "Authscheme",
+          "type": "string"
+        },
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "password": {
+          "title": "Password",
+          "type": "string"
+        },
+        "specialHttpHeader": {
+          "title": "Specialhttpheader",
+          "type": "object"
+        }
+      }
+    },
+    "OAuthSettings": {
+      "title": "OAuthSettings",
+      "type": "object",
+      "properties": {
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "password": {
+          "title": "Password",
+          "type": "string"
+        },
+        "endpoint": {
+          "title": "Endpoint",
+          "type": "string"
+        },
+        "custom_attributes": {
+          "title": "Custom Attributes",
+          "type": "object"
+        }
+      }
+    },
+    "OAuth": {
+      "title": "OAuth",
+      "type": "object",
+      "properties": {
+        "authScheme": {
+          "title": "Authscheme",
+          "type": "string"
+        },
+        "oauthSettings": {
+          "$ref": "#/definitions/OAuthSettings"
+        }
+      }
+    }
+  }
+}

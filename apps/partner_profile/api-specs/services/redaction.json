@@ -1,0 +1,17 @@
+{
+  "title": "Redaction",
+  "type": "object",
+  "properties": {
+    "expiryDays": {
+      "title": "Expirydays",
+      "type": "string"
+    },
+    "documentTypes": {
+      "title": "Documenttypes",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

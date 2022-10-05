@@ -1,0 +1,252 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "techno-core-test",
+    "description" : "API Gateway for techno-core test services",
+    "version" : "2022-04-30 05:57:05UTC"
+  },
+  "servers" : [ {
+    "url" : "https://m1tlbniab1.execute-api.us-east-1.amazonaws.com/{basePath}",
+    "variables" : {
+      "basePath" : {
+        "default" : ""
+      }
+    }
+  } ],
+  "tags" : [ {
+    "name" : "Environment",
+    "x-amazon-apigateway-tag-value" : "test"
+  }, {
+    "name" : "techno-core",
+    "x-amazon-apigateway-tag-value" : "true"
+  } ],
+  "paths" : {
+    "/api/v5/analyze_docs" : {
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /api/v5/analyze_docs"
+          }
+        },
+        "security" : [ {
+          "techno-core-test-partner-authorizer" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "append:header.JWT" : "$context.authorizer.jwt",
+            "append:header.X-CUSTOM-AUTH" : "eWG9gHQmMRjA3Ub69Bk9hvl8oe9OodBI",
+            "append:header.TRACEPARENT" : "$context.authorizer.traceparent"
+          },
+          "payloadFormatVersion" : "1.0",
+          "type" : "http_proxy",
+          "httpMethod" : "ANY",
+          "uri" : "https://adp-staging.driveinformed.com/api/v5/analyze_docs",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/api/v6/analyze_docs" : {
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /api/v6/analyze_docs"
+          }
+        },
+        "security" : [ {
+          "techno-core-test-partner-authorizer" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "append:header.JWT" : "$context.authorizer.jwt",
+            "append:header.X-CUSTOM-AUTH" : "eWG9gHQmMRjA3Ub69Bk9hvl8oe9OodBI",
+            "append:header.TRACEPARENT" : "$context.authorizer.traceparent"
+          },
+          "payloadFormatVersion" : "1.0",
+          "type" : "http_proxy",
+          "httpMethod" : "ANY",
+          "uri" : "https://adp-staging.driveinformed.com/api/v6/analyze_docs",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/api/v7/analyze_docs" : {
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /api/v7/analyze_docs"
+          }
+        },
+        "security" : [ {
+          "techno-core-test-partner-authorizer" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "append:header.JWT" : "$context.authorizer.jwt",
+            "append:header.X-CUSTOM-AUTH" : "eWG9gHQmMRjA3Ub69Bk9hvl8oe9OodBI",
+            "append:header.TRACEPARENT" : "$context.authorizer.traceparent"
+          },
+          "payloadFormatVersion" : "1.0",
+          "type" : "http_proxy",
+          "httpMethod" : "ANY",
+          "uri" : "https://adp-staging.driveinformed.com/api/v7/analyze_docs",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/api/v8/analyze_docs" : {
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /api/v8/analyze_docs"
+          }
+        },
+        "security" : [ {
+          "techno-core-test-partner-authorizer" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "append:header.JWT" : "$context.authorizer.jwt",
+            "append:header.X-CUSTOM-AUTH" : "eWG9gHQmMRjA3Ub69Bk9hvl8oe9OodBI",
+            "append:header.TRACEPARENT" : "$context.authorizer.traceparent"
+          },
+          "payloadFormatVersion" : "1.0",
+          "type" : "http_proxy",
+          "httpMethod" : "ANY",
+          "uri" : "https://adp-staging.driveinformed.com/api/v8/analyze_docs",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/api/{proxy+}" : {
+      "parameters" : [ {
+        "name" : "proxy+",
+        "in" : "path",
+        "description" : "Generated path parameter for proxy+",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ],
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /api/{proxy+}"
+          }
+        },
+        "security" : [ {
+          "techno-core-test-partner-authorizer" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "append:header.JWT" : "$context.authorizer.jwt",
+            "append:header.X-CUSTOM-AUTH" : "eWG9gHQmMRjA3Ub69Bk9hvl8oe9OodBI",
+            "append:header.TRACEPARENT" : "$context.authorizer.traceparent"
+          },
+          "payloadFormatVersion" : "1.0",
+          "type" : "http_proxy",
+          "httpMethod" : "ANY",
+          "uri" : "https://api-test-internal.driveinformed.com/api/{proxy}",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/v1/partner_profile/{proxy+}" : {
+      "parameters" : [ {
+        "name" : "proxy+",
+        "in" : "path",
+        "description" : "Generated path parameter for proxy+",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ],
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /v1/partner_profile/{proxy+}"
+          }
+        },
+        "security" : [ {
+          "techno-core-test-partner-authorizer" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:170256646665:function:techno-core-test-partner-profile/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/v1/partner_profile" : {
+      "get" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for GET /v1/partner_profile"
+          }
+        },
+        "security" : [ {
+          "techno-core-test-partner-authorizer" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "payloadFormatVersion" : "2.0",
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:170256646665:function:techno-core-test-partner-profile/invocations",
+          "connectionType" : "INTERNET"
+        }
+      }
+    },
+    "/v1/{proxy+}" : {
+      "post" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for POST /v1/{proxy+}"
+          }
+        },
+        "security" : [ {
+          "techno-core-test-partner-authorizer" : [ ]
+        } ],
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "append:header.JWT" : "$context.authorizer.jwt",
+            "append:header.X-CUSTOM-AUTH" : "eWG9gHQmMRjA3Ub69Bk9hvl8oe9OodBI",
+            "append:header.TRACEPARENT" : "$context.authorizer.traceparent"
+          },
+          "payloadFormatVersion" : "1.0",
+          "type" : "http_proxy",
+          "httpMethod" : "POST",
+          "uri" : "https://api-test-internal.driveinformed.com/v1/{proxy}",
+          "connectionType" : "INTERNET"
+        }
+      },
+      "parameters" : [ {
+        "name" : "proxy+",
+        "in" : "path",
+        "description" : "Generated path parameter for proxy+",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ]
+    }
+  },
+  "components" : {
+    "securitySchemes" : {
+      "techno-core-test-partner-authorizer" : {
+        "type" : "apiKey",
+        "name" : "Authorization",
+        "in" : "header",
+        "x-amazon-apigateway-authorizer" : {
+          "identitySource" : "$request.header.Authorization",
+          "authorizerUri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:170256646665:function:techno-core-test-partner-authorizer/invocations",
+          "authorizerPayloadFormatVersion" : "2.0",
+          "authorizerResultTtlInSeconds" : 0,
+          "type" : "request",
+          "enableSimpleResponses" : false
+        }
+      }
+    }
+  },
+  "x-amazon-apigateway-importexport-version" : "1.0"
+}

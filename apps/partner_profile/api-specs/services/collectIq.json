@@ -1,0 +1,163 @@
+{
+  "title": "CollectIq",
+  "type": "object",
+  "properties": {
+    "subdomain": {
+      "title": "Subdomain",
+      "type": "string"
+    },
+    "uiTheme": {
+      "$ref": "#/definitions/UiTheme"
+    },
+    "siteType": {
+      "title": "Sitetype",
+      "type": "string"
+    },
+    "plaidConfig": {
+      "$ref": "#/definitions/PlaidConfig"
+    },
+    "sendSmsImmediately": {
+      "title": "Sendsmsimmediately",
+      "type": "boolean"
+    },
+    "loginLinkExpiration": {
+      "title": "Loginlinkexpiration",
+      "type": "object"
+    },
+    "sendSmsReminder": {
+      "title": "Sendsmsreminder",
+      "type": "boolean"
+    },
+    "sdkPartner": {
+      "title": "Sdkpartner",
+      "type": "boolean"
+    },
+    "webhookSetting": {
+      "title": "Webhooksetting",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BasicAuth"
+        },
+        {
+          "$ref": "#/definitions/OAuth"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "UiTheme": {
+      "title": "UiTheme",
+      "type": "object",
+      "properties": {
+        "color": {
+          "title": "Color",
+          "type": "object"
+        },
+        "latLong": {
+          "title": "Latlong",
+          "type": "array",
+          "items": {}
+        },
+        "fullName": {
+          "title": "Fullname",
+          "type": "string"
+        },
+        "humanName": {
+          "title": "Humanname",
+          "type": "string"
+        },
+        "privacyLink": {
+          "title": "Privacylink",
+          "type": "string"
+        },
+        "contactUsLink": {
+          "title": "Contactuslink",
+          "type": "string"
+        },
+        "termsOfServiceLink": {
+          "title": "Termsofservicelink",
+          "type": "string"
+        }
+      }
+    },
+    "PlaidConfig": {
+      "title": "PlaidConfig",
+      "type": "object",
+      "properties": {
+        "env": {
+          "title": "Env",
+          "type": "string"
+        },
+        "secret": {
+          "title": "Secret",
+          "type": "string"
+        },
+        "clientId": {
+          "title": "Clientid",
+          "type": "string"
+        },
+        "redirectUri": {
+          "title": "Redirecturi",
+          "type": "string"
+        }
+      }
+    },
+    "BasicAuth": {
+      "title": "BasicAuth",
+      "type": "object",
+      "properties": {
+        "authScheme": {
+          "title": "Authscheme",
+          "type": "string"
+        },
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "password": {
+          "title": "Password",
+          "type": "string"
+        },
+        "specialHttpHeader": {
+          "title": "Specialhttpheader",
+          "type": "object"
+        }
+      }
+    },
+    "OAuthSettings": {
+      "title": "OAuthSettings",
+      "type": "object",
+      "properties": {
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "password": {
+          "title": "Password",
+          "type": "string"
+        },
+        "endpoint": {
+          "title": "Endpoint",
+          "type": "string"
+        },
+        "custom_attributes": {
+          "title": "Custom Attributes",
+          "type": "object"
+        }
+      }
+    },
+    "OAuth": {
+      "title": "OAuth",
+      "type": "object",
+      "properties": {
+        "authScheme": {
+          "title": "Authscheme",
+          "type": "string"
+        },
+        "oauthSettings": {
+          "$ref": "#/definitions/OAuthSettings"
+        }
+      }
+    }
+  }
+}

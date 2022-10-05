@@ -11,7 +11,10 @@ workflows:
   always-run:
     jobs:
       - split-config/generate-config:
-          find-config-regex: .*/\.circleci/.*\.yml
+          find-config-paths: |
+            ./common/.circleci/config.yml
+            ./apps/api_handler/.circleci/config.yml
+            ./apps/partner_profile/.circleci/config.yml
           generated-config-path: /tmp/generated_config.yml
           continuation: false
           post-steps:
@@ -24,7 +27,8 @@ workflows:
           workspace_path: /tmp
           config-path: /tmp/generated_config.yml
           mapping: |
-            api_handler/.* run-api_handler true
+            apps/api_handler/.* run-api_handler true
+            apps/partner_profile/.* run-partner-profile true
           base-revision: main
           requires:
             - split-config/generate-config

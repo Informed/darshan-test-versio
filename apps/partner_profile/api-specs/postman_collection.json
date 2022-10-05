@@ -1,0 +1,493 @@
+{
+	"info": {
+		"_postman_id": "92b9cffb-47b5-4df4-b4d3-0db8cad6365a",
+		"name": "Profile Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20775181"
+	},
+	"item": [
+		{
+			"name": "Create Partner Profile",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{profile_service_admin_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{profile_service_admin_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"metadata\": {\n        \"name\": \"acmefinancial_1\",\n        \"email\": \"acmefinancial_1@driveinformed.com\",\n        \"fullName\": \"Acme Financial, LLC\",\n        \"address\": null,\n        \"status\": \"active\",\n        \"password\": \"tc/{{env}}/credentials/incoming/acmefinancial\",\n        \"tollFreeNumber\": null,\n        \"lenderType\": \"hybrid\",\n        \"loanType\": null,\n        \"lenderless\": null,\n        \"parentPartner\": null\n    },\n    \"analyzeIq\": {\n        \"webhookReturnAllDocs\": null,\n        \"forcedStipulations\": null,\n        \"webhookSetting\": {\n            \"authScheme\": \"basic\",\n            \"username\": null,\n            \"password\": null,\n            \"specialHttpHeader\": null\n        }\n    },\n    \"monitoringAlerting\": {\n        \"failureRateThreshold\": 0.5,\n        \"responseTimeThreshold\": 4,\n        \"minimumRequestThreshold\": null\n    },\n    \"serialization\": {\n        \"apiVersion\": 8,\n        \"withBeta\": false,\n        \"useSecureUrls\": false,\n        \"secureUrlExpiration\": {\n            \"value\": null,\n            \"granularity\": \"seconds\"\n        },\n        \"disableSerializedUrls\": false,\n        \"downloadsIpWhitelist\": null\n    },\n    \"collectIq\": {\n        \"subdomain\": \"acmefinancial_1\",\n        \"uiTheme\": {\n            \"color\": {\n                \"primary\": \"#0D74AF\",\n                \"secondary\": \"#127F21\"\n            },\n            \"full_name\": \"Acme Financial, LLC\",\n            \"human_name\": \"Acme Financial\",\n            \"contact_us\": \"#\",\n            \"contact_us_link\": \"#\",\n            \"privacy_link\": \"#\",\n            \"privacy_policy\": \"#\",\n            \"terms_of_service_link\": \"#\"\n        },\n        \"siteType\": \"stip_vault\",\n        \"plaidConfig\": null,\n        \"sendSmsImmediately\": null,\n        \"loginLinkExpiration\": {\n            \"value\": 1,\n            \"unit\": \"day\"\n        },\n        \"sendSmsReminder\": null,\n        \"sdkPartner\": false\n    },\n    \"verifyIq\": {\n        \"subdomain\": \"acmefinancial_1\",\n        \"viqSdkTokenSecret\": \"4f491fdcbc4c8db2a819743523e01eee\",\n        \"uiTheme\": {\n            \"logoName\": \"acmefinancial.svg\",\n            \"displayName\": \"Acme Bank\",\n            \"primaryColor\": {\n                \"main\": \"#fff\"\n            },\n            \"secondaryColor\": {\n                \"main\": \"#00a6ca\",\n                \"light\": \"#d9edf2\"\n            },\n            \"quicksightEnabled\": true\n        },\n        \"providerType\": \"saml\",\n        \"userRoles\": null,\n        \"rolePermissions\": null,\n        \"ignoreVerifyIqApplicationLimit\": false,\n        \"showFailDocs\": false,\n        \"enabledRequestDocuments\": true,\n        \"webhookSetting\": {\n            \"authScheme\": \"basic\",\n            \"username\": null,\n            \"password\": null,\n            \"specialHttpHeader\": null\n        }\n    },\n    \"stipulationVerificationConfig\": {\n        \"f3Partner\": null,\n        \"lastUpdated\": null,\n        \"rules\": {\n            \"stipulations\": null\n        }\n    },\n    \"stipulationCreationRules\": {\n        \"gap_waiver_contract\": [\n            {\n                \"product_charge_presence\": \"gap\"\n            }\n        ],\n        \"vehicle_service_contract\": [\n            {\n                \"product_charge_presence\": \"vsc\"\n            }\n        ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/partner_profiles",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"partner_profiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Partner Profile",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{profile_service_admin_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{profile_service_admin_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"metadata\": {\n        \"name\": \"acmefinancial\",\n        \"email\": \"acmefinancial@driveinformed.com\",\n        \"fullName\": \"Acme Financial, LLC\",\n        \"address\": null,\n        \"status\": \"active\",\n        \"password\": \"tc/{{env}}/credentials/incoming/acmefinancial\",\n        \"tollFreeNumber\": null,\n        \"lenderType\": \"hybrid\",\n        \"loanType\": null,\n        \"lenderless\": null,\n        \"parentPartner\": null\n    },\n    \"analyzeIq\": {\n        \"webhookReturnAllDocs\": null,\n        \"forcedStipulations\": null,\n        \"webhookSetting\": {\n            \"authScheme\": \"basic\",\n            \"username\": null,\n            \"password\": null,\n            \"specialHttpHeader\": null\n        }\n    },\n    \"monitoringAlerting\": {\n        \"failureRateThreshold\": 0.5,\n        \"responseTimeThreshold\": 4,\n        \"minimumRequestThreshold\": null\n    },\n    \"serialization\": {\n        \"apiVersion\": 8,\n        \"withBeta\": false,\n        \"useSecureUrls\": false,\n        \"secureUrlExpiration\": {\n            \"value\": null,\n            \"granularity\": \"seconds\"\n        },\n        \"disableSerializedUrls\": false,\n        \"downloadsIpWhitelist\": null\n    },\n    \"collectIq\": {\n        \"subdomain\": \"acmefinancial\",\n        \"uiTheme\": {\n            \"color\": {\n                \"primary\": \"#0D74AF\",\n                \"secondary\": \"#127F21\"\n            },\n            \"full_name\": \"Acme Financial, LLC\",\n            \"human_name\": \"Acme Financial\",\n            \"contact_us\": \"#\",\n            \"contact_us_link\": \"#\",\n            \"privacy_link\": \"#\",\n            \"privacy_policy\": \"#\",\n            \"terms_of_service_link\": \"#\"\n        },\n        \"siteType\": \"stip_vault\",\n        \"plaidConfig\": null,\n        \"sendSmsImmediately\": null,\n        \"loginLinkExpiration\": {\n            \"value\": 1,\n            \"unit\": \"day\"\n        },\n        \"sendSmsReminder\": null,\n        \"sdkPartner\": false\n    },\n    \"verifyIq\": {\n        \"subdomain\": \"acmefinancial\",\n        \"viqSdkTokenSecret\": \"4f491fdcbc4c8db2a819743523e01eee\",\n        \"uiTheme\": {\n            \"logoName\": \"acmefinancial.svg\",\n            \"displayName\": \"Acme Bank\",\n            \"primaryColor\": {\n                \"main\": \"#fff\"\n            },\n            \"secondaryColor\": {\n                \"main\": \"#00a6ca\",\n                \"light\": \"#d9edf2\"\n            },\n            \"quicksightEnabled\": true\n        },\n        \"providerType\": \"saml\",\n        \"userRoles\": null,\n        \"rolePermissions\": null,\n        \"ignoreVerifyIqApplicationLimit\": false,\n        \"showFailDocs\": false,\n        \"enabledRequestDocuments\": true,\n        \"webhookSetting\": {\n            \"authScheme\": \"basic\",\n            \"username\": null,\n            \"password\": null,\n            \"specialHttpHeader\": null\n        }\n    },\n    \"stipulationVerificationConfig\": {\n        \"f3Partner\": null,\n        \"lastUpdated\": null,\n        \"rules\": {\n            \"stipulations\": null\n        }\n    },\n    \"stipulationCreationRules\": {\n        \"gap_waiver_contract\": [\n            {\n                \"product_charge_presence\": \"gap\"\n            }\n        ],\n        \"vehicle_service_contract\": [\n            {\n                \"product_charge_presence\": \"vsc\"\n            }\n        ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/partner_profiles/67ed741f-b77f-42af-a58d-2761ac30e179",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"partner_profiles",
+						"67ed741f-b77f-42af-a58d-2761ac30e179"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Partner profile from id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{profile_service_admin_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{profile_service_admin_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/partner_profiles/67ed741f-b77f-42af-a58d-2761ac30e179",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"partner_profiles",
+						"67ed741f-b77f-42af-a58d-2761ac30e179"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Partner profile service from id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{profile_service_admin_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{profile_service_admin_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/partner_profiles/67ed741f-b77f-42af-a58d-2761ac30e179/services/metadata",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"partner_profiles",
+						"67ed741f-b77f-42af-a58d-2761ac30e179",
+						"services",
+						"metadata"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Partner profile service from all profiles",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{profile_service_admin_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{profile_service_admin_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/partner_profiles?service=metadata",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"partner_profiles"
+					],
+					"query": [
+						{
+							"key": "service",
+							"value": "metadata"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Partner profile from name",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{profile_service_admin_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{profile_service_admin_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/partner_profile/name/acmefinancial",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"partner_profile",
+						"name",
+						"acmefinancial"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Partner profile service from name",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{profile_service_admin_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{profile_service_admin_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/partner_profile/name/acmefinancial/services/metadata",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"partner_profile",
+						"name",
+						"acmefinancial",
+						"services",
+						"metadata"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Partner profile metadata from email",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{profile_service_admin_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{profile_service_admin_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/partner_profile/email/acmefinancial@driveinformed.com",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"partner_profile",
+						"email",
+						"acmefinancial@driveinformed.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Partner profile collectIq from subdomain",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{profile_service_admin_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{profile_service_admin_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/partner_profile?service=collectIq&subdomain=acmefinancial",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"partner_profile"
+					],
+					"query": [
+						{
+							"key": "service",
+							"value": "collectIq"
+						},
+						{
+							"key": "subdomain",
+							"value": "acmefinancial"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Partner profile verifyIq from subdomain",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{profile_service_admin_password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{profile_service_admin_username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/partner_profile?service=verifyIq&subdomain=acmefinancial",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"partner_profile"
+					],
+					"query": [
+						{
+							"key": "service",
+							"value": "verifyIq"
+						},
+						{
+							"key": "subdomain",
+							"value": "acmefinancial"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

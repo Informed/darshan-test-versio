@@ -1,0 +1,10 @@
+{
+  "title": "StipulationCreationRules",
+  "type": "object",
+  "properties": {
+    "rules": {
+      "title": "Rules",
+      "type": "object"
+    }
+  }
+}

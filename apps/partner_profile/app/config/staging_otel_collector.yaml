@@ -1,0 +1,26 @@
+# Set an environemnt variable 'OPENTELEMETRY_COLLECTOR_CONFIG_FILE' to '/var/task/app/config/staging_otel_collector.yaml'
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  logging:
+    loglevel: error
+  awsxray:
+  otlp:
+    endpoint: "api.honeycomb.io:443"
+    headers: {
+      "x-honeycomb-team": "d0c03f9aa4326c053b7c0bc3392a3e1c",
+      "x-honeycomb-dataset": "staging"
+    }
+
+# enables output for traces to xray
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: []
+      exporters: [logging, awsxray, otlp]

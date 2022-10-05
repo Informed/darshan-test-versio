@@ -1,0 +1,18 @@
+version: 2.1
+
+workflows:
+
+  partner_profile_run:
+    when: << pipeline.parameters.run-api_handler >>
+    jobs:
+      - app_testing:
+          appName   : "partner_profile"
+          context:
+            - dshah-aws-user-creds
+      - app_deploy:
+          target-env: "dshah"
+          appName   : "api_handler"
+          context: 
+            - dshah-aws-user-creds
+          requires:
+            - app-testing

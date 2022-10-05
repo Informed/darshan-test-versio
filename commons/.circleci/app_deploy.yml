@@ -17,7 +17,7 @@ jobs:
       - tag_commit:
           app: <<parameters.appName>>
       - python/install-packages:
-          app-dir: ~/project/<<parameters.appName>>
+          app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
       - build_app:
           directory: <<parameters.appName>>

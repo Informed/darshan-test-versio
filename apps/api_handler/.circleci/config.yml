@@ -1,11 +1,18 @@
 version: 2.1
 
 workflows:
+
   api_handler_run:
     when: << pipeline.parameters.run-api_handler >>
     jobs:
+      - app_testing:
+          appName   : "api_handler"
+          context:
+            - dshah-aws-user-creds
       - app_deploy:
           target-env: "dshah"
           appName   : "api_handler"
           context: 
             - dshah-aws-user-creds
+          requires:
+            - app-testing

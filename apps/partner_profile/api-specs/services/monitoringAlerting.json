@@ -1,0 +1,18 @@
+{
+  "title": "MonitoringAlerting",
+  "type": "object",
+  "properties": {
+    "failureRateThreshold": {
+      "title": "Failureratethreshold",
+      "type": "number"
+    },
+    "responseTimeThreshold": {
+      "title": "Responsetimethreshold",
+      "type": "integer"
+    },
+    "minimumRequestThreshold": {
+      "title": "Minimumrequestthreshold",
+      "type": "integer"
+    }
+  }
+}

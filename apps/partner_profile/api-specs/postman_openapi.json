@@ -1,0 +1,851 @@
+---
+openapi: 3.0.3
+info:
+  title: Profile Service
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: "{{base_url}}"
+paths:
+  /v1/partner_profile:
+    get:
+      summary: Partner profile verifyIq from subdomain
+      description: Partner profile verifyIq from subdomain
+      operationId: partnerProfileVerifyIqFromSubdomain
+      parameters:
+        - name: service
+          in: query
+          schema:
+            type: string
+            example: verifyIq
+        - name: subdomain
+          in: query
+          schema:
+            type: string
+            example: acmefinancial
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: ""
+  /v1/partner_profile/email/acmefinancial@driveinformed.com:
+    get:
+      summary: Partner profile metadata from email
+      description: Partner profile metadata from email
+      operationId: partnerProfileMetadataFromEmail
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: ""
+  /v1/partner_profile/name/acmefinancial:
+    get:
+      summary: Partner profile from name
+      description: Partner profile from name
+      operationId: partnerProfileFromName
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: ""
+  /v1/partner_profile/name/acmefinancial/services/metadata:
+    get:
+      summary: Partner profile service from name
+      description: Partner profile service from name
+      operationId: partnerProfileServiceFromName
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: ""
+  /v1/partner_profiles:
+    get:
+      summary: Partner profile service from all profiles
+      description: Partner profile service from all profiles
+      operationId: partnerProfileServiceFromAllProfiles
+      parameters:
+        - name: service
+          in: query
+          schema:
+            type: string
+            example: metadata
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: ""
+    post:
+      summary: Create Partner Profile
+      description: Create Partner Profile
+      operationId: createPartnerProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                analyzeIq:
+                  type: object
+                  properties:
+                    forcedStipulations:
+                      nullable: true
+                      example: ~
+                    webhookReturnAllDocs:
+                      nullable: true
+                      example: ~
+                    webhookSetting:
+                      type: object
+                      properties:
+                        authScheme:
+                          type: string
+                          example: basic
+                        password:
+                          nullable: true
+                          example: ~
+                        specialHttpHeader:
+                          nullable: true
+                          example: ~
+                        username:
+                          nullable: true
+                          example: ~
+                collectIq:
+                  type: object
+                  properties:
+                    loginLinkExpiration:
+                      type: object
+                      properties:
+                        unit:
+                          type: string
+                          example: day
+                        value:
+                          type: number
+                          example: 1
+                    plaidConfig:
+                      nullable: true
+                      example: ~
+                    sdkPartner:
+                      type: boolean
+                      example: false
+                    sendSmsImmediately:
+                      nullable: true
+                      example: ~
+                    sendSmsReminder:
+                      nullable: true
+                      example: ~
+                    siteType:
+                      type: string
+                      example: stip_vault
+                    subdomain:
+                      type: string
+                      example: acmefinancial_1
+                    uiTheme:
+                      type: object
+                      properties:
+                        color:
+                          type: object
+                          properties:
+                            primary:
+                              type: string
+                              example: "#0D74AF"
+                            secondary:
+                              type: string
+                              example: "#127F21"
+                        contact_us:
+                          type: string
+                          example: "#"
+                        contact_us_link:
+                          type: string
+                          example: "#"
+                        full_name:
+                          type: string
+                          example: "Acme Financial, LLC"
+                        human_name:
+                          type: string
+                          example: Acme Financial
+                        privacy_link:
+                          type: string
+                          example: "#"
+                        privacy_policy:
+                          type: string
+                          example: "#"
+                        terms_of_service_link:
+                          type: string
+                          example: "#"
+                metadata:
+                  type: object
+                  properties:
+                    address:
+                      nullable: true
+                      example: ~
+                    email:
+                      type: string
+                      example: acmefinancial_1@driveinformed.com
+                    fullName:
+                      type: string
+                      example: "Acme Financial, LLC"
+                    lenderType:
+                      type: string
+                      example: hybrid
+                    lenderless:
+                      nullable: true
+                      example: ~
+                    loanType:
+                      nullable: true
+                      example: ~
+                    name:
+                      type: string
+                      example: acmefinancial_1
+                    parentPartner:
+                      nullable: true
+                      example: ~
+                    password:
+                      type: string
+                      example: "tc/{{env}}/credentials/incoming/acmefinancial"
+                    status:
+                      type: string
+                      example: active
+                    tollFreeNumber:
+                      nullable: true
+                      example: ~
+                monitoringAlerting:
+                  type: object
+                  properties:
+                    failureRateThreshold:
+                      type: number
+                      example: 0.5
+                    minimumRequestThreshold:
+                      nullable: true
+                      example: ~
+                    responseTimeThreshold:
+                      type: number
+                      example: 4
+                serialization:
+                  type: object
+                  properties:
+                    apiVersion:
+                      type: number
+                      example: 8
+                    disableSerializedUrls:
+                      type: boolean
+                      example: false
+                    downloadsIpWhitelist:
+                      nullable: true
+                      example: ~
+                    secureUrlExpiration:
+                      type: object
+                      properties:
+                        granularity:
+                          type: string
+                          example: seconds
+                        value:
+                          nullable: true
+                          example: ~
+                    useSecureUrls:
+                      type: boolean
+                      example: false
+                    withBeta:
+                      type: boolean
+                      example: false
+                stipulationCreationRules:
+                  type: object
+                  properties:
+                    gap_waiver_contract:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          product_charge_presence:
+                            type: string
+                            example: gap
+                      example:
+                        - product_charge_presence: gap
+                    vehicle_service_contract:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          product_charge_presence:
+                            type: string
+                            example: vsc
+                      example:
+                        - product_charge_presence: vsc
+                stipulationVerificationConfig:
+                  type: object
+                  properties:
+                    f3Partner:
+                      nullable: true
+                      example: ~
+                    lastUpdated:
+                      nullable: true
+                      example: ~
+                    rules:
+                      type: object
+                      properties:
+                        stipulations:
+                          nullable: true
+                          example: ~
+                verifyIq:
+                  type: object
+                  properties:
+                    enabledRequestDocuments:
+                      type: boolean
+                      example: true
+                    ignoreVerifyIqApplicationLimit:
+                      type: boolean
+                      example: false
+                    providerType:
+                      type: string
+                      example: saml
+                    rolePermissions:
+                      nullable: true
+                      example: ~
+                    showFailDocs:
+                      type: boolean
+                      example: false
+                    subdomain:
+                      type: string
+                      example: acmefinancial_1
+                    uiTheme:
+                      type: object
+                      properties:
+                        displayName:
+                          type: string
+                          example: Acme Bank
+                        logoName:
+                          type: string
+                          example: acmefinancial.svg
+                        primaryColor:
+                          type: object
+                          properties:
+                            main:
+                              type: string
+                              example: "#fff"
+                        quicksightEnabled:
+                          type: boolean
+                          example: true
+                        secondaryColor:
+                          type: object
+                          properties:
+                            light:
+                              type: string
+                              example: "#d9edf2"
+                            main:
+                              type: string
+                              example: "#00a6ca"
+                    userRoles:
+                      nullable: true
+                      example: ~
+                    viqSdkTokenSecret:
+                      type: string
+                      example: 4f491fdcbc4c8db2a819743523e01eee
+                    webhookSetting:
+                      type: object
+                      properties:
+                        authScheme:
+                          type: string
+                          example: basic
+                        password:
+                          nullable: true
+                          example: ~
+                        specialHttpHeader:
+                          nullable: true
+                          example: ~
+                        username:
+                          nullable: true
+                          example: ~
+            example:
+              analyzeIq:
+                forcedStipulations: ~
+                webhookReturnAllDocs: ~
+                webhookSetting:
+                  authScheme: basic
+                  password: ~
+                  specialHttpHeader: ~
+                  username: ~
+              collectIq:
+                loginLinkExpiration:
+                  unit: day
+                  value: 1
+                plaidConfig: ~
+                sdkPartner: false
+                sendSmsImmediately: ~
+                sendSmsReminder: ~
+                siteType: stip_vault
+                subdomain: acmefinancial_1
+                uiTheme:
+                  color:
+                    primary: "#0D74AF"
+                    secondary: "#127F21"
+                  contact_us: "#"
+                  contact_us_link: "#"
+                  full_name: "Acme Financial, LLC"
+                  human_name: Acme Financial
+                  privacy_link: "#"
+                  privacy_policy: "#"
+                  terms_of_service_link: "#"
+              metadata:
+                address: ~
+                email: acmefinancial_1@driveinformed.com
+                fullName: "Acme Financial, LLC"
+                lenderType: hybrid
+                lenderless: ~
+                loanType: ~
+                name: acmefinancial_1
+                parentPartner: ~
+                password: "tc/{{env}}/credentials/incoming/acmefinancial"
+                status: active
+                tollFreeNumber: ~
+              monitoringAlerting:
+                failureRateThreshold: 0.5
+                minimumRequestThreshold: ~
+                responseTimeThreshold: 4
+              serialization:
+                apiVersion: 8
+                disableSerializedUrls: false
+                downloadsIpWhitelist: ~
+                secureUrlExpiration:
+                  granularity: seconds
+                  value: ~
+                useSecureUrls: false
+                withBeta: false
+              stipulationCreationRules:
+                gap_waiver_contract:
+                  - product_charge_presence: gap
+                vehicle_service_contract:
+                  - product_charge_presence: vsc
+              stipulationVerificationConfig:
+                f3Partner: ~
+                lastUpdated: ~
+                rules:
+                  stipulations: ~
+              verifyIq:
+                enabledRequestDocuments: true
+                ignoreVerifyIqApplicationLimit: false
+                providerType: saml
+                rolePermissions: ~
+                showFailDocs: false
+                subdomain: acmefinancial_1
+                uiTheme:
+                  displayName: Acme Bank
+                  logoName: acmefinancial.svg
+                  primaryColor:
+                    main: "#fff"
+                  quicksightEnabled: true
+                  secondaryColor:
+                    light: "#d9edf2"
+                    main: "#00a6ca"
+                userRoles: ~
+                viqSdkTokenSecret: 4f491fdcbc4c8db2a819743523e01eee
+                webhookSetting:
+                  authScheme: basic
+                  password: ~
+                  specialHttpHeader: ~
+                  username: ~
+      responses:
+        "200":
+          description: ""
+  /v1/partner_profiles/67ed741f-b77f-42af-a58d-2761ac30e179:
+    get:
+      summary: Partner profile from id
+      description: Partner profile from id
+      operationId: partnerProfileFromId
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: ""
+    put:
+      summary: Update Partner Profile
+      description: Update Partner Profile
+      operationId: updatePartnerProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                analyzeIq:
+                  type: object
+                  properties:
+                    forcedStipulations:
+                      nullable: true
+                      example: ~
+                    webhookReturnAllDocs:
+                      nullable: true
+                      example: ~
+                    webhookSetting:
+                      type: object
+                      properties:
+                        authScheme:
+                          type: string
+                          example: basic
+                        password:
+                          nullable: true
+                          example: ~
+                        specialHttpHeader:
+                          nullable: true
+                          example: ~
+                        username:
+                          nullable: true
+                          example: ~
+                collectIq:
+                  type: object
+                  properties:
+                    loginLinkExpiration:
+                      type: object
+                      properties:
+                        unit:
+                          type: string
+                          example: day
+                        value:
+                          type: number
+                          example: 1
+                    plaidConfig:
+                      nullable: true
+                      example: ~
+                    sdkPartner:
+                      type: boolean
+                      example: false
+                    sendSmsImmediately:
+                      nullable: true
+                      example: ~
+                    sendSmsReminder:
+                      nullable: true
+                      example: ~
+                    siteType:
+                      type: string
+                      example: stip_vault
+                    subdomain:
+                      type: string
+                      example: acmefinancial
+                    uiTheme:
+                      type: object
+                      properties:
+                        color:
+                          type: object
+                          properties:
+                            primary:
+                              type: string
+                              example: "#0D74AF"
+                            secondary:
+                              type: string
+                              example: "#127F21"
+                        contact_us:
+                          type: string
+                          example: "#"
+                        contact_us_link:
+                          type: string
+                          example: "#"
+                        full_name:
+                          type: string
+                          example: "Acme Financial, LLC"
+                        human_name:
+                          type: string
+                          example: Acme Financial
+                        privacy_link:
+                          type: string
+                          example: "#"
+                        privacy_policy:
+                          type: string
+                          example: "#"
+                        terms_of_service_link:
+                          type: string
+                          example: "#"
+                metadata:
+                  type: object
+                  properties:
+                    address:
+                      nullable: true
+                      example: ~
+                    email:
+                      type: string
+                      example: acmefinancial@driveinformed.com
+                    fullName:
+                      type: string
+                      example: "Acme Financial, LLC"
+                    lenderType:
+                      type: string
+                      example: hybrid
+                    lenderless:
+                      nullable: true
+                      example: ~
+                    loanType:
+                      nullable: true
+                      example: ~
+                    name:
+                      type: string
+                      example: acmefinancial
+                    parentPartner:
+                      nullable: true
+                      example: ~
+                    password:
+                      type: string
+                      example: "tc/{{env}}/credentials/incoming/acmefinancial"
+                    status:
+                      type: string
+                      example: active
+                    tollFreeNumber:
+                      nullable: true
+                      example: ~
+                monitoringAlerting:
+                  type: object
+                  properties:
+                    failureRateThreshold:
+                      type: number
+                      example: 0.5
+                    minimumRequestThreshold:
+                      nullable: true
+                      example: ~
+                    responseTimeThreshold:
+                      type: number
+                      example: 4
+                serialization:
+                  type: object
+                  properties:
+                    apiVersion:
+                      type: number
+                      example: 8
+                    disableSerializedUrls:
+                      type: boolean
+                      example: false
+                    downloadsIpWhitelist:
+                      nullable: true
+                      example: ~
+                    secureUrlExpiration:
+                      type: object
+                      properties:
+                        granularity:
+                          type: string
+                          example: seconds
+                        value:
+                          nullable: true
+                          example: ~
+                    useSecureUrls:
+                      type: boolean
+                      example: false
+                    withBeta:
+                      type: boolean
+                      example: false
+                stipulationCreationRules:
+                  type: object
+                  properties:
+                    gap_waiver_contract:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          product_charge_presence:
+                            type: string
+                            example: gap
+                      example:
+                        - product_charge_presence: gap
+                    vehicle_service_contract:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          product_charge_presence:
+                            type: string
+                            example: vsc
+                      example:
+                        - product_charge_presence: vsc
+                stipulationVerificationConfig:
+                  type: object
+                  properties:
+                    f3Partner:
+                      nullable: true
+                      example: ~
+                    lastUpdated:
+                      nullable: true
+                      example: ~
+                    rules:
+                      type: object
+                      properties:
+                        stipulations:
+                          nullable: true
+                          example: ~
+                verifyIq:
+                  type: object
+                  properties:
+                    enabledRequestDocuments:
+                      type: boolean
+                      example: true
+                    ignoreVerifyIqApplicationLimit:
+                      type: boolean
+                      example: false
+                    providerType:
+                      type: string
+                      example: saml
+                    rolePermissions:
+                      nullable: true
+                      example: ~
+                    showFailDocs:
+                      type: boolean
+                      example: false
+                    subdomain:
+                      type: string
+                      example: acmefinancial
+                    uiTheme:
+                      type: object
+                      properties:
+                        displayName:
+                          type: string
+                          example: Acme Bank
+                        logoName:
+                          type: string
+                          example: acmefinancial.svg
+                        primaryColor:
+                          type: object
+                          properties:
+                            main:
+                              type: string
+                              example: "#fff"
+                        quicksightEnabled:
+                          type: boolean
+                          example: true
+                        secondaryColor:
+                          type: object
+                          properties:
+                            light:
+                              type: string
+                              example: "#d9edf2"
+                            main:
+                              type: string
+                              example: "#00a6ca"
+                    userRoles:
+                      nullable: true
+                      example: ~
+                    viqSdkTokenSecret:
+                      type: string
+                      example: 4f491fdcbc4c8db2a819743523e01eee
+                    webhookSetting:
+                      type: object
+                      properties:
+                        authScheme:
+                          type: string
+                          example: basic
+                        password:
+                          nullable: true
+                          example: ~
+                        specialHttpHeader:
+                          nullable: true
+                          example: ~
+                        username:
+                          nullable: true
+                          example: ~
+            example:
+              analyzeIq:
+                forcedStipulations: ~
+                webhookReturnAllDocs: ~
+                webhookSetting:
+                  authScheme: basic
+                  password: ~
+                  specialHttpHeader: ~
+                  username: ~
+              collectIq:
+                loginLinkExpiration:
+                  unit: day
+                  value: 1
+                plaidConfig: ~
+                sdkPartner: false
+                sendSmsImmediately: ~
+                sendSmsReminder: ~
+                siteType: stip_vault
+                subdomain: acmefinancial
+                uiTheme:
+                  color:
+                    primary: "#0D74AF"
+                    secondary: "#127F21"
+                  contact_us: "#"
+                  contact_us_link: "#"
+                  full_name: "Acme Financial, LLC"
+                  human_name: Acme Financial
+                  privacy_link: "#"
+                  privacy_policy: "#"
+                  terms_of_service_link: "#"
+              metadata:
+                address: ~
+                email: acmefinancial@driveinformed.com
+                fullName: "Acme Financial, LLC"
+                lenderType: hybrid
+                lenderless: ~
+                loanType: ~
+                name: acmefinancial
+                parentPartner: ~
+                password: "tc/{{env}}/credentials/incoming/acmefinancial"
+                status: active
+                tollFreeNumber: ~
+              monitoringAlerting:
+                failureRateThreshold: 0.5
+                minimumRequestThreshold: ~
+                responseTimeThreshold: 4
+              serialization:
+                apiVersion: 8
+                disableSerializedUrls: false
+                downloadsIpWhitelist: ~
+                secureUrlExpiration:
+                  granularity: seconds
+                  value: ~
+                useSecureUrls: false
+                withBeta: false
+              stipulationCreationRules:
+                gap_waiver_contract:
+                  - product_charge_presence: gap
+                vehicle_service_contract:
+                  - product_charge_presence: vsc
+              stipulationVerificationConfig:
+                f3Partner: ~
+                lastUpdated: ~
+                rules:
+                  stipulations: ~
+              verifyIq:
+                enabledRequestDocuments: true
+                ignoreVerifyIqApplicationLimit: false
+                providerType: saml
+                rolePermissions: ~
+                showFailDocs: false
+                subdomain: acmefinancial
+                uiTheme:
+                  displayName: Acme Bank
+                  logoName: acmefinancial.svg
+                  primaryColor:
+                    main: "#fff"
+                  quicksightEnabled: true
+                  secondaryColor:
+                    light: "#d9edf2"
+                    main: "#00a6ca"
+                userRoles: ~
+                viqSdkTokenSecret: 4f491fdcbc4c8db2a819743523e01eee
+                webhookSetting:
+                  authScheme: basic
+                  password: ~
+                  specialHttpHeader: ~
+                  username: ~
+      responses:
+        "200":
+          description: ""
+  /v1/partner_profiles/67ed741f-b77f-42af-a58d-2761ac30e179/services/metadata:
+    get:
+      summary: Partner profile service from id
+      description: Partner profile service from id
+      operationId: partnerProfileServiceFromId
+      requestBody:
+        content:
+          text/plain:
+            example: ""
+      responses:
+        "200":
+          description: ""
+tags: []

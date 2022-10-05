@@ -1,0 +1,395 @@
+{
+    "title": "PartnerProfileRequest",
+    "type": "object",
+    "properties": {
+        "id": {
+            "title": "Id",
+            "type": "string"
+        },
+        "analyzeIq": {
+            "$ref": "#/definitions/AnalyzeIq"
+        },
+        "monitoringAlerting": {
+            "$ref": "#/definitions/MonitoringAlerting"
+        },
+        "redaction": {
+            "$ref": "#/definitions/Redaction"
+        },
+        "ferrite": {
+            "$ref": "#/definitions/Ferrite"
+        },
+        "serialization": {
+            "$ref": "#/definitions/Serialization"
+        },
+        "secureUrl": {
+            "$ref": "#/definitions/SecureUrl"
+        },
+        "webhookSettings": {
+            "$ref": "#/definitions/WebhookSettings"
+        },
+        "collectIq": {
+            "$ref": "#/definitions/CollectIq"
+        },
+        "verifyIq": {
+            "$ref": "#/definitions/VerifyIq"
+        }
+    },
+    "required": ["id"],
+    "definitions": {
+        "AnalyzeIq": {
+            "title": "AnalyzeIq",
+            "type": "object",
+            "properties": {
+                "webhookReturnAllDocs": {
+                    "title": "Webhookreturnalldocs",
+                    "type": "boolean"
+                },
+                "forcedStipulations": {
+                    "title": "Forcedstipulations",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "MonitoringAlerting": {
+            "title": "MonitoringAlerting",
+            "type": "object",
+            "properties": {
+                "failureRateThreshold": {
+                    "title": "Failureratethreshold",
+                    "type": "number"
+                },
+                "responseTimeThreshold": {
+                    "title": "Responsetimethreshold",
+                    "type": "integer"
+                },
+                "minimumRequestThreshold": {
+                    "title": "Minimumrequestthreshold",
+                    "type": "number"
+                }
+            }
+        },
+        "Redaction": {
+            "title": "Redaction",
+            "type": "object",
+            "properties": {
+                "expiryDays": {
+                    "title": "Expirydays",
+                    "type": "boolean"
+                },
+                "documentTypes": {
+                    "title": "Documenttypes",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "Ferrite": {
+            "title": "Ferrite",
+            "type": "object",
+            "properties": {
+                "f3Partner": {
+                    "title": "F3Partner",
+                    "type": "string"
+                },
+                "f3Config": {
+                    "title": "F3Config",
+                    "type": "object"
+                }
+            }
+        },
+        "Serialization": {
+            "title": "Serialization",
+            "type": "object",
+            "properties": {
+                "apiVersion": {
+                    "title": "Apiversion",
+                    "type": "string"
+                },
+                "withBeta": {
+                    "title": "Withbeta",
+                    "type": "boolean"
+                },
+                "userSecureUrls": {
+                    "title": "Usersecureurls",
+                    "type": "boolean"
+                },
+                "secureUrlExpiration": {
+                    "title": "Secureurlexpiration",
+                    "type": "object"
+                },
+                "disableSerializedUrls": {
+                    "title": "Disableserializedurls",
+                    "type": "boolean"
+                }
+            }
+        },
+        "SecureUrl": {
+            "title": "SecureUrl",
+            "type": "object",
+            "properties": {
+                "downloadsIpWhitelist": {
+                    "title": "Downloadsipwhitelist",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "BasicAuth": {
+            "title": "BasicAuth",
+            "type": "object",
+            "properties": {
+                "authScheme": {
+                    "title": "Authscheme",
+                    "type": "string"
+                },
+                "username": {
+                    "title": "Username",
+                    "type": "string"
+                },
+                "passwordEncrypted": {
+                    "title": "Passwordencrypted",
+                    "type": "string"
+                },
+                "specialHttpHeader": {
+                    "title": "Specialhttpheader",
+                    "type": "string"
+                }
+            },
+            "required": ["authScheme", "username", "passwordEncrypted", "specialHttpHeader"]
+        },
+        "OAuthSettings": {
+            "title": "OAuthSettings",
+            "type": "object",
+            "properties": {
+                "username": {
+                    "title": "Username",
+                    "type": "string"
+                },
+                "password": {
+                    "title": "Password",
+                    "type": "string"
+                },
+                "endpoint": {
+                    "title": "Endpoint",
+                    "type": "string"
+                },
+                "custom_attributes": {
+                    "title": "Custom Attributes",
+                    "type": "string"
+                }
+            },
+            "required": ["username", "password", "endpoint", "custom_attributes"]
+        },
+        "OAuth": {
+            "title": "OAuth",
+            "type": "object",
+            "properties": {
+                "authScheme": {
+                    "title": "Authscheme",
+                    "type": "string"
+                },
+                "oauthSettings": {
+                    "$ref": "#/definitions/OAuthSettings"
+                }
+            },
+            "required": ["authScheme", "oauthSettings"]
+        },
+        "WebhookSettings": {
+            "title": "WebhookSettings",
+            "type": "object",
+            "properties": {
+                "analyzeIq": {
+                    "title": "Analyzeiq",
+                    "anyOf": [{
+                        "$ref": "#/definitions/BasicAuth"
+                    }, {
+                        "$ref": "#/definitions/OAuth"
+                    }]
+                },
+                "collectIq": {
+                    "title": "Collectiq",
+                    "anyOf": [{
+                        "$ref": "#/definitions/BasicAuth"
+                    }, {
+                        "$ref": "#/definitions/OAuth"
+                    }]
+                }
+            }
+        },
+        "app__schemas__collect_iq__UiTheme": {
+            "title": "UiTheme",
+            "type": "object",
+            "properties": {
+                "color": {
+                    "title": "Color",
+                    "type": "object"
+                },
+                "lat_long": {
+                    "title": "Lat Long",
+                    "type": "array",
+                    "items": {}
+                },
+                "full_name": {
+                    "title": "Full Name",
+                    "type": "string"
+                },
+                "human_name": {
+                    "title": "Human Name",
+                    "type": "string"
+                },
+                "privacy_link": {
+                    "title": "Privacy Link",
+                    "type": "string"
+                },
+                "contact_us_link": {
+                    "title": "Contact Us Link",
+                    "type": "string"
+                },
+                "terms_of_service_link": {
+                    "title": "Terms Of Service Link",
+                    "type": "string"
+                }
+            }
+        },
+        "PlaidConfig": {
+            "title": "PlaidConfig",
+            "type": "object",
+            "properties": {
+                "env": {
+                    "title": "Env",
+                    "type": "string"
+                },
+                "secret": {
+                    "title": "Secret",
+                    "type": "string"
+                },
+                "client_id": {
+                    "title": "Client Id",
+                    "type": "string"
+                },
+                "redirect_uri": {
+                    "title": "Redirect Uri",
+                    "type": "string"
+                }
+            }
+        },
+        "CollectIq": {
+            "title": "CollectIq",
+            "type": "object",
+            "properties": {
+                "subdomain": {
+                    "title": "Subdomain",
+                    "type": "string"
+                },
+                "uiTheme": {
+                    "$ref": "#/definitions/app__schemas__collect_iq__UiTheme"
+                },
+                "siteType": {
+                    "title": "Sitetype",
+                    "type": "string"
+                },
+                "plaidConfig": {
+                    "$ref": "#/definitions/PlaidConfig"
+                },
+                "sendSmsImmediately": {
+                    "title": "Sendsmsimmediately",
+                    "type": "boolean"
+                },
+                "loginLinkExpiration": {
+                    "title": "Loginlinkexpiration",
+                    "type": "object"
+                },
+                "sendSmsReminder": {
+                    "title": "Sendsmsreminder",
+                    "type": "boolean"
+                },
+                "sdk_partner": {
+                    "title": "Sdk Partner",
+                    "type": "boolean"
+                }
+            }
+        },
+        "app__schemas__verify_iq__UiTheme": {
+            "title": "UiTheme",
+            "type": "object",
+            "properties": {
+                "logoName": {
+                    "title": "Logoname",
+                    "type": "string"
+                },
+                "logoStyles": {
+                    "title": "Logostyles",
+                    "type": "string"
+                },
+                "displayName": {
+                    "title": "Displayname",
+                    "type": "string"
+                },
+                "insightsUrl": {
+                    "title": "Insightsurl",
+                    "type": "string"
+                },
+                "primaryColor": {
+                    "title": "Primarycolor",
+                    "type": "object"
+                },
+                "secondaryColor": {
+                    "title": "Secondarycolor",
+                    "type": "object"
+                },
+                "quicksightEnabled": {
+                    "title": "Quicksightenabled",
+                    "type": "boolean"
+                }
+            }
+        },
+        "VerifyIq": {
+            "title": "VerifyIq",
+            "type": "object",
+            "properties": {
+                "subdomain": {
+                    "title": "Subdomain",
+                    "type": "string"
+                },
+                "viqSdkTokenSecret": {
+                    "title": "Viqsdktokensecret",
+                    "type": "string"
+                },
+                "uiTheme": {
+                    "$ref": "#/definitions/app__schemas__verify_iq__UiTheme"
+                },
+                "providerType": {
+                    "title": "Providertype",
+                    "type": "string"
+                },
+                "userRoles": {
+                    "title": "Userroles",
+                    "type": "object"
+                },
+                "rolePermissions": {
+                    "title": "Rolepermissions",
+                    "type": "object"
+                },
+                "ignoreVerifyiqApplicationLimit": {
+                    "title": "Ignoreverifyiqapplicationlimit",
+                    "type": "boolean"
+                },
+                "showFailDocs": {
+                    "title": "Showfaildocs",
+                    "type": "boolean"
+                },
+                "enableRequestDocuments": {
+                    "title": "Enablerequestdocuments",
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

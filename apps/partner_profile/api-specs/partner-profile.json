@@ -1,0 +1,461 @@
+{
+  "title": "PartnerProfileRequest",
+  "type": "object",
+  "properties": {
+    "analyzeIq": {
+      "$ref": "#/definitions/AnalyzeIq"
+    },
+    "collectIq": {
+      "$ref": "#/definitions/CollectIq"
+    },
+    "metadata": {
+      "$ref": "#/definitions/Metadata"
+    },
+    "monitoringAlerting": {
+      "$ref": "#/definitions/MonitoringAlerting"
+    },
+    "redaction": {
+      "$ref": "#/definitions/Redaction"
+    },
+    "serialization": {
+      "$ref": "#/definitions/Serialization"
+    },
+    "stipulationCreationRules": {
+      "$ref": "#/definitions/StipulationCreationRules"
+    },
+    "stipulationVerificationConfig": {
+      "$ref": "#/definitions/StipulationVerificationConfig"
+    },
+    "verifyIq": {
+      "$ref": "#/definitions/VerifyIq"
+    }
+  },
+  "definitions": {
+    "BasicAuth": {
+      "title": "BasicAuth",
+      "type": "object",
+      "properties": {
+        "authScheme": {
+          "title": "Authscheme",
+          "type": "string"
+        },
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "password": {
+          "title": "Password",
+          "type": "string"
+        },
+        "specialHttpHeader": {
+          "title": "Specialhttpheader",
+          "type": "object"
+        }
+      }
+    },
+    "OAuthSettings": {
+      "title": "OAuthSettings",
+      "type": "object",
+      "properties": {
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "password": {
+          "title": "Password",
+          "type": "string"
+        },
+        "endpoint": {
+          "title": "Endpoint",
+          "type": "string"
+        },
+        "custom_attributes": {
+          "title": "Custom Attributes",
+          "type": "object"
+        }
+      }
+    },
+    "OAuth": {
+      "title": "OAuth",
+      "type": "object",
+      "properties": {
+        "authScheme": {
+          "title": "Authscheme",
+          "type": "string"
+        },
+        "oauthSettings": {
+          "$ref": "#/definitions/OAuthSettings"
+        }
+      }
+    },
+    "AnalyzeIq": {
+      "title": "AnalyzeIq",
+      "type": "object",
+      "properties": {
+        "webhookReturnAllDocs": {
+          "title": "Webhookreturnalldocs",
+          "type": "boolean"
+        },
+        "forcedStipulations": {
+          "title": "Forcedstipulations",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "webhookSetting": {
+          "title": "Webhooksetting",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/BasicAuth"
+            },
+            {
+              "$ref": "#/definitions/OAuth"
+            }
+          ]
+        }
+      }
+    },
+    "app__schemas__collect_iq__UiTheme": {
+      "title": "UiTheme",
+      "type": "object",
+      "properties": {
+        "color": {
+          "title": "Color",
+          "type": "object"
+        },
+        "latLong": {
+          "title": "Latlong",
+          "type": "array",
+          "items": {}
+        },
+        "fullName": {
+          "title": "Fullname",
+          "type": "string"
+        },
+        "humanName": {
+          "title": "Humanname",
+          "type": "string"
+        },
+        "privacyLink": {
+          "title": "Privacylink",
+          "type": "string"
+        },
+        "contactUsLink": {
+          "title": "Contactuslink",
+          "type": "string"
+        },
+        "termsOfServiceLink": {
+          "title": "Termsofservicelink",
+          "type": "string"
+        }
+      }
+    },
+    "PlaidConfig": {
+      "title": "PlaidConfig",
+      "type": "object",
+      "properties": {
+        "env": {
+          "title": "Env",
+          "type": "string"
+        },
+        "secret": {
+          "title": "Secret",
+          "type": "string"
+        },
+        "clientId": {
+          "title": "Clientid",
+          "type": "string"
+        },
+        "redirectUri": {
+          "title": "Redirecturi",
+          "type": "string"
+        }
+      }
+    },
+    "CollectIq": {
+      "title": "CollectIq",
+      "type": "object",
+      "properties": {
+        "subdomain": {
+          "title": "Subdomain",
+          "type": "string"
+        },
+        "uiTheme": {
+          "$ref": "#/definitions/app__schemas__collect_iq__UiTheme"
+        },
+        "siteType": {
+          "title": "Sitetype",
+          "type": "string"
+        },
+        "plaidConfig": {
+          "$ref": "#/definitions/PlaidConfig"
+        },
+        "sendSmsImmediately": {
+          "title": "Sendsmsimmediately",
+          "type": "boolean"
+        },
+        "loginLinkExpiration": {
+          "title": "Loginlinkexpiration",
+          "type": "object"
+        },
+        "sendSmsReminder": {
+          "title": "Sendsmsreminder",
+          "type": "boolean"
+        },
+        "sdkPartner": {
+          "title": "Sdkpartner",
+          "type": "boolean"
+        },
+        "webhookSetting": {
+          "title": "Webhooksetting",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/BasicAuth"
+            },
+            {
+              "$ref": "#/definitions/OAuth"
+            }
+          ]
+        }
+      }
+    },
+    "ParentPartner": {
+      "title": "ParentPartner",
+      "type": "object",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      }
+    },
+    "Metadata": {
+      "title": "Metadata",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "email": {
+          "title": "Email",
+          "type": "string"
+        },
+        "address": {
+          "title": "Address",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "password": {
+          "title": "Password",
+          "type": "string"
+        },
+        "tollFreeNumber": {
+          "title": "Tollfreenumber",
+          "type": "string"
+        },
+        "lenderType": {
+          "title": "Lendertype",
+          "type": "string"
+        },
+        "loanType": {
+          "title": "Loantype",
+          "type": "string"
+        },
+        "lenderless": {
+          "title": "Lenderless",
+          "type": "boolean"
+        },
+        "parentPartner": {
+          "$ref": "#/definitions/ParentPartner"
+        }
+      }
+    },
+    "MonitoringAlerting": {
+      "title": "MonitoringAlerting",
+      "type": "object",
+      "properties": {
+        "failureRateThreshold": {
+          "title": "Failureratethreshold",
+          "type": "number"
+        },
+        "responseTimeThreshold": {
+          "title": "Responsetimethreshold",
+          "type": "integer"
+        },
+        "minimumRequestThreshold": {
+          "title": "Minimumrequestthreshold",
+          "type": "integer"
+        }
+      }
+    },
+    "Redaction": {
+      "title": "Redaction",
+      "type": "object",
+      "properties": {
+        "expiryDays": {
+          "title": "Expirydays",
+          "type": "string"
+        },
+        "documentTypes": {
+          "title": "Documenttypes",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Serialization": {
+      "title": "Serialization",
+      "type": "object",
+      "properties": {
+        "apiVersion": {
+          "title": "Apiversion",
+          "type": "string"
+        },
+        "withBeta": {
+          "title": "Withbeta",
+          "type": "boolean"
+        },
+        "useSecureUrls": {
+          "title": "Usesecureurls",
+          "type": "boolean"
+        },
+        "secureUrlExpiration": {
+          "title": "Secureurlexpiration",
+          "type": "object"
+        },
+        "disableSerializedUrls": {
+          "title": "Disableserializedurls",
+          "type": "boolean"
+        },
+        "downloadsIpWhitelist": {
+          "title": "Downloadsipwhitelist",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "StipulationCreationRules": {
+      "title": "StipulationCreationRules",
+      "type": "object",
+      "properties": {
+        "rules": {
+          "title": "Rules",
+          "type": "object"
+        }
+      }
+    },
+    "StipulationVerificationConfig": {
+      "title": "StipulationVerificationConfig",
+      "type": "object",
+      "properties": {
+        "f3Partner": {
+          "title": "F3Partner",
+          "type": "string"
+        },
+        "lastUpdated": {
+          "title": "Lastupdated",
+          "type": "string"
+        },
+        "rules": {
+          "title": "Rules",
+          "type": "object"
+        }
+      }
+    },
+    "app__schemas__verify_iq__UiTheme": {
+      "title": "UiTheme",
+      "type": "object",
+      "properties": {
+        "logoName": {
+          "title": "Logoname",
+          "type": "string"
+        },
+        "logoStyles": {
+          "title": "Logostyles",
+          "type": "string"
+        },
+        "displayName": {
+          "title": "Displayname",
+          "type": "string"
+        },
+        "primaryColor": {
+          "title": "Primarycolor",
+          "type": "object"
+        },
+        "secondaryColor": {
+          "title": "Secondarycolor",
+          "type": "object"
+        },
+        "quicksightEnabled": {
+          "title": "Quicksightenabled",
+          "type": "boolean"
+        }
+      }
+    },
+    "VerifyIq": {
+      "title": "VerifyIq",
+      "type": "object",
+      "properties": {
+        "subdomain": {
+          "title": "Subdomain",
+          "type": "string"
+        },
+        "viqSdkTokenSecret": {
+          "title": "Viqsdktokensecret",
+          "type": "string"
+        },
+        "uiTheme": {
+          "$ref": "#/definitions/app__schemas__verify_iq__UiTheme"
+        },
+        "providerType": {
+          "title": "Providertype",
+          "type": "string"
+        },
+        "userRoles": {
+          "title": "Userroles",
+          "type": "object"
+        },
+        "rolePermissions": {
+          "title": "Rolepermissions",
+          "type": "object"
+        },
+        "ignoreVerifyiqApplicationLimit": {
+          "title": "Ignoreverifyiqapplicationlimit",
+          "type": "boolean"
+        },
+        "showFailDocs": {
+          "title": "Showfaildocs",
+          "type": "boolean"
+        },
+        "enableRequestDocuments": {
+          "title": "Enablerequestdocuments",
+          "type": "boolean"
+        },
+        "webhookSetting": {
+          "title": "Webhooksetting",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/BasicAuth"
+            },
+            {
+              "$ref": "#/definitions/OAuth"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "title": "AnalyzeIq",
+  "type": "object",
+  "properties": {
+    "webhookReturnAllDocs": {
+      "title": "Webhookreturnalldocs",
+      "type": "boolean"
+    },
+    "forcedStipulations": {
+      "title": "Forcedstipulations",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "webhookSetting": {
+      "title": "Webhooksetting",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BasicAuth"
+        },
+        {
+          "$ref": "#/definitions/OAuth"
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "BasicAuth": {
+      "title": "BasicAuth",
+      "type": "object",
+      "properties": {
+        "authScheme": {
+          "title": "Authscheme",
+          "type": "string"
+        },
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "password": {
+          "title": "Password",
+          "type": "string"
+        },
+        "specialHttpHeader": {
+          "title": "Specialhttpheader",
+          "type": "object"
+        }
+      }
+    },
+    "OAuthSettings": {
+      "title": "OAuthSettings",
+      "type": "object",
+      "properties": {
+        "username": {
+          "title": "Username",
+          "type": "string"
+        },
+        "password": {
+          "title": "Password",
+          "type": "string"
+        },
+        "endpoint": {
+          "title": "Endpoint",
+          "type": "string"
+        },
+        "custom_attributes": {
+          "title": "Custom Attributes",
+          "type": "object"
+        }
+      }
+    },
+    "OAuth": {
+      "title": "OAuth",
+      "type": "object",
+      "properties": {
+        "authScheme": {
+          "title": "Authscheme",
+          "type": "string"
+        },
+        "oauthSettings": {
+          "$ref": "#/definitions/OAuthSettings"
+        }
+      }
+    }
+  }
+}
