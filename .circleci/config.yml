@@ -21,6 +21,7 @@ workflows:
                   - generated_config.yml
       - path-filtering/filter:
           name: check-updated-files
+          workspace_path: /tmp
           config-path: /tmp/generated_config.yml
           mapping: |
             api_handler/.* run-api_handler true
