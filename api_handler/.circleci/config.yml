@@ -4,7 +4,7 @@ workflows:
   api_handler_run:
     when: << pipeline.parameters.run-api_handler >>
     jobs:
-      - api_handler_app_deploy:
+      - app_deploy:
           target-env: "dshah"
           appName   : "api_handler"
           context: 
