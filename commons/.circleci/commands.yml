@@ -25,6 +25,9 @@ commands:
       directory:
         default: ""
         type: string
+      appName:
+        default: ""
+        type: string
     steps:
       - run: |
               cd apps/<<parameters.directory>>
