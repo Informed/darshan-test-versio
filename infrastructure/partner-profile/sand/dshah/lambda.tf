@@ -72,6 +72,14 @@ data "aws_iam_policy_document" "partner_profile_lambda_permissions" {
   }
 }
 
+resource "aws_s3_bucket_object" "object" {
+
+  bucket = "informed-techno-core-${var.environment}-lambda-images"
+  key    = var.lambda_handler_file
+  acl    = "private"  # or can be "public-read"
+  source = "../../dummy_lambdas/partner_profile.zip"
+}
+
 module "partner_profile_lambda_function" {
   # tflint-ignore: terraform_module_pinned_source
   source = "git::https://github.com/informed/borg.git//aws-lambda"
@@ -108,6 +116,8 @@ module "partner_profile_lambda_function" {
   role_description   = "used for ${var.project_name}-${var.environment}-partner-profile function"
   attach_policy_json = true
   policy_json        = data.aws_iam_policy_document.partner_profile_lambda_permissions.json
+
+  depends_on = [aws_s3_bucket_object.object]
 }
 
 ##############################

@@ -11,26 +11,23 @@ commands:
 
   build_app:
     parameters:
-      directory:
-        default: ""
-        type: string
-    steps:
-      - run: |
-                cd apps/<<parameters.directory>>
-                echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
-                poetry build
-                poetry run pip install --upgrade -t package dist/*.whl
-  create_package:
-    parameters:
-      directory:
-        default: ""
-        type: string
       appName:
         default: ""
         type: string
     steps:
       - run: |
-              cd apps/<<parameters.directory>>
+                cd apps/<<parameters.appName>>
+                echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
+                poetry build
+                poetry run pip install --upgrade -t package dist/*.whl
+  create_package:
+    parameters:
+      appName:
+        default: ""
+        type: string
+    steps:
+      - run: |
+              cd apps/<<parameters.appName>>/package
               echo Zipping the code in `pwd`
               mkdir -p out
               zip -r out/<<parameters.appName>>.zip . -x '*.pyc'
@@ -62,21 +59,53 @@ commands:
 ##### APP LINTER & TESTER ######
   linting_and_metrics:
     parameters:
-      directory:
+      appName:
         default: ""
         type: string
     steps:
         - run: |
-                cd apps/<<parameters.directory>>
+                cd apps/<<parameters.appName>>
                 poetry run flake8
   py_tests:
     parameters:
-      directory:
+      appName:
         default: ""
         type: string
     steps:
         - run: |
-                cd apps/<<parameters.directory>>/tests
+                cd apps/<<parameters.appName>>/tests
                 poetry run pytest -v
             
 ###################################
+
+###### TERRAFORM DEPLOY #######
+
+  tf-plan:
+    parameters:
+      appName:
+        default: ""
+        type: string
+      target-env:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: terraform init & plan
+          command: |
+            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+            terraform init -input=false
+            terraform plan -out tfapply -var-file terraform.tfvars
+  tf-apply:
+    parameters:
+      appName:
+        default: ""
+        type: string
+      target-env:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: terraform
+          command: |
+            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+            terraform apply -auto-approve tfapply

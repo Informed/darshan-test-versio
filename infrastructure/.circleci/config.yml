@@ -1,0 +1,11 @@
+version: 2.1
+
+workflows:
+  api_handler_tf:
+    when: << pipeline.parameters.tf-dev_api_handler >>
+    jobs:
+      - platform_deploy:
+          target-env: "dev"
+          appName   : "api_handler"
+          context: 
+            - dshah-aws-user-creds

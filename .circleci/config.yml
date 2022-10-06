@@ -14,6 +14,7 @@ workflows:
           fixed-config-paths: |
             ./apps/api_handler/.circleci/config.yml
             ./apps/partner_profile/.circleci/config.yml
+            ./infrastructure/.circleci/config.yml
           find-config-regex: \./commons/\.circleci/.*\.yml
           generated-config-path: /tmp/generated_config.yml
           continuation: false
@@ -29,6 +30,7 @@ workflows:
           mapping: |
             apps/api_handler/.* run-api_handler true
             apps/partner_profile/.* run-partner_profile true
+            infrastructure/api_handler/dev/.* tf-dev_api_handler true
           base-revision: main
           requires:
             - split-config/generate-config

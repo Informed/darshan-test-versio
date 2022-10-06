@@ -1,0 +1,18 @@
+jobs:
+  plan-apply:
+    working_directory: /tmp/project
+    parameters:
+      appName:
+        type: string
+      target-env:
+        type: string
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - checkout
+      - tf-plan:
+          appName: <<parameter.appName>>
+          target-env: <<parameter.target-env>>
+      - tf-apply:
+          appName: <<parameter.appName>>
+          target-env: <<parameter.target-env>>
