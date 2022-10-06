@@ -2,7 +2,7 @@ version: 2.1
 
 workflows:
   partner_profile_run:
-    when: << pipeline.parameters.run-api_handler >>
+    when: << pipeline.parameters.run-partner_profile >>
     jobs:
       - app_testing:
           appName   : "partner_profile"

@@ -28,7 +28,7 @@ workflows:
           config-path: /tmp/generated_config.yml
           mapping: |
             apps/api_handler/.* run-api_handler true
-            apps/partner_profile/.* run-partner-profile true
+            apps/partner_profile/.* run-partner_profile true
           base-revision: main
           requires:
             - split-config/generate-config
