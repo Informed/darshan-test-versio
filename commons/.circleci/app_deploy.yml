@@ -20,10 +20,9 @@ jobs:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
       - build_app:
-          directory: <<parameters.appName>>
+          appName: <<parameters.appName>>
       - create_package:
           appName: <<parameters.appName>>
-          directory: <<parameters.appName>>/
       - upload_artifacts:
           from: apps/<<parameters.appName>>/package/out
           to: s3://informed-techno-core-<<parameters.target-env>>-lambda-images
