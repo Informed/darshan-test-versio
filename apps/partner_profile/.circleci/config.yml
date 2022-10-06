@@ -14,4 +14,4 @@ workflows:
           context: 
             - dshah-aws-user-creds
           requires:
-            - app-testing
+            - app_testing
