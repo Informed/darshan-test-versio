@@ -4,7 +4,7 @@ workflows:
   api_handler_tf:
     when: << pipeline.parameters.tf-dev_api_handler >>
     jobs:
-      - platform_deploy:
+      - plan-apply:
           target-env: "dev"
           appName   : "api_handler"
           context: 
