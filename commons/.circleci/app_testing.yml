@@ -13,6 +13,6 @@ jobs:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
       - linting_and_metrics:
-          directory: <<parameters.appName>>
+          appName: <<parameters.appName>>
       - py_tests:
-          directory: <<parameters.appName>>
+          appName: <<parameters.appName>>
