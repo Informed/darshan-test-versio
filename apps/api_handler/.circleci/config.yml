@@ -1,7 +1,6 @@
 version: 2.1
 
 workflows:
-
   api_handler_run:
     when: << pipeline.parameters.run-api_handler >>
     jobs:

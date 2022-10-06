@@ -56,7 +56,7 @@ commands:
 
 ################################
 
-##### APP LINTER COMMANDS ######
+##### APP LINTER & TESTER ######
   linting_and_metrics:
     parameters:
       directory:

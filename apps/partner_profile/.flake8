@@ -13,3 +13,4 @@ exclude =
     artifact.zip
     dist
     package
+    out

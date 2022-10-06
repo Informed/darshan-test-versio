@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - python/install-packages:
-          app-dir: ~/project/apps/api_handler
+          app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
       - linting_and_metrics:
           directory: <<parameters.appName>>
