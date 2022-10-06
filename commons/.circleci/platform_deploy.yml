@@ -11,8 +11,8 @@ jobs:
     steps:
       - checkout
       - tf-plan:
-          appName: <<parameter.appName>>
-          target-env: <<parameter.target-env>>
+          appName: <<parameters.appName>>
+          target-env: <<parameters.target-env>>
       - tf-apply:
-          appName: <<parameter.appName>>
-          target-env: <<parameter.target-env>>
+          appName: <<parameters.appName>>
+          target-env: <<parameters.target-env>>
