@@ -30,7 +30,7 @@ commands:
               cd apps/<<parameters.directory>>
               echo Zipping the code in `pwd`
               mkdir -p out
-              zip -r out/api_handler.zip . -x '*.pyc'
+              zip -r out/<<parameters.appName>>.zip . -x '*.pyc'
   upload_artifacts:
     parameters: 
       from:
