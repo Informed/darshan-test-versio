@@ -30,7 +30,7 @@ workflows:
           mapping: |
             apps/api_handler/.* run-api_handler true
             apps/partner_profile/.* run-partner_profile true
-            infrastructure/api-handler/dev/.* tf-dev_api_handler true
+            infrastructure/api_handler/dev/.* tf-dev_api_handler true
           base-revision: main
           requires:
             - split-config/generate-config
