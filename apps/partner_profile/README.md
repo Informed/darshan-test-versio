@@ -157,3 +157,6 @@ poetry run create-api-spec
 ### Case 4: Get a particular service from all partners
 
   Endpoint: <base_url>/v1/partner_profiles?service={service_name}
+
+
+asdas
