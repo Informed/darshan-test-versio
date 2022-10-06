@@ -24,7 +24,7 @@ jobs:
       - create_package:
           directory: <<parameters.appName>>/package
       - upload_artifacts:
-          from: <<parameters.appName>>/package/out
+          from: apps/<<parameters.appName>>/package/out
           to: s3://informed-techno-core-<<parameters.target-env>>-lambda-images
       - start_lambda:
           target-env: <<parameters.target-env>>
