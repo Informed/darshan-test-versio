@@ -8,4 +8,4 @@ workflows:
           target-env: "dev"
           appName   : "api_handler"
           context: 
-            - dshah-aws-user-creds
+            - cicd-aws-user-creds
