@@ -22,7 +22,7 @@ jobs:
       - build_app:
           directory: <<parameters.appName>>
       - create_package:
-          app: <<parameters.appName>>
+          appName: <<parameters.appName>>
           directory: <<parameters.appName>>/package
       - upload_artifacts:
           from: apps/<<parameters.appName>>/package/out
