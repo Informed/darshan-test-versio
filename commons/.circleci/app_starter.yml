@@ -10,6 +10,8 @@ jobs:
         type: string
       appName:
         type: string
+      directory:
+        type: string
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps: 
@@ -17,3 +19,4 @@ jobs:
       - start_lambda:
           target-env: <<parameters.target-env>>
           appName: <<parameters.appName>>
+          directory: <<parameters.directory>>

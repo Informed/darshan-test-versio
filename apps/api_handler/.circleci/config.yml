@@ -18,6 +18,7 @@ workflows:
       - app_starter:
           target-env: "dshah"
           appName   : "api-handler"
+          directory : "api_handler"
           context: 
             - dshah-aws-user-creds
           requires:
