@@ -48,7 +48,7 @@ commands:
     parameters:
       from:
         type: string
-        description: Copy from latest.zip
+        description: Copy latest.zip
       to:
         type: string
         descritption: Create versioned asset
