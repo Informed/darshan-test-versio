@@ -18,6 +18,7 @@ workflows:
       - app_starter:
           target-env: "dshah"
           appName   : "partner-profile"
+          directory : "partner_profile"
           context: 
             - dshah-aws-user-creds
           requires:

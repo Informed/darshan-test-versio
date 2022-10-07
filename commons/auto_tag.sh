@@ -35,6 +35,8 @@ fi
 #create new tag
 NEW_TAG="$APPNAME-$VNUM1.$VNUM2.$VNUM3"
 
+echo 'export GIT_TAG="$NEW_TAG"' >> "$BASH_ENV"
+
 echo "INFO: Updating $VERSION to $NEW_TAG"
 
 #only tag if no tag already (would be better if the git describe command above could have a silent option)
