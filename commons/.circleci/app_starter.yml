@@ -15,4 +15,4 @@ jobs:
     steps: 
       - start_lambda:
           target-env: <<parameters.target-env>>
-          app: <<parameters.appName>>
+          appName: <<parameters.appName>>
