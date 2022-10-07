@@ -144,7 +144,3 @@ commands:
 # Write push notifications here 
 
 ################################
-
-
-
-aws lambda update-function-code --function-name techno-core-dshah-api-handler --region us-west-2 --s3-bucket iq-artifacts-cicd-uswest2 --s3-key api_handler.zip
