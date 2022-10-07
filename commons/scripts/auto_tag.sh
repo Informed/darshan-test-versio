@@ -34,6 +34,8 @@ fi
 
 #create new tag
 NEW_TAG="$APPNAME-$VNUM1.$VNUM2.$VNUM3"
+
+#setting tag to ENV so we can use it to make versioned assests
 echo "export GIT_TAG=$NEW_TAG" >> $BASH_ENV
 
 echo "INFO: Updating $VERSION to $NEW_TAG"

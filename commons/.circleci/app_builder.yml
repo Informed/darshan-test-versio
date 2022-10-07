@@ -23,12 +23,6 @@ jobs:
           appName: <<parameters.appName>>
       - create_package:
           appName: <<parameters.appName>>
-      - run:
-          name: test the variable
-          command: |
-            echo $GIT_TAG
-            echo "---NEW TAG"
-            echo $NEW_TAG
       - upload_artifacts:
           from: apps/<<parameters.appName>>/package/out
           to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>

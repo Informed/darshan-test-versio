@@ -1,15 +1,18 @@
 commands:
-
+################################
 ##### APP DEPLOY COMMANDS ######
+################################
   tag_commit:
+    name: Tag Commit
     parameters:
       app:
         default: ""
         type: string
     steps:
-      - run : bash commons/auto_tag.sh <<parameters.app>>
+      - run : bash commons/scripts/auto_tag.sh <<parameters.app>>
 
   poetry_build:
+    name: Poetry Build
     parameters:
       appName:
         default: ""
@@ -21,6 +24,7 @@ commands:
                 poetry build
                 poetry run pip install --upgrade -t package dist/*.whl
   create_package:
+    name: Create Python Package
     parameters:
       appName:
         default: ""
@@ -32,6 +36,7 @@ commands:
               mkdir -p out
               zip -r out/latest.zip . -x '*.pyc'
   upload_artifacts:
+    name: Upload artifacts to S3
     parameters: 
       from:
         type: string
@@ -45,6 +50,7 @@ commands:
           from: <<parameters.from>>
           to:   <<parameters.to>>
   create_versioned_assets:
+    name: Create versioned assests
     parameters:
       from:
         type: string
@@ -55,7 +61,12 @@ commands:
           aws-region: AWS_REGION
           from: <<parameters.from>>
           to  : <<parameters.to>>
+
+################################
+##### APP Starter COMMANDS #####
+################################
   start_lambda:
+    name: Initiating Lambda
     parameters:
       target-env:
         type: string
@@ -68,9 +79,10 @@ commands:
             aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.directory>>/latest.zip
 
 ################################
-
 ##### APP LINTER & TESTER ######
+################################
   linting_and_metrics:
+    name: Linters
     parameters:
       appName:
         default: ""
@@ -80,6 +92,7 @@ commands:
                 cd apps/<<parameters.appName>>
                 poetry run flake8
   py_tests:
+    name: Running Pytests
     parameters:
       appName:
         default: ""
@@ -89,17 +102,18 @@ commands:
                 cd apps/<<parameters.appName>>/tests
                 poetry run pytest -v
             
-###################################
-
-###### TERRAFORM TEST #############
+################################
+###### TERRAFORM TEST ##########
+################################
 
 # Write TF Tests here
 
-###################################
-
+###############################
 ###### TERRAFORM DEPLOY #######
+###############################
 
   tf-plan:
+    name: Terraform Plan
     parameters:
       appName:
         default: ""
@@ -115,6 +129,7 @@ commands:
             terraform init -input=false
             terraform plan -out tfapply -var-file terraform.tfvars
   tf-apply:
+    name: Terraform Apply
     parameters:
       appName:
         default: ""
@@ -130,15 +145,12 @@ commands:
             terraform apply -auto-approve tfapply
 
 ################################
-
-###### Push Notifications #######
+###### Push Notifications ######
+################################
 
 # Write push notifications here 
 
-################################
-
+#############################
 ###### Gather metrics #######
-
+#############################
 # Write push notifications here 
-
-################################
