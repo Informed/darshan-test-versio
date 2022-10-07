@@ -3,7 +3,6 @@ commands:
 ##### APP DEPLOY COMMANDS ######
 ################################
   tag_commit:
-    name: Tag Commit
     parameters:
       app:
         default: ""
@@ -12,7 +11,6 @@ commands:
       - run : bash commons/scripts/auto_tag.sh <<parameters.app>>
 
   poetry_build:
-    name: Poetry Build
     parameters:
       appName:
         default: ""
@@ -24,7 +22,6 @@ commands:
                 poetry build
                 poetry run pip install --upgrade -t package dist/*.whl
   create_package:
-    name: Create Python Package
     parameters:
       appName:
         default: ""
@@ -36,7 +33,6 @@ commands:
               mkdir -p out
               zip -r out/latest.zip . -x '*.pyc'
   upload_artifacts:
-    name: Upload artifacts to S3
     parameters: 
       from:
         type: string
@@ -50,7 +46,6 @@ commands:
           from: <<parameters.from>>
           to:   <<parameters.to>>
   create_versioned_assets:
-    name: Create versioned assests
     parameters:
       from:
         type: string
@@ -66,7 +61,6 @@ commands:
 ##### APP Starter COMMANDS #####
 ################################
   start_lambda:
-    name: Initiating Lambda
     parameters:
       target-env:
         type: string
@@ -82,7 +76,6 @@ commands:
 ##### APP LINTER & TESTER ######
 ################################
   linting_and_metrics:
-    name: Linters
     parameters:
       appName:
         default: ""
@@ -92,7 +85,6 @@ commands:
                 cd apps/<<parameters.appName>>
                 poetry run flake8
   py_tests:
-    name: Running Pytests
     parameters:
       appName:
         default: ""
@@ -113,7 +105,6 @@ commands:
 ###############################
 
   tf-plan:
-    name: Terraform Plan
     parameters:
       appName:
         default: ""
@@ -129,7 +120,6 @@ commands:
             terraform init -input=false
             terraform plan -out tfapply -var-file terraform.tfvars
   tf-apply:
-    name: Terraform Apply
     parameters:
       appName:
         default: ""
@@ -154,3 +144,5 @@ commands:
 ###### Gather metrics #######
 #############################
 # Write push notifications here 
+
+################################
