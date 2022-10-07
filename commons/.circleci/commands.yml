@@ -60,7 +60,7 @@ commands:
       target-env:
         type: string
       appName:
-        default: ""
+        type: string
     steps:
       - run: |
             aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.appName>>/latest.zip
