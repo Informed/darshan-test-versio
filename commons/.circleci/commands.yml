@@ -16,7 +16,9 @@ commands:
         default: ""
         type: string
     steps:
-      - run: |
+      - run: 
+          name: Poetry Build
+          command: |
                 cd apps/<<parameters.appName>>
                 echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
                 poetry build

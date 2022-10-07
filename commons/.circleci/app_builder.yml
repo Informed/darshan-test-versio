@@ -15,7 +15,6 @@ jobs:
     steps:
       - checkout
       - tag_commit:
-          name:  Tag Commit
           app: <<parameters.appName>>
       - python/install-packages:
           app-dir: ~/project/apps/<<parameters.appName>>
