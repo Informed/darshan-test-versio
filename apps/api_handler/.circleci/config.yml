@@ -8,10 +8,17 @@ workflows:
           appName   : "api_handler"
           context:
             - dshah-aws-user-creds
-      - app_deploy:
+      - app_builder:
           target-env: "dshah"
           appName   : "api_handler"
           context: 
-            - dshah-aws-user-creds
+            - cicd-aws-user-creds
           requires:
             - app_testing
+      - app_starter:
+          target-env: "dshah"
+          appName   : "api-handler"
+          context: 
+            - dshah-aws-user-creds
+          requires:
+            - app_builder

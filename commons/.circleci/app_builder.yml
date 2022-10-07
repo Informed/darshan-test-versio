@@ -1,5 +1,5 @@
 jobs:
-  app_deploy:
+  app_builder:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     executor:
@@ -19,12 +19,13 @@ jobs:
       - python/install-packages:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
-      - build_app:
+      - poetry_build:
           appName: <<parameters.appName>>
       - create_package:
           appName: <<parameters.appName>>
       - upload_artifacts:
           from: apps/<<parameters.appName>>/package/out
-          to: s3://informed-techno-core-<<parameters.target-env>>-lambda-images
-      - start_lambda:
-          target-env: <<parameters.target-env>>
+          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>
+      - create_versioned_assets:
+          from: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/latest.zip
+          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/${CIRCLE_TAG}.zip

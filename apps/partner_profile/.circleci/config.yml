@@ -8,10 +8,17 @@ workflows:
           appName   : "partner_profile"
           context:
             - dshah-aws-user-creds
-      - app_deploy:
+      - app_builder:
           target-env: "dshah"
           appName   : "partner_profile"
           context: 
-            - dshah-aws-user-creds
+            - cicd-aws-user-creds
           requires:
             - app_testing
+      - app_starter:
+          target-env: "dshah"
+          appName   : "partner-profile"
+          context: 
+            - dshah-aws-user-creds
+          requires:
+            - app_builder

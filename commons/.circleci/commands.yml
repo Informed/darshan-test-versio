@@ -9,7 +9,7 @@ commands:
     steps:
       - run : bash commons/auto_tag.sh <<parameters.app>>
 
-  build_app:
+  poetry_build:
     parameters:
       appName:
         default: ""
@@ -30,7 +30,7 @@ commands:
               cd apps/<<parameters.appName>>/package
               echo Zipping the code in `pwd`
               mkdir -p out
-              zip -r out/<<parameters.appName>>.zip . -x '*.pyc'
+              zip -r out/latest.zip . -x '*.pyc'
   upload_artifacts:
     parameters: 
       from:
@@ -44,15 +44,30 @@ commands:
           aws-region: AWS_REGION
           from: <<parameters.from>>
           to:   <<parameters.to>>
-
+  create_versioned_assets:
+    parameters:
+      from:
+        type: string
+        description: Copy from latest.zip
+      to:
+        type: string
+        descritption: Create versioned asset
+    steps:
+      - aws-s3/copy:
+          aws-region: AWS_REGION
+          from: <<parameters.from>>
+          to  : <<parameters.to>>
   start_lambda:
     parameters:
       target-env:
         type: string
         default: ""
+      appName:
+        default: ""
+        type: string
     steps:
       - run: |
-            aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-api-handler --region ${AWS_REGION} --s3-bucket informed-techno-core-<<parameters.target-env>>-lambda-images --s3-key api_handler.zip
+            aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.appName>>/latest.zip
 
 ################################
 
@@ -76,6 +91,12 @@ commands:
                 cd apps/<<parameters.appName>>/tests
                 poetry run pytest -v
             
+###################################
+
+###### TERRAFORM TEST #############
+
+# Write TF Tests here
+
 ###################################
 
 ###### TERRAFORM DEPLOY #######
@@ -109,3 +130,21 @@ commands:
           command: |
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform apply -auto-approve tfapply
+
+################################
+
+###### Push Notifications #######
+
+# Write push notifications here 
+
+################################
+
+###### Gather metrics #######
+
+# Write push notifications here 
+
+################################
+
+
+
+aws lambda update-function-code --function-name techno-core-dshah-api-handler --region us-west-2 --s3-bucket iq-artifacts-cicd-uswest2 --s3-key api_handler.zip
