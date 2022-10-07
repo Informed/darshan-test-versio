@@ -29,7 +29,9 @@ commands:
         default: ""
         type: string
     steps:
-      - run: |
+      - run:
+          name: Create Package
+          command: |
               cd apps/<<parameters.appName>>/package
               echo Zipping the code in `pwd`
               mkdir -p out
@@ -71,7 +73,9 @@ commands:
       directory:
         type: string
     steps:
-      - run: |
+      - run:
+          name: Intiating Lambda
+          command: |
             aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.directory>>/latest.zip
 
 ################################
@@ -83,7 +87,9 @@ commands:
         default: ""
         type: string
     steps:
-        - run: |
+        - run:
+            name: Linters
+            command: |
                 cd apps/<<parameters.appName>>
                 poetry run flake8
   py_tests:
@@ -92,7 +98,9 @@ commands:
         default: ""
         type: string
     steps:
-        - run: |
+        - run:
+            name: Pytests
+            command: |
                 cd apps/<<parameters.appName>>/tests
                 poetry run pytest -v
             
@@ -131,7 +139,7 @@ commands:
         type: string
     steps:
       - run:
-          name: terraform
+          name: terraform apply
           command: |
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform apply -auto-approve tfapply
