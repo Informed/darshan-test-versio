@@ -48,10 +48,8 @@ commands:
     parameters:
       from:
         type: string
-        description: Copy latest.zip
       to:
         type: string
-        descritption: Create versioned asset
     steps:
       - aws-s3/copy:
           aws-region: AWS_REGION
