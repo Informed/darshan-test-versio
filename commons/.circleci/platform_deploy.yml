@@ -1,7 +1,6 @@
 jobs:
   plan-apply:
     executor: terraform
-    working_directory: /tmp/project
     parameters:
       target-env:
         type: string
