@@ -123,12 +123,15 @@ commands:
         default: ""
         type: string
     steps:
-      - run:
-          name: terraform init & plan
-          command: |
-            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-            terraform init -input=false
-            terraform plan -out tfapply -var-file terraform.tfvars
+      - terraform/init:
+          backend: true
+          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+      - terraform/plan:
+          checkout: true
+          context: cicd-aws-user-creds
+          persist-workspace: true
+          requires:
+            - terraform/validate
   tf-apply:
     parameters:
       appName:
@@ -138,11 +141,11 @@ commands:
         default: ""
         type: string
     steps:
-      - run:
-          name: terraform apply
-          command: |
-            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-            terraform apply -auto-approve tfapply
+      - terraform/apply:
+          attach-workspace: true
+          context: cicd-aws-user-creds
+          requires:
+            - terraform/plan
 
 ################################
 ###### Push Notifications ######

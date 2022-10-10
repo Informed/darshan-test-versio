@@ -1,15 +1,18 @@
 jobs:
   plan-apply:
+    executor: terraform/default
     working_directory: /tmp/project
     parameters:
       target-env:
         type: string
       appName:
         type: string
-    docker:
-      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
       - checkout
+      - terraform/install:
+          arch: amd64
+          os: linux
+          terraform_version: 0.14.2
       - tf-plan:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
