@@ -123,10 +123,12 @@ commands:
         default: ""
         type: string
     steps:
-      - terraform/init:
-          backend: true
-          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-      - terraform/plan
+      - run:
+          name: terraform init & plan
+          command: |
+            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+            terraform init -input=false
+            terraform plan -out tfapply -var-file terraform.tfvars
   tf-apply:
     parameters:
       appName:
@@ -136,7 +138,11 @@ commands:
         default: ""
         type: string
     steps:
-      - terraform/apply
+      - run:
+          name: terraform
+          command: |
+            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+            terraform apply -auto-approve tfapply
 
 ################################
 ###### Push Notifications ######
