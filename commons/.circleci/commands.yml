@@ -128,10 +128,7 @@ commands:
           path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
       - terraform/plan:
           checkout: true
-          context: cicd-aws-user-creds
-          persist-workspace: true
-          requires:
-            - terraform/validate
+
   tf-apply:
     parameters:
       appName:
@@ -141,11 +138,7 @@ commands:
         default: ""
         type: string
     steps:
-      - terraform/apply:
-          attach-workspace: true
-          context: cicd-aws-user-creds
-          requires:
-            - terraform/plan
+      - terraform/apply
 
 ################################
 ###### Push Notifications ######
