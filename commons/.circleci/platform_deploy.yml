@@ -7,8 +7,6 @@ jobs:
         type: string
       appName:
         type: string
-      userContext:
-        type: string
     steps:
       - tf-plan:
           appName: <<parameters.appName>>
