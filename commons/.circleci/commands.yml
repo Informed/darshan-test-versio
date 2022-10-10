@@ -143,7 +143,7 @@ commands:
           name: plan
           command: |
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-            terraform plan
+            terraform plan -lock=false
   tf-apply:
     parameters:
       appName:
