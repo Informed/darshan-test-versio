@@ -144,7 +144,7 @@ commands:
           command: |
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             pwd
-            cat ~/.aws/config
+            aws configure list
             echo "here is the config"
             terraform plan -lock=false
   tf-apply:
