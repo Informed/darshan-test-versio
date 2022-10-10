@@ -7,10 +7,15 @@ jobs:
       appName:
         type: string
     steps:
-      - checkout
+      - attach_workspace:
+        at: .
       - tf-plan:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
       - tf-apply:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
