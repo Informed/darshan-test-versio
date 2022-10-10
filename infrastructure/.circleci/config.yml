@@ -4,9 +4,13 @@ workflows:
   api_handler_tf:
     when: << pipeline.parameters.tf-dev_api_handler >>
     jobs:
+      - init:
+          target-env: "sand/dshah"
+          appName   : "api_handler"
+          context: 
+            - cicd-aws-user-creds
       - plan-apply:
           target-env: "sand/dshah"
           appName   : "api_handler"
-          userContext  : "dshah-aws-user-creds"
           context: 
-            - cicd-aws-user-creds
+            - dshah-aws-user-creds

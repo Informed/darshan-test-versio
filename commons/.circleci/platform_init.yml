@@ -1,5 +1,10 @@
+executors:
+  terraform:
+    docker:
+      - image: hashicorp/terraform:1.2.7
+
 jobs:
-  plan-apply:
+  init:
     executor: terraform
     working_directory: /tmp/project
     parameters:
@@ -10,9 +15,8 @@ jobs:
       userContext:
         type: string
     steps:
-      - tf-plan:
-          appName: <<parameters.appName>>
-          target-env: <<parameters.target-env>>
-      - tf-apply:
+      - checkout
+      - tf-init:
+          context: <<parameters.userContext>>
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
