@@ -143,6 +143,7 @@ commands:
           name: plan
           command: |
             pwd
+            ls
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform plan -out tfapply -var-file terraform.tfvars
   tf-apply:
