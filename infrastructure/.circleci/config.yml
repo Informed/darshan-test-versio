@@ -6,12 +6,12 @@ workflows:
     jobs:
       - init:
           target-env: "sand/dshah"
-          appName   : "api_handler"
+          appName   : "partner_profile"
           context: 
             - cicd-aws-user-creds
       - plan-apply:
           target-env: "sand/dshah"
-          appName   : "api_handler"
+          appName   : "partner_profile"
           context: 
             - dshah-aws-user-creds
           requires:

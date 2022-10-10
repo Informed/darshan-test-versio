@@ -8,4 +8,7 @@ parameters:
   tf-dev_api_handler:
     type: boolean
     default: false
+  tf-dev_partner_profile:
+    type: boolean
+    default: true
   
