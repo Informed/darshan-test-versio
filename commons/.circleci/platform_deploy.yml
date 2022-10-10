@@ -12,8 +12,14 @@ jobs:
         type: string
       appName:
         type: string
+      userContext:
+        type: string
     steps:
       - checkout
+      - tf-init:
+          context: <<parameters.userContext>>
+          appName: <<parameters.appName>>
+          target-env: <<parameters.target-env>>
       - tf-plan:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>

@@ -7,5 +7,6 @@ workflows:
       - plan-apply:
           target-env: "sand/dshah"
           appName   : "api_handler"
+          userContext  : "dshah-aws-user-creds"
           context: 
             - cicd-aws-user-creds

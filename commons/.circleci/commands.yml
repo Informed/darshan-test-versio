@@ -114,6 +114,21 @@ commands:
 ###### TERRAFORM DEPLOY #######
 ###############################
 
+  tf-init:
+    parameters:
+      appName:
+        default: ""
+        type: string
+      target-env:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: terraform init
+          command: |
+            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+            terraform init -input=false
+
   tf-plan:
     parameters:
       appName:
@@ -127,7 +142,6 @@ commands:
           name: terraform init & plan
           command: |
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-            terraform init -input=false
             terraform plan -out tfapply -var-file terraform.tfvars
   tf-apply:
     parameters:
