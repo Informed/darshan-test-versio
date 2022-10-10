@@ -129,6 +129,7 @@ commands:
             pwd
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform init -input=false
+            aws configure list
 
   tf-plan:
     parameters:
