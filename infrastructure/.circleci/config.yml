@@ -4,6 +4,9 @@ workflows:
   api_handler_tf:
     when: << pipeline.parameters.tf-dev_api_handler >>
     jobs:
+      - cicd-setup-profile:
+          context: 
+            - cicd-aws-user-creds
       - init:
           target-env: "sand/dshah"
           appName   : "api_handler"
@@ -14,6 +17,5 @@ workflows:
           appName   : "api_handler"
           context: 
             - dshah-aws-user-creds
-            - cicd-aws-user-creds
           requires:
             - init
