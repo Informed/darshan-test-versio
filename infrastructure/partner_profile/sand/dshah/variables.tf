@@ -10,7 +10,7 @@ variable "environment" {
 }
 
 variable "partner_profile_honeybadger_api_key" {
-  description = "API Key for Partner Profile Honeybadger access"
+  description = "API Key for Partnesadr Profile Honeybadger access"
   type        = string
   default     = "hbp_PRwWENiasCPczk1r70XXFQ3dJEQCN52K6FWc"
 }
