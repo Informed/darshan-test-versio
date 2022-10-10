@@ -104,7 +104,7 @@ variable "lambda_tracing_mode" {
 }
 
 variable "extra_environment_variables" {
-  description = "Extra environment variables to setaasdasaasasdasasddssaasdsdaasdasdeasasdsasdaaesdasdaasdssddad"
+  description = "Extra environment variables to setaasdasaasaZZXsdasasddssaasdsdaasdasdeasasdsasdaaesdasdaasdssddad"
   type        = map(string)
   default     = {}
 }
