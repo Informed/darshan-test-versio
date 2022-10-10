@@ -1,6 +1,11 @@
+executors:
+  terraform:
+    docker:
+      - image: hashicorp/terraform:1.2.7
+
 jobs:
   plan-apply:
-    executor: terraform/default
+    executor: terraform
     working_directory: /tmp/project
     parameters:
       target-env:
