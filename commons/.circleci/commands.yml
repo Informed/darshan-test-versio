@@ -126,9 +126,7 @@ commands:
       - terraform/init:
           backend: true
           path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-      - terraform/plan:
-          checkout: true
-
+      - terraform/plan
   tf-apply:
     parameters:
       appName:
