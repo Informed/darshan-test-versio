@@ -142,12 +142,8 @@ commands:
       - run:
           name: plan
           command: |
-            pwd
-            echo "list"
-            ls -lrt
-            echo "listed"
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-            terraform plan -out tfapply -var-file terraform.tfvars
+            terraform plan -out tfapply -lock=false
   tf-apply:
     parameters:
       appName:
@@ -158,7 +154,7 @@ commands:
         type: string
     steps:
       - run:
-          name: terraform
+          name: apply
           command: |
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform apply -auto-approve tfapply
