@@ -126,6 +126,7 @@ commands:
       - run:
           name: terraform init
           command: |
+            pwd
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform init -input=false
 
@@ -139,8 +140,9 @@ commands:
         type: string
     steps:
       - run:
-          name: terraform init & plan
+          name: plan
           command: |
+            pwd
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform plan -out tfapply -var-file terraform.tfvars
   tf-apply:
