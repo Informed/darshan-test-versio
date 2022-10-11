@@ -146,7 +146,7 @@ commands:
           name: plan
           command: |
             ls
-            echo "[profile darshan-shah]" >> /root/.aws/config
+            echo "[profile cicd]" >> /root/.aws/config
             echo "region = " >> /root/.aws/config
             echo >> /root/.aws/credentials
             cat credentials >> /root/.aws/credentials
