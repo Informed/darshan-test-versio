@@ -128,7 +128,9 @@ commands:
           command: |
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform init -input=false
+            echo "copying..."
             cp ~/.aws/credentials .
+            ls
 
   tf-plan:
     parameters:
