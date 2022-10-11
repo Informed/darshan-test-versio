@@ -1,7 +1,7 @@
 parameters:
   run-api_handler:
     type: boolean
-    default: false
+    default: true
   run-partner_profile:
     type: boolean
     default: false
