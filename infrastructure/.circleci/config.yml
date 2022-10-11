@@ -14,6 +14,7 @@ workflows:
           appName   : "api_handler"
           context: 
             - dshah-aws-user-creds
+            - cicd-aws-user-creds
           requires:
             - init
   partner_profile_tf:
@@ -29,5 +30,6 @@ workflows:
           appName   : "partner_profile"
           context: 
             - dshah-aws-user-creds
+            - cicd-aws-user-creds
           requires:
             - init

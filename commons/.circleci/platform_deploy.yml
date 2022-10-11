@@ -9,6 +9,8 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+      - aws-cli/setup:
+          profile-name: cicd
       - tf-plan:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
