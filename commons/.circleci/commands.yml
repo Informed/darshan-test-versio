@@ -152,6 +152,7 @@ commands:
             cat ~/.aws/config
             cat ~/.aws/credentials
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+            terraform init
             terraform plan -out tfapply -lock=false
   tf-apply:
     parameters:
