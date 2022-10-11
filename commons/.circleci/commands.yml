@@ -143,6 +143,7 @@ commands:
           command: |
             cat /root/.aws/config
             aws configure list
+            cat /root/.aws/credentials
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform plan -out tfapply
   tf-apply:
