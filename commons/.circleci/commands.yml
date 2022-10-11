@@ -204,6 +204,7 @@ commands:
     steps:
       - slack/notify:
           event: pass
+          mentions: '@dow-platform'
           template: basic_success_1
 
 
