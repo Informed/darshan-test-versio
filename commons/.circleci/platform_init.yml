@@ -6,7 +6,6 @@ executors:
 jobs:
   init:
     executor: terraform
-    working_directory: /tmp/project
     parameters:
       target-env:
         type: string
