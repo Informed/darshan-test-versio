@@ -22,5 +22,6 @@ workflows:
           directory : "api_handler"
           context: 
             - dshah-aws-user-creds
+            - cicd-platform-slack-creds
           requires:
             - app_builder
