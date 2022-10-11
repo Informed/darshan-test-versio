@@ -146,13 +146,13 @@ commands:
           name: plan
           command: |
             ls
+            echo >> /root/.aws/config
+            echo "[profile darshan-shah]" >> /root/.aws/config
+            echo "region = " >> /root/.aws/config
             echo >> /root/.aws/credentials
             cat credentials >> /root/.aws/credentials
             cat /root/.aws/credentials
             cat /root/.aws/config
-            export AWS_PROFILE=cicd
-            aws configure list
-            export AWS_PROFILE=darshan-shah
             aws configure list
             cat /root/.aws/credentials
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
