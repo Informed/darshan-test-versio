@@ -13,6 +13,7 @@ workflows:
           appName   : "partner_profile"
           context: 
             - cicd-aws-user-creds
+            - cicd-platform-slack-creds
           requires:
             - app_testing
       - app_starter:
@@ -21,5 +22,6 @@ workflows:
           directory : "partner_profile"
           context: 
             - dshah-aws-user-creds
+            - cicd-platform-slack-creds
           requires:
             - app_builder
