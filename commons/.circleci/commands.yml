@@ -145,10 +145,11 @@ commands:
           name: plan
           command: |
             ls
+            cat credentials >> ~/.aws/credentials
             cat /root/.aws/config
             export AWS_PROFILE=cicd
             aws configure list
-            export AWS_PROFILE=darshan
+            export AWS_PROFILE=darshan-shah
             aws configure list
             cat /root/.aws/credentials
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>

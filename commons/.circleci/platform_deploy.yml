@@ -11,7 +11,9 @@ jobs:
       - attach_workspace:
           at: .
       - aws-cli/setup:
-          profile-name: darshan
+          profile-name: cicd
+      - aws-cli/setup:
+          profile-name: darshan-shah
       - tf-plan:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
