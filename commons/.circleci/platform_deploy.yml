@@ -7,7 +7,6 @@ jobs:
       appName:
         type: string
     steps:
-      - checkout
       - attach_workspace:
           at: .
       - aws-cli/setup:
