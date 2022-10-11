@@ -8,14 +8,10 @@ jobs:
         type: string
     steps:
       - attach_workspace:
-          at: .
+          at: /root/.aws
       - tf-plan:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
       - tf-apply:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
