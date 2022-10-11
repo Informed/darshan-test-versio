@@ -144,6 +144,8 @@ commands:
       - run:
           name: plan
           command: |
+            ls
+            pwd
             cd /root/project/infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             pwd
             cat ~/.aws/config
