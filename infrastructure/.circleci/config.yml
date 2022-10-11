@@ -13,8 +13,8 @@ workflows:
           target-env: "sand/dshah"
           appName   : "api_handler"
           context: 
-            - dshah-aws-user-creds
             - cicd-aws-user-creds
+            - dshah-aws-user-creds
           requires:
             - init
   partner_profile_tf:
@@ -29,7 +29,7 @@ workflows:
           target-env: "sand/dshah"
           appName   : "partner_profile"
           context: 
-            - dshah-aws-user-creds
             - cicd-aws-user-creds
+            - dshah-aws-user-creds
           requires:
             - init
