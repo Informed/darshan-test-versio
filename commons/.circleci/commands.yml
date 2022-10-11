@@ -142,6 +142,7 @@ commands:
       - run:
           name: plan
           command: |
+            cat /root/.aws/config
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform plan -out tfapply
   tf-apply:
