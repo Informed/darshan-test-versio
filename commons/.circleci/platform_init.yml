@@ -20,7 +20,7 @@ jobs:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
       - persist_to_workspace:
-          root: /root
+          root: .
           paths:
-            - .aws/config
+            - ./root/.aws/config
             - .
