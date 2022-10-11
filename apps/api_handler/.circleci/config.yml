@@ -35,7 +35,7 @@ workflows:
           type: approval
           requires:
             - slack/on-hold
-      - app_starter-qa:
+      - app_starter:
           target-env: "dshah"
           appName   : "api-handler"
           directory : "api_handler"
