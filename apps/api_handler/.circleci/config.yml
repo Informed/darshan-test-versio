@@ -4,6 +4,13 @@ workflows:
   api_handler_run:
     when: << pipeline.parameters.run-api_handler >>
     jobs:
+      - slack/on-hold:
+          context: 
+            - cicd-platform-slack-creds
+      - pause_workflow:
+          requires:
+            - slack/on-hold
+          type: approval
       - app_testing:
           appName   : "api_handler"
           context:
