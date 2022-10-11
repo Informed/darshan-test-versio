@@ -173,7 +173,17 @@ commands:
 ###### Push Notifications ######
 ################################
 
-# Write push notifications here 
+  notify_slack_error:
+    steps:
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+
+  notify_slack_pass:
+    steps:
+      - slack/notify:
+          event: pass
+          template: basic_success_1
 
 #############################
 ###### Gather metrics #######
