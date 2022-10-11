@@ -23,4 +23,4 @@ jobs:
           root: .
           paths:
             - .
-            - /root/.aws/config
+            - ../.aws/config
