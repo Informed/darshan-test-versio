@@ -152,6 +152,7 @@ commands:
             cat credentials >> /root/.aws/credentials
             cat /root/.aws/credentials
             cat /root/.aws/config
+            export AWS_PROFILE=cicd
             aws configure list
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform plan -out tfapply
