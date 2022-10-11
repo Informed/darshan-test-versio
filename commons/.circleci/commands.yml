@@ -145,14 +145,9 @@ commands:
       - run:
           name: plan
           command: |
-            ls
-            echo "[profile cicd]" >> /root/.aws/config
-            echo "region = us-west-2 " >> /root/.aws/config
-            echo >> /root/.aws/credentials
-            cat credentials >> /root/.aws/credentials
-            cat /root/.aws/credentials
-            cat /root/.aws/config
-            export AWS_PROFILE=cicd
+            aws configure --profile cicd set region ${CICD_AWS_REGION}
+            aws configure --profile cicd set access_key ${CICD_AWS_USER_ID}
+            aws configure --profile cicd set scret_key ${CICD_AWS_SECRET_KEY}
             aws configure list
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform plan -out tfapply -lock=false
