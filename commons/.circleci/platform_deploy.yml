@@ -11,6 +11,8 @@ jobs:
           at: .
       - aws-cli/setup:
           profile-name: cicd
+      - aws-cli/setup:
+          profile-name: darshan
       - tf-plan:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
