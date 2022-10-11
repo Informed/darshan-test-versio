@@ -146,7 +146,7 @@ commands:
           command: |
             ls
             pwd
-            cd /root/project/infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             pwd
             cat ~/.aws/config
             aws configure list
