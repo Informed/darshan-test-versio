@@ -155,7 +155,7 @@ commands:
             export AWS_PROFILE=cicd
             aws configure list
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-            terraform plan -out tfapply
+            terraform plan -out tfapply -lock=false
   tf-apply:
     parameters:
       appName:
