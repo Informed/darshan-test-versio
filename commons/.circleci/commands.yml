@@ -129,6 +129,7 @@ commands:
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform init -input=false
             echo "copying..."
+            cat ~/.aws/credentials 
             cp ~/.aws/credentials /root/project/
             ls
 
@@ -145,7 +146,7 @@ commands:
           name: plan
           command: |
             ls
-            cat credentials >> ~/.aws/credentials
+            cat credentials >> /root/.aws/credentials
             cat /root/.aws/config
             export AWS_PROFILE=cicd
             aws configure list
