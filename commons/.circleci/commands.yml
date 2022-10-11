@@ -146,6 +146,7 @@ commands:
           name: plan
           command: |
             ls
+            cat credentials
             cat credentials >> /root/.aws/credentials
             cat /root/.aws/config
             export AWS_PROFILE=cicd
