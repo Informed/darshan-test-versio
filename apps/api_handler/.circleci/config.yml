@@ -4,20 +4,20 @@ workflows:
   api_handler_run:
     when: << pipeline.parameters.run-api_handler >>
     jobs:
-      - slack/on-hold:
-          mentions: '@dow-platform'
-          context: 
-            - cicd-platform-slack-creds
-      - pause_workflow:
-          requires:
-            - slack/on-hold
-          type: approval
       - app_testing:
           appName   : "api_handler"
           context:
             - dshah-aws-user-creds
+      - slack/on-hold:
+          mentions: '@dow-platform'
+          context: 
+            - cicd-platform-slack-creds
           requires:
-            - pause_workflow
+            - app_testing
+      - pause_workflow:
+          type: approval
+          requires:
+            - slack/on-hold
       - app_builder:
           target-env: "dshah"
           appName   : "api_handler"
@@ -25,7 +25,7 @@ workflows:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
           requires:
-            - app_testing
+            - pause_workflow
       - app_starter:
           target-env: "dshah"
           appName   : "api-handler"
