@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /root/.aws
+          at: .
       - aws-cli/setup:
           profile-name: darshan
       - tf-plan:

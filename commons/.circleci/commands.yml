@@ -128,6 +128,7 @@ commands:
           command: |
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform init -input=false
+            cp ~/.aws/credentials .
 
   tf-plan:
     parameters:
@@ -141,6 +142,7 @@ commands:
       - run:
           name: plan
           command: |
+            ls
             cat /root/.aws/config
             export AWS_PROFILE=cicd
             aws configure list
