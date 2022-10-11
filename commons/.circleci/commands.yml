@@ -148,6 +148,7 @@ commands:
             ls
             echo "\n" >> /root/.aws/credentials
             cat credentials >> /root/.aws/credentials
+            cat /root/.aws/credentials
             export AWS_PROFILE=cicd
             aws configure list
             export AWS_PROFILE=darshan-shah
