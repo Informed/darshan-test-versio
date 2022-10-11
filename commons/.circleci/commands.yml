@@ -147,13 +147,12 @@ commands:
           command: |
             ls
             echo "[profile cicd]" >> /root/.aws/config
-            echo "region = " >> /root/.aws/config
+            echo "region = us-west-2 " >> /root/.aws/config
             echo >> /root/.aws/credentials
             cat credentials >> /root/.aws/credentials
             cat /root/.aws/credentials
             cat /root/.aws/config
             aws configure list
-            cat /root/.aws/credentials
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform plan -out tfapply
   tf-apply:
