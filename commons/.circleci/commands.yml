@@ -144,7 +144,7 @@ commands:
       - run:
           name: plan
           command: |
-            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+            cd /root/project/infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             pwd
             cat ~/.aws/config
             aws configure list
