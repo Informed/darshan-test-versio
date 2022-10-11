@@ -22,5 +22,4 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - ./root/.aws/config
             - .
