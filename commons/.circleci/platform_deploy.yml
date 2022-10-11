@@ -10,8 +10,6 @@ jobs:
       - attach_workspace:
           at: .
       - aws-cli/setup:
-          profile-name: cicd
-      - aws-cli/setup:
           profile-name: darshan-shah
       - tf-plan:
           appName: <<parameters.appName>>
