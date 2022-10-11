@@ -149,6 +149,8 @@ commands:
             aws configure --profile cicd set access_key ${CICD_AWS_USER_ID}
             aws configure --profile cicd set scret_key ${CICD_AWS_SECRET_KEY}
             aws configure list
+            cat ~/.aws/config
+            cat ~/.aws/credentials
             cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
             terraform plan -out tfapply -lock=false
   tf-apply:
