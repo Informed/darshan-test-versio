@@ -50,7 +50,7 @@ workflows:
   api_handler_run-prod:
     when:
       condition:
-        or:
+        and:
           - equal: [  /.*\d+\.\d+\.\d+-prod$/ , << pipeline.git.tag >> ]
     jobs:
       - init:

@@ -32,9 +32,6 @@ workflows:
             apps/partner_profile/.* run-partner_profile true
 #            infrastructure/api_handler/sand/dshah.* tf-dev_api_handler true
 #            infrastructure/partner_profile/sand/dshah.* tf-dev_partner_profile tru
-          filters:
-            tags:
-              ignore: /.*\d+\.\d+\.\d+-prod$/
           base-revision: main
           requires:
             - split-config/generate-config
