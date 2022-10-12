@@ -50,7 +50,6 @@ workflows:
   api_handler_run-prod:
     when: << pipeline.parameters.run-api_handler-prod >>
     jobs:
-      - trigger_slack_notification
       - init:
           target-env: "sand/dshah"
           appName   : "api_handler"
