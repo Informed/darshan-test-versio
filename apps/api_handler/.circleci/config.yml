@@ -37,12 +37,12 @@ workflows:
           requires:
             - slack/on-hold
       - app_starter:
-          name: app-starter-for-rberger
-          target-env: "rberger"
+          name: app-starter-for-dev
+          target-env: "dev"
           appName   : "api-handler"
           directory : "api_handler"
           context: 
-            - rberger-aws-user-creds
+            - dev-aws-user-creds
             - cicd-platform-slack-creds
           requires:
             - pause_workflow
