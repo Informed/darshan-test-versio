@@ -31,7 +31,25 @@ workflows:
             apps/api_handler/.* run-api_handler true
             apps/partner_profile/.* run-partner_profile true
 #            infrastructure/api_handler/sand/dshah.* tf-dev_api_handler true
+#            infrastructure/partner_profile/sand/dshah.* tf-dev_partner_profile tru
+          filters:
+            tags:
+              ignore: /.*\d+\.\d+\.\d+-prod$/
+          base-revision: main
+          requires:
+            - split-config/generate-config
+      - path-filtering/filter:
+          name: check-updated-files-prod
+          workspace_path: /tmp
+          config-path: /tmp/generated_config.yml
+          mapping: |
+            apps/api_handler/.* run-api_handler-prod true
+            apps/partner_profile/.* run-partner_profile-prod true
+#            infrastructure/api_handler/sand/dshah.* tf-dev_api_handler true
 #            infrastructure/partner_profile/sand/dshah.* tf-dev_partner_profile true
+          filters:
+            tags:
+              only: /.*\d+\.\d+\.\d+-prod$/
           base-revision: main
           requires:
             - split-config/generate-config
