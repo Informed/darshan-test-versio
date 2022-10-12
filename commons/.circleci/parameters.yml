@@ -5,6 +5,9 @@ parameters:
   run-partner_profile:
     type: boolean
     default: false
+  run-api_handler-prod:
+    type: boolean
+    default: false
   tf-dev_api_handler:
     type: boolean
     default: false
