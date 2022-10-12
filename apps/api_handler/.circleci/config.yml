@@ -48,7 +48,10 @@ workflows:
             - pause_workflow
 
   api_handler_run-prod:
-    when: << pipeline.parameters.run-api_handler-prod >>
+    when:
+      condition:
+        or:
+          - equal: [  /.*\d+\.\d+\.\d+-prod$/ , << pipeline.git.tag >> ]
     jobs:
       - init:
           target-env: "sand/dshah"
@@ -59,6 +62,8 @@ workflows:
           appName   : "api_handler"
           context:
             - dshah-aws-user-creds
+          requires:
+            - init
       - app_builder:
           target-env: "dshah"
           appName   : "api_handler"
