@@ -56,18 +56,18 @@ workflows:
             - cicd-aws-user-creds
           filters:
             tags:
-              only: awqbc
+              only: opq
             branches:
-              ignore: /.*/
+              only: main
       - app_testing:
           appName   : "api_handler"
           context:
             - dshah-aws-user-creds
           filters:
             tags:
-              only: awqbc
+              only: opq
             branches:
-              ignore: /.*/
+              only: main
           requires:
             - init
       - app_builder:
@@ -78,9 +78,9 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: awqbc
+              only: opq
             branches:
-              ignore: /.*/
+              only: main
           requires:
             - app_testing
       - app_starter:
@@ -93,9 +93,9 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: awqbc
+              only: opq
             branches:
-              ignore: /.*/
+              only: main
           requires:
             - app_builder
       - slack/on-hold:
@@ -104,18 +104,18 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: awqbc
+              only: opq
             branches:
-              ignore: /.*/
+              only: main
           requires:
             - app-starter-for-prod
       - pause_workflow:
           type: approval
           filters:
             tags:
-              only: awqbc
+              only: opq
             branches:
-              ignore: /.*/
+              only: main
           requires:
             - slack/on-hold
       - app_starter:
@@ -128,8 +128,8 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: awqbc
+              only: opq
             branches:
-              ignore: /.*/
+              only: main
           requires:
             - pause_workflow
