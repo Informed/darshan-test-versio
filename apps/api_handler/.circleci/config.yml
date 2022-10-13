@@ -56,14 +56,14 @@ workflows:
             - cicd-aws-user-creds
           filters:
             tags:
-              only: abc
+              only: awqbc
       - app_testing:
           appName   : "api_handler"
           context:
             - dshah-aws-user-creds
           filters:
             tags:
-              only: abc
+              only: awqbc
             branches:
               ignore: /.*/
           requires:
@@ -76,7 +76,7 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: abc
+              only: awqbc
             branches:
               ignore: /.*/
           requires:
@@ -91,7 +91,7 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: abc
+              only: awqbc
             branches:
               ignore: /.*/
           requires:
@@ -102,7 +102,7 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: abc
+              only: awqbc
             branches:
               ignore: /.*/
           requires:
@@ -111,7 +111,7 @@ workflows:
           type: approval
           filters:
             tags:
-              only: abc
+              only: awqbc
             branches:
               ignore: /.*/
           requires:
@@ -126,7 +126,7 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: abc
+              only: awqbc
             branches:
               ignore: /.*/
           requires:
