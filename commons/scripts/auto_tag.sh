@@ -2,7 +2,7 @@
 
 #get highest tag number
 APPNAME=$1
-VERSION=`git describe  --match "*$APPNAME*" --abbrev=0 --tags`
+VERSION=` git tag --sort=committerdate | grep "$APPNAME" | tail -1`
 #replace . with space so can split into an array
 APPVERSIONS=(${VERSION//-/ })
 VERSION_BITS=(${APPVERSIONS[1]//./ })
