@@ -8,12 +8,12 @@ workflows:
           appName   : "api_handler"
           context:
             - dshah-aws-user-creds
+            - cicd-platform-slack-creds
       - app_builder:
           target-env: "dshah"
           appName   : "api_handler"
           context: 
             - cicd-aws-user-creds
-            - cicd-platform-slack-creds
           requires:
             - app_testing
       - app_starter:
