@@ -51,7 +51,7 @@ workflows:
     when:
       and:
         - or:
-            - equal: [ main, << pipeline.git.branch >> ]
+            - equal: [ mainx, << pipeline.git.branch >> ]
     jobs:
       - init:
           target-env: "sand/dshah"
