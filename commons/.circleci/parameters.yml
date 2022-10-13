@@ -1,11 +1,8 @@
 parameters:
   run-api_handler:
     type: boolean
-    default: true
-  run-partner_profile:
-    type: boolean
     default: false
-  run-api_handler-prod:
+  run-partner_profile:
     type: boolean
     default: false
   tf-dev_api_handler:
