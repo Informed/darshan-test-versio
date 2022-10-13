@@ -4,6 +4,23 @@ version: 2.1
 
 setup: true
 
+parameters:
+  run-api_handler:
+    type: boolean
+    default: false
+  run-api_handler-prod:
+    type: boolean
+    default: false
+  run-partner_profile:
+    type: boolean
+    default: false
+  tf-dev_api_handler:
+    type: boolean
+    default: false
+  tf-dev_partner_profile:
+    type: boolean
+    default: false
+
 orbs:
   path-filtering: circleci/path-filtering@0.1.1
   split-config: bufferings/split-config@0.1.0
