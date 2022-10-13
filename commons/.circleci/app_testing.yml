@@ -8,6 +8,7 @@ jobs:
       appName:
         type: string
     steps:
+      - trigger_slack_notification
       - checkout
       - python/install-packages:
           app-dir: ~/project/apps/<<parameters.appName>>

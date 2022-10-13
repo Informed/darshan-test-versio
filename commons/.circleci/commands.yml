@@ -184,7 +184,7 @@ commands:
                   "fields": [
                     {
                       "type": "plain_text",
-                      "text": "*This is a text notification*",
+                      "text": "Starting Deployment for Techno-core",
                       "emoji": true
                     }
                   ]
