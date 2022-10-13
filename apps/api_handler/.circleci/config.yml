@@ -56,7 +56,7 @@ workflows:
             - cicd-aws-user-creds
           filters:
             tags:
-              only: /.*\d+\.\d+\.\d+-prod$/
+              only: abc
             branches:
               ignore: /.*/
       - app_testing:
@@ -65,7 +65,7 @@ workflows:
             - dshah-aws-user-creds
           filters:
             tags:
-              only: /.*\d+\.\d+\.\d+-prod$/
+              only: abc
             branches:
               ignore: /.*/
           requires:
@@ -78,7 +78,7 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: /.*\d+\.\d+\.\d+-prod$/
+              only: abc
             branches:
               ignore: /.*/
           requires:
@@ -93,7 +93,7 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: /.*\d+\.\d+\.\d+-prod$/
+              only: abc
             branches:
               ignore: /.*/
           requires:
@@ -104,7 +104,7 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: /.*\d+\.\d+\.\d+-prod$/
+              only: abc
             branches:
               ignore: /.*/
           requires:
@@ -113,7 +113,7 @@ workflows:
           type: approval
           filters:
             tags:
-              only: /.*\d+\.\d+\.\d+-prod$/
+              only: abc
             branches:
               ignore: /.*/
           requires:
@@ -128,7 +128,7 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: /.*\d+\.\d+\.\d+-prod$/
+              only: abc
             branches:
               ignore: /.*/
           requires:
