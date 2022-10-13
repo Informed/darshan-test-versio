@@ -56,14 +56,18 @@ workflows:
             - cicd-aws-user-creds
           filters:
             tags:
-              only: opq
+              only: awqbc
+            branches:
+              ignore: /.*/
       - app_testing:
           appName   : "api_handler"
           context:
             - dshah-aws-user-creds
           filters:
             tags:
-              only: opq
+              only: awqbc
+            branches:
+              ignore: /.*/
           requires:
             - init
       - app_builder:
@@ -74,7 +78,9 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: opq
+              only: awqbc
+            branches:
+              ignore: /.*/
           requires:
             - app_testing
       - app_starter:
@@ -87,7 +93,9 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: opq
+              only: awqbc
+            branches:
+              ignore: /.*/
           requires:
             - app_builder
       - slack/on-hold:
@@ -96,14 +104,18 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: opq
+              only: awqbc
+            branches:
+              ignore: /.*/
           requires:
             - app-starter-for-prod
       - pause_workflow:
           type: approval
           filters:
             tags:
-              only: opq
+              only: awqbc
+            branches:
+              ignore: /.*/
           requires:
             - slack/on-hold
       - app_starter:
@@ -116,6 +128,8 @@ workflows:
             - cicd-platform-slack-creds
           filters:
             tags:
-              only: opq
+              only: awqbc
+            branches:
+              ignore: /.*/
           requires:
             - pause_workflow
