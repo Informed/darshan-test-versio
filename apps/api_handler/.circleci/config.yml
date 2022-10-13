@@ -57,6 +57,8 @@ workflows:
           filters:
             tags:
               only: awqbc
+            branches:
+              ignore: /.*/
       - app_testing:
           appName   : "api_handler"
           context:
