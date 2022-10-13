@@ -57,8 +57,6 @@ workflows:
           filters:
             tags:
               only: abc
-            branches:
-              ignore: /.*/
       - app_testing:
           appName   : "api_handler"
           context:
