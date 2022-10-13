@@ -47,7 +47,7 @@ workflows:
           requires:
             - pause_workflow
 
-   api_handler_run-prod:
+  api_handler_run-prod:
     when: << pipeline.parameters.run-api_handler-prod >>
     jobs:
       - init:
