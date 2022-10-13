@@ -48,20 +48,26 @@ workflows:
             - pause_workflow
 
   api_handler_run-prod:
-    when:
-      and:
-        - or:
-            - equal: [ mainx, << pipeline.git.branch >> ]
     jobs:
       - init:
           target-env: "sand/dshah"
           appName   : "api_handler"
           context: 
             - cicd-aws-user-creds
+          filters:
+            tags:
+              only: /.*\d+\.\d+\.\d+-prod$/
+            branches:
+              ignore: /.*/
       - app_testing:
           appName   : "api_handler"
           context:
             - dshah-aws-user-creds
+          filters:
+            tags:
+              only: /.*\d+\.\d+\.\d+-prod$/
+            branches:
+              ignore: /.*/
           requires:
             - init
       - app_builder:
@@ -70,6 +76,11 @@ workflows:
           context: 
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
+          filters:
+            tags:
+              only: /.*\d+\.\d+\.\d+-prod$/
+            branches:
+              ignore: /.*/
           requires:
             - app_testing
       - app_starter:
@@ -80,16 +91,31 @@ workflows:
           context: 
             - dshah-aws-user-creds
             - cicd-platform-slack-creds
+          filters:
+            tags:
+              only: /.*\d+\.\d+\.\d+-prod$/
+            branches:
+              ignore: /.*/
           requires:
             - app_builder
       - slack/on-hold:
           mentions: '@dow-platform'
           context: 
             - cicd-platform-slack-creds
+          filters:
+            tags:
+              only: /.*\d+\.\d+\.\d+-prod$/
+            branches:
+              ignore: /.*/
           requires:
             - app-starter-for-prod
       - pause_workflow:
           type: approval
+          filters:
+            tags:
+              only: /.*\d+\.\d+\.\d+-prod$/
+            branches:
+              ignore: /.*/
           requires:
             - slack/on-hold
       - app_starter:
@@ -100,5 +126,10 @@ workflows:
           context: 
             - dev-aws-user-creds
             - cicd-platform-slack-creds
+          filters:
+            tags:
+              only: /.*\d+\.\d+\.\d+-prod$/
+            branches:
+              ignore: /.*/
           requires:
             - pause_workflow
