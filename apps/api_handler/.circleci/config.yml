@@ -49,9 +49,9 @@ workflows:
 
   api_handler_run-prod:
     when:
-      condition:
-        and:
-          - equal: [  /.*\d+\.\d+\.\d+-prod$/ , << pipeline.git.tag >> ]
+      and:
+        - or:
+            - equal: [ xyz, << pipeline.git.tag >> ]
     jobs:
       - init:
           target-env: "sand/dshah"
