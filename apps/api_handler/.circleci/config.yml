@@ -17,7 +17,7 @@ workflows:
           requires:
             - app_testing
       - app_starter:
-          name: app-starter-for-prod
+          name: app-starter-for-staging
           target-env: "dshah"
           appName   : "api-handler"
           directory : "api_handler"
@@ -31,13 +31,13 @@ workflows:
           context: 
             - cicd-platform-slack-creds
           requires:
-            - app-starter-for-prod
+            - app-starter-for-staging
       - pause_workflow:
           type: approval
           requires:
             - slack/on-hold
       - app_starter:
-          name: app-starter-for-dev
+          name: app-starter-for-prod
           target-env: "dev"
           appName   : "api-handler"
           directory : "api_handler"
