@@ -10,6 +10,7 @@ parameters:
     default: false
   promoting_version:
     type: string
+    default: ""
   tf-dev_api_handler:
     type: boolean
     default: false
