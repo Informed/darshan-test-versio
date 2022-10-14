@@ -44,6 +44,8 @@ workflows:
           context: 
             - dev-aws-user-creds
             - cicd-platform-slack-creds
+          requires:
+            - pause_workflow
 
   api_handler_run-prod:
     when: 
