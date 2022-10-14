@@ -16,7 +16,7 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - artifact_promotion:
-          from: s3://iq-artifacts-cicd-uswest2/dshah/<<parameters.appName>>/<<parameters.version>>.zip
+          from: s3://iq-artifacts-cicd-uswest2/dshah/<<parameters.appName>>/<<parameters.appName>>-<<parameters.version>>.zip
           to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/latest.zip
       - create_versioned_assets:
           from: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/latest.zip
