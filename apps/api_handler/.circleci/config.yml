@@ -56,7 +56,6 @@ workflows:
         - equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
     jobs:
       - artifact_promoter:
-          name: artifact_promototer
           target-env: "prod "
           appName   : "api-handler"
           version: << pipeline.parameters.promoting_version >>
