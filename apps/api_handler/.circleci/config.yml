@@ -61,7 +61,7 @@ workflows:
           directory : "api_handler"
           version: << pipeline.parameters.promoting_version >>
           context: 
-            - dev-aws-user-creds
+            - cicd-aws-user-creds
       - app_starter:
           name: app-starter-for-prod
           target-env: "dshah"
