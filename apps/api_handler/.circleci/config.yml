@@ -48,9 +48,7 @@ workflows:
             - pause_workflow
 
   api_handler_run-prod:
-    when: 
-      and: 
-        - equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
+    when: << pipeline.parameters.run-api_handler-prod >>
         # - matches: 
         #     pattern: /.*\d+\.\d+\.\d+$/ 
         #     value: << pipeline.parameters.promoting_version >>
