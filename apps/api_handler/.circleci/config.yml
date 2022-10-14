@@ -51,9 +51,9 @@ workflows:
     when: 
       and: 
         - equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
-        - matches: 
-            pattern: /.*\d+\.\d+\.\d+$/ 
-            value: << pipeline.parameters.promoting_version >>
+        # - matches: 
+        #     pattern: /.*\d+\.\d+\.\d+$/ 
+        #     value: << pipeline.parameters.promoting_version >>
     jobs:
       - artifact_promoter:
           name: artifact-promototer
