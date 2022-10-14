@@ -58,6 +58,7 @@ workflows:
       - artifact_promoter:
           target-env: "prod"
           appName   : "api-handler"
+          directory : "api_handler"
           version: << pipeline.parameters.promoting_version >>
           context: 
             - dev-aws-user-creds
