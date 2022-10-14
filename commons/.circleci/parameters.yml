@@ -8,6 +8,8 @@ parameters:
   run-partner_profile:
     type: boolean
     default: false
+  promoting_version:
+    type: string
   tf-dev_api_handler:
     type: boolean
     default: false

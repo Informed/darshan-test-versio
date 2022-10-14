@@ -61,6 +61,22 @@ commands:
           from: <<parameters.from>>
           to  : <<parameters.to>>
 
+########################################
+##### ARTIFACT PROMOTION COMMANDS ######
+########################################
+
+  artifact_promotion:
+    parameters:
+      from:
+        type: string
+      to:
+        type: string
+    steps:
+      - aws-s3/copy:
+          aws-region: AWS_REGION
+          from: <<parameters.from>>
+          to  : <<parameters.to>>
+
 ################################
 ##### APP Starter COMMANDS #####
 ################################

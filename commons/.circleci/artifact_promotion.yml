@@ -1,0 +1,24 @@
+jobs:
+  artifact_promoter:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    executor:
+      name: python/default
+      tag: "3.8"
+    parameters:
+      target-env:
+        type: string
+      appName:
+        type: string
+      version:
+        type: string
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - artifact_promotion:
+          from: s3://iq-artifacts-cicd-uswest2/dshah/<<parameters.appName>>/<<parameters.version>>.zip
+          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/latest.zip
+      - create_versioned_assets:
+          from: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/latest.zip
+          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/${CIRCLE_TAG}.zip
+      

@@ -44,41 +44,32 @@ workflows:
           context: 
             - dev-aws-user-creds
             - cicd-platform-slack-creds
-          requires:
-            - pause_workflow
 
   api_handler_run-prod:
-    when: << pipeline.parameters.run-api_handler-prod >>
+    when: 
+      and: 
+        - equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
+        - matches: 
+            pattern: /.*\d+\.\d+\.\d+-prod$/ 
+            value: << pipeline.parameters.promoting_version >>
     jobs:
-      - init:
-          target-env: "sand/dshah"
-          appName   : "api_handler"
+      - artifact_promoter:
+          name: artifact-promototer
+          target-env: "prod "
+          appName   : "api-handler"
+          version: << pipeline.parameters.promoting_version >>
           context: 
-            - cicd-aws-user-creds
-      - app_testing:
-          appName   : "api_handler"
-          context:
-            - dshah-aws-user-creds
-          requires:
-            - init
-      - app_builder:
-          target-env: "dshah"
-          appName   : "api_handler"
-          context: 
-            - cicd-aws-user-creds
-            - cicd-platform-slack-creds
-          requires:
-            - app_testing
+            - dev-aws-user-creds
       - app_starter:
           name: app-starter-for-prod
-          target-env: "dshah"
+          target-env: "prod"
           appName   : "api-handler"
           directory : "api_handler"
           context: 
             - dshah-aws-user-creds
             - cicd-platform-slack-creds
           requires:
-            - app_builder
+            - artifact_promoter
       - slack/on-hold:
           mentions: '@dow-platform'
           context: 
