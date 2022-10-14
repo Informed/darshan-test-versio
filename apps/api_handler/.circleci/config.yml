@@ -48,10 +48,12 @@ workflows:
   #           - pause_workflow
 
   api_handler_run-prod:
-    when: << pipeline.parameters.run-api_handler-prod >>
+    when: 
+      and:
         - matches: 
             pattern: /.*\d+\.\d+\.\d+$/ 
             value: << pipeline.parameters.promoting_version >>
+        - equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
     jobs:
       - artifact_promoter:
           name: artifact-promototer
