@@ -11,6 +11,9 @@ parameters:
   run-api_handler-prod:
     type: boolean
     default: false
+  promoting_version:
+    type: string
+    default: ""
   run-partner_profile:
     type: boolean
     default: false

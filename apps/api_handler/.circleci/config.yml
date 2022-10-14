@@ -55,13 +55,13 @@ workflows:
             value: << pipeline.parameters.promoting_version >>
         - equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
     jobs:
-      # - artifact_promoter:
-      #     name: artifact-promototer
-      #     target-env: "prod "
-      #     appName   : "api-handler"
-      #     version: << pipeline.parameters.promoting_version >>
-      #     context: 
-      #       - dev-aws-user-creds
+      - artifact_promoter:
+          name: artifact-promototer
+          target-env: "prod "
+          appName   : "api-handler"
+          version: << pipeline.parameters.promoting_version >>
+          context: 
+            - dev-aws-user-creds
       - app_starter:
           name: app-starter-for-prod
           target-env: "dshah"
@@ -70,8 +70,8 @@ workflows:
           context: 
             - dshah-aws-user-creds
             - cicd-platform-slack-creds
-          # requires:
-          #   - artifact_promoter
+          requires:
+            - artifact_promoter
       - slack/on-hold:
           mentions: '@dow-platform'
           context: 
