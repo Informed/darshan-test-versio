@@ -14,10 +14,13 @@ parameters:
   version:
     type: string
     default: ""
+  tf-version:
+    type: string
+    default: "1.2.7"
   run-partner_profile:
     type: boolean
     default: false
-  tf-dev_api_handler:
+  tf-api_handler:
     type: boolean
     default: false
   tf-dev_partner_profile:
@@ -50,7 +53,7 @@ workflows:
           mapping: |
             apps/api_handler/.* run-api_handler true
             apps/partner_profile/.* run-partner_profile true
-#            infrastructure/api_handler/sand/dshah.* tf-dev_api_handler true
+            infrastructure/api_handler/.* tf-api_handler true
 #            infrastructure/partner_profile/sand/dshah.* tf-dev_partner_profile tru
           base-revision: main
           requires:

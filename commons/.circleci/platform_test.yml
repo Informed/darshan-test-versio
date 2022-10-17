@@ -1,0 +1,15 @@
+jobs:
+  tf-test:
+    parameters:
+      appName:
+        type: string
+    steps:
+      - terraform/fmt:
+          checkout: true
+          path: <<parameters.target-env>>/<<parameters.appName>>
+          recursive: true
+          tag: << pipeline.parameters.tf-version >>
+      - terraform/validate:
+          checkout: true
+          path: <<parameters.target-env>>/<<parameters.appName>>
+          tag: << pipeline.parameters.tf-version >>

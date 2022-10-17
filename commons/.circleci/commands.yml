@@ -130,60 +130,7 @@ commands:
 ###### TERRAFORM DEPLOY #######
 ###############################
 
-  tf-init:
-    parameters:
-      appName:
-        default: ""
-        type: string
-      target-env:
-        default: ""
-        type: string
-    steps:
-      - run:
-          name: terraform init
-          command: |
-            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-            terraform init -input=false
-            echo "copying..."
-            cat ~/.aws/credentials 
-            cp ~/.aws/credentials /root/project/
-            ls
-
-  tf-plan:
-    parameters:
-      appName:
-        default: ""
-        type: string
-      target-env:
-        default: ""
-        type: string
-    steps:
-      - run:
-          name: plan
-          command: |
-            aws configure --profile cicd set region ${CICD_AWS_REGION}
-            aws configure --profile cicd set access_key ${CICD_AWS_USER_ID}
-            aws configure --profile cicd set scret_key ${CICD_AWS_SECRET_KEY}
-            aws configure list
-            cat ~/.aws/config
-            cat ~/.aws/credentials
-            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-            terraform init
-            terraform plan -out tfapply -lock=false
-  tf-apply:
-    parameters:
-      appName:
-        default: ""
-        type: string
-      target-env:
-        default: ""
-        type: string
-    steps:
-      - run:
-          name: apply
-          command: |
-            cd infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-            terraform apply -auto-approve tfapply
+# Write Custom TF code here
 
 ################################
 ###### Push Notifications ######

@@ -1,0 +1,9 @@
+version: 2.1
+
+workflows:
+  api_handler_tf:
+    when: << pipeline.parameters.tf-api_handler >>
+    jobs:
+      - tf-test:
+          appName: api-handler
+          target-env: sand/dshah

@@ -1,11 +1,5 @@
-executors:
-  terraform:
-    docker:
-      - image: hashicorp/terraform:1.2.7
-
 jobs:
   init:
-    executor: terraform
     parameters:
       target-env:
         type: string
@@ -13,12 +7,6 @@ jobs:
         type: string
     steps:
       - checkout
-      - aws-cli/setup:
-          profile-name: cicd
       - tf-init:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .

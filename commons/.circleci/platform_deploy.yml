@@ -1,16 +1,11 @@
 jobs:
   plan-apply:
-    executor: terraform
     parameters:
       target-env:
         type: string
       appName:
         type: string
     steps:
-      - attach_workspace:
-          at: .
-      - aws-cli/setup:
-          profile-name: darshan-shah
       - tf-plan:
           appName: <<parameters.appName>>
           target-env: <<parameters.target-env>>
