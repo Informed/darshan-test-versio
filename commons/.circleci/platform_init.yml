@@ -1,6 +1,6 @@
 executors:
   default:
-    working_directory: infrastructure/
+    working_directory: ~/
     docker:
       - image: hashicorp/terraform:1.2.7
 
