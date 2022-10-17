@@ -76,7 +76,6 @@ commands:
     steps:
       - aws-s3/copy:
           aws-region: AWS_REGION
-          arguments: '--tagging '{"TagSet": [{ "Key": "dev-version", "Value": "<<parameters.version>>" }]}''
           from: <<parameters.from>>
           to  : <<parameters.to>>
 
