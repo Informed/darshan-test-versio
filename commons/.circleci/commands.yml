@@ -71,8 +71,6 @@ commands:
         type: string
       to:
         type: string
-      version:
-        type: string
     steps:
       - aws-s3/copy:
           aws-region: AWS_REGION
