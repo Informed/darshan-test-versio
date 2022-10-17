@@ -17,7 +17,7 @@ workflows:
           context: 
             - cicd-aws-user-creds
       - app_starter:
-          name: app-starter-for-dev
+          name: app-starter-for-prod
           target-env: "dev"
           appName   : "api-handler"
           directory : "api_handler"

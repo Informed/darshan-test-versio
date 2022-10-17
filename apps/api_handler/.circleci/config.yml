@@ -34,7 +34,7 @@ workflows:
           requires:
             - app_testing
       - app_starter:
-          name: app-starter-for-staging
+          name: app-starter-for-dev
           target-env: "dshah"
           appName   : "api-handler"
           directory : "api_handler"
