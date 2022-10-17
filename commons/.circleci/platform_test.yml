@@ -3,6 +3,8 @@ jobs:
     parameters:
       appName:
         type: string
+      target-env:
+        type: string
     steps:
       - terraform/fmt:
           checkout: true

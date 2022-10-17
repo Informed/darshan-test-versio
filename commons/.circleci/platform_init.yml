@@ -1,12 +1,12 @@
-jobs:
-  init:
-    parameters:
-      target-env:
-        type: string
-      appName:
-        type: string
-    steps:
-      - checkout
-      - tf-init:
-          appName: <<parameters.appName>>
-          target-env: <<parameters.target-env>>
+# jobs:
+#   init:
+#     parameters:
+#       target-env:
+#         type: string
+#       appName:
+#         type: string
+#     steps:
+#       - checkout
+#       - tf-init:
+#           appName: <<parameters.appName>>
+#           target-env: <<parameters.target-env>>
