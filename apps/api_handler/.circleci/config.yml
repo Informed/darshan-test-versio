@@ -50,7 +50,7 @@ workflows:
           requires:
             - pause_workflow
 
-  api_handler_run:
+  api_handler_run_PR:
     when: 
       and:
         - equal: [ true, << pipeline.parameters.run-api_handler >> ]
