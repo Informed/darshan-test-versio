@@ -15,8 +15,8 @@ jobs:
     steps:
       - checkout
       - terraform/init:
-          path: <<parameters.appName>>/<<parameters.target-env>>
+          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
       - terraform/fmt:
-          path: <<parameters.appName>>/<<parameters.target-env>>
+          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
       - terraform/validate:
-          path: <<parameters.appName>>/<<parameters.target-env>>
+          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
