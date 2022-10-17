@@ -5,6 +5,7 @@ jobs:
         type: string
       target-env:
         type: string
+    executor: terraform/default
     steps:
       - terraform/fmt:
           checkout: true
