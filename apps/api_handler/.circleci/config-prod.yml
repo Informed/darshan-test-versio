@@ -1,0 +1,48 @@
+version: 2.1
+
+workflows:
+  api_handler_run-prod:
+    when: 
+      and:
+        - matches: 
+            pattern: /.*\d+\.\d+\.\d+$/ 
+            value: << pipeline.parameters.version >>
+        - equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
+    jobs:
+      - artifact_promoter:
+          target-env: "prod"
+          appName   : "api-handler"
+          directory : "api_handler"
+          version: << pipeline.parameters.version >>
+          context: 
+            - cicd-aws-user-creds
+      - app_starter:
+          name: app-starter-for-prod
+          target-env: "dshah"
+          appName   : "api-handler"
+          directory : "api_handler"
+          context: 
+            - dshah-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - artifact_promoter
+      - slack/on-hold:
+          mentions: '@dow-platform'
+          context: 
+            - cicd-platform-slack-creds
+          requires:
+            - app-starter-for-prod
+      - pause_workflow:
+          type: approval
+          requires:
+            - slack/on-hold
+      - app_starter:
+          name: app-starter-for-dev
+          target-env: "dev"
+          appName   : "api-handler"
+          directory : "api_handler"
+          context: 
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - pause_workflow
