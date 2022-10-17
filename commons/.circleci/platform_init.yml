@@ -6,6 +6,7 @@ jobs:
       appName:
         type: string
     working_directory: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+    executor: terraform/default
     steps:
       - checkout
       - terraform/fmt:
