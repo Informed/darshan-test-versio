@@ -17,3 +17,4 @@ jobs:
           appName: <<parameters.appName>>
       - py_tests:
           appName: <<parameters.appName>>
+      - notify_slack_error
