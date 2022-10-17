@@ -21,3 +21,4 @@ jobs:
           appName: <<parameters.appName>>
           directory: <<parameters.directory>>
       - notify_slack_error
+      - completed_slack_notification
