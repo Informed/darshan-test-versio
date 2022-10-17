@@ -1,6 +1,6 @@
 executors:
   default:
-    working_directory: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+    working_directory: infrastructure/
     docker:
       - image: hashicorp/terraform:1.2.7
 
@@ -15,8 +15,8 @@ jobs:
     steps:
       - checkout
       - terraform/init:
-          path: .
+          path: <<parameters.appName>>/<<parameters.target-env>>
       - terraform/fmt:
-          path: .
+          path: <<parameters.appName>>/<<parameters.target-env>>
       - terraform/validate:
-          path: .
+          path: <<parameters.appName>>/<<parameters.target-env>>
