@@ -4,6 +4,6 @@ workflows:
   api_handler_tf:
     when: << pipeline.parameters.tf-api_handler >>
     jobs:
-      - tf-test:
-          appName: api-handler
+      - init:
+          appName: api_handler
           target-env: sand/dshah

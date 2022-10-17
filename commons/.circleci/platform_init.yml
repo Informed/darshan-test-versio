@@ -1,12 +1,18 @@
-# jobs:
-#   init:
-#     parameters:
-#       target-env:
-#         type: string
-#       appName:
-#         type: string
-#     steps:
-#       - checkout
-#       - tf-init:
-#           appName: <<parameters.appName>>
-#           target-env: <<parameters.target-env>>
+jobs:
+  init:
+    parameters:
+      target-env:
+        type: string
+      appName:
+        type: string
+    working_directory: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+    steps:
+      - checkout
+      - terraform/fmt:
+          path: .
+      - terraform/validate:
+          path: .
+      - terraform/install:
+          arch: amd64
+          os: linux
+          terraform_version: 0.14.2
