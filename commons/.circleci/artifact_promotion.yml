@@ -22,5 +22,5 @@ jobs:
           to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/latest.zip
       - create_versioned_assets:
           from: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/latest.zip
-          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/${CIRCLE_TAG}-prod.zip
+          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/<<parameters.version>>-prod.zip
       

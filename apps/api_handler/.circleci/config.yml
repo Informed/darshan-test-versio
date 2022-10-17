@@ -52,14 +52,14 @@ workflows:
       and:
         - matches: 
             pattern: /.*\d+\.\d+\.\d+$/ 
-            value: << pipeline.parameters.promoting_version >>
+            value: << pipeline.parameters.version >>
         - equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
     jobs:
       - artifact_promoter:
           target-env: "prod"
           appName   : "api-handler"
           directory : "api_handler"
-          version: << pipeline.parameters.promoting_version >>
+          version: << pipeline.parameters.version >>
           context: 
             - cicd-aws-user-creds
       - app_starter:
