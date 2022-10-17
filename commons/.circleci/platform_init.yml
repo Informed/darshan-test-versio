@@ -1,3 +1,9 @@
+executors:
+  default:
+    working_directory: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+    docker:
+      - image: hashicorp/terraform:1.2.7
+
 jobs:
   init:
     parameters:
@@ -5,12 +11,7 @@ jobs:
         type: string
       appName:
         type: string
-    
-executors:
-  default:
-    working_directory: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-    docker:
-      - image: hashicorp/terraform:1.2.7
+    executor: default
     steps:
       - checkout
       - terraform/init:
