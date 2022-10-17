@@ -1,6 +1,19 @@
 version: 2.1
 
 workflows:
+  api_handler_run_PR:
+    when: 
+      and:
+        - equal: [ true, << pipeline.parameters.run-api_handler >> ]
+        - not:
+            equal: [ main, << pipeline.git.branch >> ]
+    jobs:
+      - app_testing:
+          appName   : "api_handler"
+          context:
+            - dshah-aws-user-creds
+            - cicd-platform-slack-creds
+
   api_handler_run:
     when: 
       and:
@@ -49,16 +62,3 @@ workflows:
             - cicd-platform-slack-creds
           requires:
             - pause_workflow
-
-  api_handler_run_PR:
-    when: 
-      and:
-        - equal: [ true, << pipeline.parameters.run-api_handler >> ]
-        - not:
-            equal: [ main, << pipeline.git.branch >> ]
-    jobs:
-      - app_testing:
-          appName   : "api_handler"
-          context:
-            - dshah-aws-user-creds
-            - cicd-platform-slack-creds
