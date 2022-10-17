@@ -31,11 +31,11 @@ workflows:
   always-run:
     jobs:
       - split-config/generate-config:
-          fixed-config-paths: |
-            ./apps/api_handler/.circleci/config.yml
-            ./apps/partner_profile/.circleci/config.yml
-            ./infrastructure/.circleci/config.yml
-          find-config-regex: \./commons/\.circleci/.*\.yml
+          find-config-regex: |
+             \./commons/\.circleci/.*\.yml
+             \./apps/api_handler/.circleci/*.yml
+             \./apps/partner_profile/.circleci/*.yml
+             \./infrastructure/.circleci/*.yml
           generated-config-path: /tmp/generated_config.yml
           continuation: false
           post-steps:
