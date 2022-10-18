@@ -39,6 +39,7 @@ workflows:
           version: << pipeline.parameters.version >>
           context: 
             - cicd-aws-user-creds
+            - cicd-platform-slack-creds
           requires:
             - tf-apply
       - app_starter:
