@@ -15,7 +15,7 @@ jobs:
           recursive: true
       - terraform/validate:
           path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
-          tag: << pipeline.parameters.tf-version >>
+          recursive: true
       - persist_to_workspace:
           root: .
           paths:
