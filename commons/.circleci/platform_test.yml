@@ -9,12 +9,11 @@ jobs:
       name: terraform/default
       tag: 1.2.7
     steps:
+      - checkout
       - terraform/fmt:
-          checkout: true
           path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
           recursive: true
       - terraform/validate:
-          checkout: true
           path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
           tag: << pipeline.parameters.tf-version >>
       - persist_to_workspace:
