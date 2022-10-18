@@ -5,7 +5,9 @@ jobs:
         type: string
       target-env:
         type: string
-    executor: terraform/default
+    executor:
+      name: terraform/default
+      tag: 1.2.7
     steps:
       - terraform/fmt:
           checkout: true

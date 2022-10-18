@@ -5,6 +5,9 @@ jobs:
         type: string
       appName:
         type: string
+    executor:
+      name: terraform/default
+      tag: 1.2.7
     steps:
       - attach_workspace:
           at: .
