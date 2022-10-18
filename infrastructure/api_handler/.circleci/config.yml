@@ -30,4 +30,4 @@ workflows:
             branches:
               only: main
           requires:
-            - tf-planupdate
+            - tf-plan
