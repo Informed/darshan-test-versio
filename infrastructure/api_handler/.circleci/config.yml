@@ -19,15 +19,15 @@ workflows:
           appName   : "api_handler"
           context: 
             - cicd-deployer-aws-user
+          requires:
+            - tf-test
       - tf-apply:
           target-env: "sand/dshah"
           appName   : "api_handler"
           context: 
             - cicd-deployer-aws-user
-      # - approve-terraform-apply:
-      #     type: approval
-      #     filters:
-      #       branches:
-      #         only: main
-      #     requires:
-      #       - terraform-plan
+          filters:
+            branches:
+              only: main
+          requires:
+            - tf-apply
