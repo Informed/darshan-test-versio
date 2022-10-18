@@ -1,0 +1,17 @@
+jobs:
+  tf-plan:
+    parameters:
+      target-env:
+        type: string
+      appName:
+        type: string
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - terraform/plan:
+          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .

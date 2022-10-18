@@ -1,0 +1,13 @@
+jobs:
+  tf-apply:
+    parameters:
+      target-env:
+        type: string
+      appName:
+        type: string
+    steps:
+      - attach_workspace:
+          at: .
+      - checkout
+      - terraform/apply:
+          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>

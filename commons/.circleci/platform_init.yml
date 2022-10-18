@@ -12,7 +12,6 @@ jobs:
         default: .
     executor:
       name: terraform/default
-      tag: 1.2.7
     steps:
       - checkout
       - terraform/fmt:
@@ -61,8 +60,4 @@ jobs:
       name: terraform/default
       tag: 1.2.7
     steps:
-      - attach_workspace:
-          at: .
-      - checkout
-      - terraform/apply:
-          path: << parameters.iacPath >>
+

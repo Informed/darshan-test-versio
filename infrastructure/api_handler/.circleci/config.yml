@@ -4,20 +4,21 @@ workflows:
   tf-api_handler:
     when: << pipeline.parameters.tf-api_handler >>
     jobs:
-      - terraform-format:
-          iacPath: infrastructure/api_handler/sand/dshah
-      - terraform-validate:
-          iacPath: infrastructure/api_handler/sand/dshah
-          context:
+      - tf-test:
+          target-env: "sand/dshah"
+          appName   : "api_handler"
+          context: 
             - cicd-deployer-aws-user
-          requires:
-            - terraform-format
-      - terraform-plan:
-          iacPath: infrastructure/api_handler/sand/dshah
-          context:
+      - tf-plan:
+          target-env: "sand/dshah"
+          appName   : "api_handler"
+          context: 
             - cicd-deployer-aws-user
-          requires:
-            - terraform-validate
+      - tf-apply:
+          target-env: "sand/dshah"
+          appName   : "api_handler"
+          context: 
+            - cicd-deployer-aws-user
       # - approve-terraform-apply:
       #     type: approval
       #     filters:

@@ -9,10 +9,13 @@ jobs:
     steps:
       - terraform/fmt:
           checkout: true
-          path: <<parameters.target-env>>/<<parameters.appName>>
+          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
           recursive: true
-          tag: << pipeline.parameters.tf-version >>
       - terraform/validate:
           checkout: true
-          path: <<parameters.target-env>>/<<parameters.appName>>
+          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
           tag: << pipeline.parameters.tf-version >>
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
