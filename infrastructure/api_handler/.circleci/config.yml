@@ -1,10 +1,5 @@
 version: 2.1
 
-executors:
-  default:
-    docker:
-      - image: hashicorp/terraform:1.2.7
-
 workflows:
   tf-api_handler:
     when: << pipeline.parameters.tf-api_handler >>

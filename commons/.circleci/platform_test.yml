@@ -7,7 +7,7 @@ jobs:
         type: string
     executor:
       name: terraform/default
-      tag: 1.2.7
+      tag: <<pipeline.parameters.tf-version>>
     steps:
       - checkout
       - terraform/fmt:
