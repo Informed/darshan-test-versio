@@ -13,6 +13,7 @@ jobs:
     executor: default
     steps:
       - checkout
+      - check_tf
       - terraform/init:
           path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
       - terraform/fmt:

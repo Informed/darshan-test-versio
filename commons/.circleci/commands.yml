@@ -124,7 +124,13 @@ commands:
 ###### TERRAFORM TEST ##########
 ################################
 
-# Write TF Tests here
+  check_tf:
+    steps:
+      - run:
+          name: Create Package
+          command: |
+              pwd
+              ls
 
 ###############################
 ###### TERRAFORM DEPLOY #######
