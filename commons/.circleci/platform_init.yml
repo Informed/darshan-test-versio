@@ -1,63 +1,63 @@
-executors:
-  default:
-    docker:
-      - image: hashicorp/terraform:1.2.7
+# executors:
+#   default:
+#     docker:
+#       - image: hashicorp/terraform:1.2.7
 
-jobs:
-  terraform-format:
-    parameters:
-      iacPath:
-        description: A relative path where Terraform code lives from Git repo.
-        type: string
-        default: .
-    executor:
-      name: terraform/default
-    steps:
-      - checkout
-      - terraform/fmt:
-          path: << parameters.iacPath >>
-          recursive: true
+# jobs:
+#   terraform-format:
+#     parameters:
+#       iacPath:
+#         description: A relative path where Terraform code lives from Git repo.
+#         type: string
+#         default: .
+#     executor:
+#       name: terraform/default
+#     steps:
+#       - checkout
+#       - terraform/fmt:
+#           path: << parameters.iacPath >>
+#           recursive: true
 
-  terraform-validate:
-    parameters:
-      iacPath:
-        description: A relative path where Terraform code lives from Git repo.
-        type: string
-        default: .
-    executor:
-      name: terraform/default
-      tag: 1.2.7
-    steps:
-      - checkout
-      - terraform/validate:
-          path: << parameters.iacPath >>
+#   terraform-validate:
+#     parameters:
+#       iacPath:
+#         description: A relative path where Terraform code lives from Git repo.
+#         type: string
+#         default: .
+#     executor:
+#       name: terraform/default
+#       tag: 1.2.7
+#     steps:
+#       - checkout
+#       - terraform/validate:
+#           path: << parameters.iacPath >>
 
-  terraform-plan:
-    parameters:
-      iacPath:
-        description: A relative path where Terraform code lives from Git repo.
-        type: string
-        default: .
-    executor:
-      name: terraform/default
-      tag: 1.2.7
-    steps:
-      - checkout
-      - terraform/plan:
-          path: << parameters.iacPath >>
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+#   terraform-plan:
+#     parameters:
+#       iacPath:
+#         description: A relative path where Terraform code lives from Git repo.
+#         type: string
+#         default: .
+#     executor:
+#       name: terraform/default
+#       tag: 1.2.7
+#     steps:
+#       - checkout
+#       - terraform/plan:
+#           path: << parameters.iacPath >>
+#       - persist_to_workspace:
+#           root: .
+#           paths:
+#             - .
 
-  terraform-apply:
-    parameters:
-      iacPath:
-        description: A relative path where Terraform code lives from Git repo.
-        type: string
-        default: .
-    executor:
-      name: terraform/default
-      tag: 1.2.7
-    steps:
+#   terraform-apply:
+#     parameters:
+#       iacPath:
+#         description: A relative path where Terraform code lives from Git repo.
+#         type: string
+#         default: .
+#     executor:
+#       name: terraform/default
+#       tag: 1.2.7
+#     steps:
 
