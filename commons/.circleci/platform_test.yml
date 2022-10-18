@@ -8,6 +8,7 @@ jobs:
     executor:
       name: terraform/default
       tag: <<pipeline.parameters.tf-version>>
+    parallelism: 2
     steps:
       - checkout
       - terraform/fmt:
