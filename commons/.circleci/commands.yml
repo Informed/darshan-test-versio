@@ -132,7 +132,8 @@ commands:
               pwd
               ls
               cd infrastructure/api_handler/sand/dshah
-              
+              ls
+
 
 ###############################
 ###### TERRAFORM DEPLOY #######
