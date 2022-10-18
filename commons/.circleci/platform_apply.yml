@@ -11,6 +11,5 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - checkout
       - terraform/apply:
           path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
