@@ -44,8 +44,5 @@ workflows:
           appName   : "partner_profile"
           context: 
             - cicd-deployer-aws-user
-          filters:
-            branches:
-              only: main
           requires:
             - tf-plan-partner_profile

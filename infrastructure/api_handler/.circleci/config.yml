@@ -44,8 +44,5 @@ workflows:
           appName   : "api_handler"
           context: 
             - cicd-deployer-aws-user
-          filters:
-            branches:
-              only: main
           requires:
             - tf-plan-api_handler

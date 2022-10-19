@@ -11,12 +11,67 @@ workflows:
         - equal: [ true, << pipeline.parameters.api_call>> ]
         - equal: [ main, << pipeline.git.branch >> ]
     jobs:
+      - artifact_promoter:
+          name: artifact-promoter-partner_profile-prod
+          target-env: "dev"
+          appName   : "partner-profile"
+          directory : "partner_profile"
+          version: << pipeline.parameters.version >>
+          context: 
+            - cicd-aws-user-creds
+            - cicd-platform-slack-creds
+      - tf-test:
+          name: tf-tester-api_handler-stag
+          target-env: "sand/dshah"
+          appName   : "partner_profile"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - artifact-promoter-partner_profile-prod
+      - tf-plan:
+          name: tf-plan-partner_profile-stag
+          target-env: "sand/dshah"
+          appName   : "partner_profile"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-tester-api_handler-stag
+      - tf-apply:
+          name: tf-apply-partner_profile-stag
+          target-env: "sand/dshah"
+          appName   : "partner_profile"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-plan-partner_profile-stag
+      - app_starter:
+          name: app-starter-partner_profile-stag
+          target-env: "dev"
+          appName   : "partner-profile"
+          directory : "partner_profile"
+          context: 
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - tf-apply-partner_profile-stag
+      # - slack/on-hold:
+      #     mentions: '@dow-platform'
+      #     context: 
+      #       - cicd-platform-slack-creds
+      #     requires:
+      #       - app-starter-for-dev
+      - pause_workflow:
+          type: approval
+          requires:
+            - app-starter-partner_profile-stag
       - tf-test:
           name: tf-tester-api_handler-prod
           target-env: "sand/dshah"
           appName   : "partner_profile"
           context: 
             - cicd-deployer-aws-user
+          requires:
+            - pause_workflow
       - tf-plan:
           name: tf-plan-partner_profile-prod
           target-env: "sand/dshah"
@@ -31,24 +86,10 @@ workflows:
           appName   : "partner_profile"
           context: 
             - cicd-deployer-aws-user
-          filters:
-            branches:
-              only: main
           requires:
             - tf-plan-partner_profile-prod
-      - artifact_promoter:
-          name: artifact-promoter-partner_profile-prod
-          target-env: "dev"
-          appName   : "partner-profile"
-          directory : "partner_profile"
-          version: << pipeline.parameters.version >>
-          context: 
-            - cicd-aws-user-creds
-            - cicd-platform-slack-creds
-          requires:
-            - tf-apply-partner_profile-prod
       - app_starter:
-          name: app-starter-partner_profile-dev
+          name: app-starter-for-dev
           target-env: "dev"
           appName   : "partner-profile"
           directory : "partner_profile"
@@ -56,24 +97,4 @@ workflows:
             - dev-aws-user-creds
             - cicd-platform-slack-creds
           requires:
-            - artifact-promoter-partner_profile-prod
-      # - slack/on-hold:
-      #     mentions: '@dow-platform'
-      #     context: 
-      #       - cicd-platform-slack-creds
-      #     requires:
-      #       - app-starter-for-dev
-      # - pause_workflow:
-      #     type: approval
-      #     requires:
-      #       - slack/on-hold
-      # - app_starter:
-      #     name: app-starter-for-dev
-      #     target-env: "dev"
-      #     appName   : "partner-profile"
-      #     directory : "partner_profile"
-      #     context: 
-      #       - dev-aws-user-creds
-      #       - cicd-platform-slack-creds
-      #     requires:
-      #       - pause_workflow
+            - tf-apply-partner_profile-prod
