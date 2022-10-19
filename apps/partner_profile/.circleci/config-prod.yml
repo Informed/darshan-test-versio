@@ -1,7 +1,7 @@
 version: 2.1
 
 workflows:
-  partner_profile_run-prod:
+  partner_profile-prod:
     when: 
       and:
         - matches: 

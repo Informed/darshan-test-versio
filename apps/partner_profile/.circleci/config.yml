@@ -1,7 +1,7 @@
 version: 2.1
 
 workflows:
-  partner_profile_run_PR:
+  partner_profile_PR:
     when: 
       and:
         - equal: [ true, << pipeline.parameters.run-partner_profile >> ]
@@ -15,7 +15,7 @@ workflows:
             - dshah-aws-user-creds
             - cicd-platform-slack-creds
 
-  partner_profile_run:
+  partner_profile:
     when: 
       and:
         - equal: [ true, << pipeline.parameters.run-partner_profile >> ]

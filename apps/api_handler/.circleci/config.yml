@@ -1,7 +1,7 @@
 version: 2.1
 
 workflows:
-  api_handler_run_PR:
+  api_handler_PR:
     when: 
       and:
         - equal: [ true, << pipeline.parameters.run-api_handler >> ]
@@ -16,7 +16,7 @@ workflows:
             - dshah-aws-user-creds
             - cicd-platform-slack-creds
 
-  api_handler_run:
+  api_handler:
     when: 
       and:
         - equal: [ true, << pipeline.parameters.run-api_handler >> ]
