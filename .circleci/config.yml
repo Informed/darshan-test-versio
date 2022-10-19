@@ -5,28 +5,24 @@ version: 2.1
 setup: true
 
 parameters:
-### Apps Flag ###
   run-api_handler:
     type: boolean
     default: false
   run-partner_profile:
     type: boolean
     default: false
-### Prod Flags ###
  run-api_handler-prod:
     type: boolean
     default: false
  run-partner_profile-prod:
     type: boolean
     default: false
-### Version ###
   version:
     type: string
     default: ""
   tf-version:
     type: string
     default: "1.2.7"
-### Terraform flags ### 
   tf-api_handler:
     type: boolean
     default: false
