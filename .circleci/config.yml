@@ -44,7 +44,7 @@ workflows:
           mapping: |
             apps/api_handler/.* run-api_handler true
             apps/partner_profile/.* run-partner_profile true
-            infrastructure/api_handler/.* tf-api_handler true
+            infrastructure/api_handler/dshah.* tf-api_handler true
             infrastructure/partner_profile/sand/dshah.* tf-partner_profile true
           base-revision: main
           requires:
