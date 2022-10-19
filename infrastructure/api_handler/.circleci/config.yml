@@ -11,6 +11,7 @@ workflows:
             equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - tf-test:
+          name: tf-tester-api_handler
           target-env: "sand/dshah"
           appName   : "api_handler"
           context: 
@@ -24,11 +25,13 @@ workflows:
         - equal: [ false, << pipeline.parameters.api_call>> ] 
     jobs:
       - tf-test:
+          name: tf-tester-api_handler
           target-env: "sand/dshah"
           appName   : "api_handler"
           context: 
             - cicd-deployer-aws-user
       - tf-plan:
+          name: tf-plan-api_handler
           target-env: "sand/dshah"
           appName   : "api_handler"
           context: 
@@ -36,6 +39,7 @@ workflows:
           requires:
             - tf-test
       - tf-apply:
+          name: tf-apply-api_handler
           target-env: "sand/dshah"
           appName   : "api_handler"
           context: 
