@@ -37,7 +37,7 @@ workflows:
           context: 
             - cicd-deployer-aws-user
           requires:
-            - tf-test
+            - tf-tester-api_handler
       - tf-apply:
           name: tf-apply-api_handler
           target-env: "sand/dshah"
@@ -48,4 +48,4 @@ workflows:
             branches:
               only: main
           requires:
-            - tf-plan
+            - tf-plan-api_handler

@@ -24,7 +24,7 @@ workflows:
           context: 
             - cicd-deployer-aws-user
           requires:
-            - tf-test
+            - tf-tester-api_handler-prod
       - tf-apply:
           name: tf-apply-api_handler-prod
           target-env: "sand/dshah"
@@ -35,7 +35,7 @@ workflows:
             branches:
               only: main
           requires:
-            - tf-plan
+            - tf-plan-api_handler-prod
       - artifact_promoter:
           name: artifact-promotion-api_handler-prod
           target-env: "dev"
@@ -46,7 +46,7 @@ workflows:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
           requires:
-            - tf-apply
+            - tf-apply-api_handler-prod
       - app_starter:
           name: app-starter-prod
           target-env: "dev"
@@ -56,7 +56,7 @@ workflows:
             - dev-aws-user-creds
             - cicd-platform-slack-creds
           requires:
-            - artifact_promoter
+            - artifact-promotion-api_handler-prod
       # - slack/on-hold:
       #     mentions: '@dow-platform'
       #     context: 

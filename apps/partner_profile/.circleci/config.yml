@@ -36,7 +36,7 @@ workflows:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
           requires:
-            - app_testing
+            - app-tester-partner_profile
       - app_starter:
           name: app-starter-partner_profile-dshah
           target-env: "dshah"
@@ -46,4 +46,4 @@ workflows:
             - dshah-aws-user-creds
             - cicd-platform-slack-creds
           requires:
-            - app_builder
+            - app-builder-partner_profile
