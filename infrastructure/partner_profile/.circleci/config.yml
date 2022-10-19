@@ -4,7 +4,7 @@ workflows:
 
   tf-partner_profile_PR:
     when: 
-      - and:
+      and:
         - equal: [ true, << pipeline.parameters.tf-partner_profile >> ]
         - equal: [ false, << pipeline.parameters.api_call>> ]
         - not:
@@ -18,7 +18,7 @@ workflows:
 
   tf-partner_profile:
     when:
-      - and:
+      and:
         - equal: [ true, << pipeline.parameters.tf-partner_profile >> ]
         - equal: [ main, << pipeline.git.branch >> ]
         - equal: [ false, << pipeline.parameters.api_call>> ] 
