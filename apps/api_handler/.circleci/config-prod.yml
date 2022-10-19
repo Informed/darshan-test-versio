@@ -48,7 +48,7 @@ workflows:
           requires:
             - tf-apply-api_handler-prod
       - app_starter:
-          name: app-starter-prod
+          name: app-starter-api_handler-prod
           target-env: "dev"
           appName   : "api-handler"
           directory : "api_handler"

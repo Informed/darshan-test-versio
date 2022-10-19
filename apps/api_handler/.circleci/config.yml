@@ -39,7 +39,7 @@ workflows:
           requires:
             - app-tester-api_handler
       - app_starter:
-          name: app-starter-dev
+          name: app-starter-api_handler-dshah
           target-env: "dshah"
           appName   : "api-handler"
           directory : "api_handler"
