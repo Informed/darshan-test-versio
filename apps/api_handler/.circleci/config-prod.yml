@@ -8,6 +8,7 @@ workflows:
             pattern: /.*\d+\.\d+\.\d+$/ 
             value: << pipeline.parameters.version >>
         - equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
+        - equal: [ true, << pipeline.parameters.api_call>> ]
         - equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - tf-test:

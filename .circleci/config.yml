@@ -14,7 +14,10 @@ parameters:
   version:
     type: string
     default: ""
-    
+  api_call:
+    type: boolean
+    default: false
+
 orbs:
   path-filtering: circleci/path-filtering@0.1.1
   split-config: bufferings/split-config@0.1.0

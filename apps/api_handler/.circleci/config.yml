@@ -5,6 +5,7 @@ workflows:
     when: 
       and:
         - equal: [ true, << pipeline.parameters.run-api_handler >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
         - not:
             equal: [ main, << pipeline.git.branch >> ]
     jobs:
@@ -19,6 +20,7 @@ workflows:
       and:
         - equal: [ true, << pipeline.parameters.run-api_handler >> ]
         - equal: [ main, << pipeline.git.branch >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
     jobs:
       - app_testing:
           appName   : "api_handler"
