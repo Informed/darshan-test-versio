@@ -92,7 +92,7 @@ variable "lambda_tracing_mode" {
 }
 
 variable "extra_environment_variables" {
-  description = "Extra environasdasdmasdasdent variables to set"
+  description = "Extra environasdasdasdmasdasdent variables to set"
   type        = map(string)
   default     = {}
 }
