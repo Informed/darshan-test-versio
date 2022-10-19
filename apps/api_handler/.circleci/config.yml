@@ -19,8 +19,6 @@ workflows:
       and:
         - equal: [ true, << pipeline.parameters.run-api_handler >> ]
         - equal: [ main, << pipeline.git.branch >> ]
-        # - not:
-        #     equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
     jobs:
       - app_testing:
           appName   : "api_handler"
