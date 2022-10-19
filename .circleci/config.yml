@@ -57,7 +57,7 @@ workflows:
             apps/api_handler/.* run-api_handler true
             apps/partner_profile/.* run-partner_profile true
             infrastructure/api_handler/.* tf-api_handler true
-#            infrastructure/partner_profile/sand/dshah.* tf-dev_partner_profile tru
+            infrastructure/partner_profile/sand/dshah.* tf-partner_profile true
           base-revision: main
           requires:
             - split-config/generate-config
