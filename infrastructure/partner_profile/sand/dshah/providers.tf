@@ -14,7 +14,7 @@ terraform {
   backend "s3" {
     bucket         = "informed.terraform.us-west-2.sand"
     key            = "dshah/techno-core/partner-profile/terraform.tfstate"
-    role_arn       = "arn:aws:iam::992538905015:role/iq-circleci-iac-deployer-role"
+    role_arn       = "arn:aws:iam::992538905015:role/iq-cicd-deployer-uswest2-role"
     region         = "us-west-2"
     dynamodb_table = "platform-state-locks"
     encrypt        = true
