@@ -22,7 +22,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.region
+  region = var.region
   assume_role {
     role_arn = "arn:aws:iam::072767837607:role/iq-cicd-deployer-uswest2-role"
   }
