@@ -5,6 +5,7 @@ workflows:
     when: 
       and:
         - equal: [ true, << pipeline.parameters.run-partner_profile >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
         - not:
             equal: [ main, << pipeline.git.branch >> ]
     jobs:
@@ -19,8 +20,7 @@ workflows:
       and:
         - equal: [ true, << pipeline.parameters.run-partner_profile >> ]
         - equal: [ main, << pipeline.git.branch >> ]
-        - not:
-            equal: [ true, << pipeline.parameters.run-partner_profile-prod >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
     jobs:
       - app_testing:
           appName   : "partner_profile"
