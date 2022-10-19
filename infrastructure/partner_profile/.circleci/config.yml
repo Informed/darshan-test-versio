@@ -1,19 +1,28 @@
-# version: 2.1
+version: 2.1
 
-# workflows: 
-#   partner_profile_tf:
-#     when: << pipeline.parameters.tf-dev_partner_profile >>
-#     jobs:
-#       - init:
-#           target-env: "sand/dshah"
-#           appName   : "partner_profile"
-#           context: 
-#             - cicd-aws-user-creds
-#       - plan-apply:
-#           target-env: "sand/dshah"
-#           appName   : "partner_profile"
-#           context: 
-#             - cicd-temp-temp-creds
-#             - dshah-aws-user-creds
-#           requires:
-#             - init
+workflows:
+  tf-partner_profile:
+    when: << pipeline.parameters.tf-partner_profile >>
+    jobs:
+      - tf-test:
+          target-env: "sand/dshah"
+          appName   : "partner_profile"
+          context: 
+            - cicd-deployer-aws-user
+      - tf-plan:
+          target-env: "sand/dshah"
+          appName   : "partner_profile"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-test
+      - tf-apply:
+          target-env: "sand/dshah"
+          appName   : "partner_profile"
+          context: 
+            - cicd-deployer-aws-user
+          filters:
+            branches:
+              only: main
+          requires:
+            - tf-plan

@@ -1,0 +1,74 @@
+version: 2.1
+
+workflows:
+  partner_profile_run-prod:
+    when: 
+      and:
+        - matches: 
+            pattern: /.*\d+\.\d+\.\d+$/ 
+            value: << pipeline.parameters.version >>
+        - equal: [ true, << pipeline.parameters.run-partner_profile-prod >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+    jobs:
+      - tf-test:
+          target-env: "sand/dshah"
+          appName   : "partner_profile"
+          context: 
+            - cicd-deployer-aws-user
+      - tf-plan:
+          target-env: "sand/dshah"
+          appName   : "partner_profile"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-test
+      - tf-apply:
+          target-env: "sand/dshah"
+          appName   : "partner_profile"
+          context: 
+            - cicd-deployer-aws-user
+          filters:
+            branches:
+              only: main
+          requires:
+            - tf-plan
+      - artifact_promoter:
+          target-env: "dev"
+          appName   : "partner-profile"
+          directory : "partner_profile"
+          version: << pipeline.parameters.version >>
+          context: 
+            - cicd-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - tf-apply
+      - app_starter:
+          name: app-starter-for-dev
+          target-env: "dev"
+          appName   : "partner-profile"
+          directory : "partner_profile"
+          context: 
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - artifact_promoter
+      # - slack/on-hold:
+      #     mentions: '@dow-platform'
+      #     context: 
+      #       - cicd-platform-slack-creds
+      #     requires:
+      #       - app-starter-for-dev
+      # - pause_workflow:
+      #     type: approval
+      #     requires:
+      #       - slack/on-hold
+      # - app_starter:
+      #     name: app-starter-for-dev
+      #     target-env: "dev"
+      #     appName   : "partner-profile"
+      #     directory : "partner_profile"
+      #     context: 
+      #       - dev-aws-user-creds
+      #       - cicd-platform-slack-creds
+      #     requires:
+      #       - pause_workflow

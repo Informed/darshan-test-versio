@@ -1,13 +1,32 @@
 version: 2.1
 
 workflows:
-  partner_profile_run:
-    when: << pipeline.parameters.run-partner_profile >>
+  partner_profile_run_PR:
+    when: 
+      and:
+        - equal: [ true, << pipeline.parameters.run-partner_profile >> ]
+        - not:
+            equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - app_testing:
           appName   : "partner_profile"
           context:
             - dshah-aws-user-creds
+            - cicd-platform-slack-creds
+
+  partner_profile_run:
+    when: 
+      and:
+        - equal: [ true, << pipeline.parameters.run-partner_profile >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+        - not:
+            equal: [ true, << pipeline.parameters.run-partner_profile-prod >> ]
+    jobs:
+      - app_testing:
+          appName   : "partner_profile"
+          context:
+            - dshah-aws-user-creds
+            - cicd-platform-slack-creds
       - app_builder:
           target-env: "dshah"
           appName   : "partner_profile"
@@ -17,6 +36,7 @@ workflows:
           requires:
             - app_testing
       - app_starter:
+          name: app-starter-for-dshah
           target-env: "dshah"
           appName   : "partner-profile"
           directory : "partner_profile"
