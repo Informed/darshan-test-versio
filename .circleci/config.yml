@@ -4,31 +4,31 @@ version: 2.1
 
 setup: true
 
-parameters:
-  run-api_handler:
-    type: boolean
-    default: false
-  run-partner_profile:
-    type: boolean
-    default: false
-  run-api_handler-prod:
-    type: boolean
-    default: false
-  run-partner_profile-prod:
-    type: boolean
-    default: false
-  version:
-    type: string
-    default: ""
-  tf-version:
-    type: string
-    default: "1.2.7"
-  tf-api_handler:
-    type: boolean
-    default: false
-  tf-partner_profile:
-    type: boolean
-    default: false
+# parameters:
+#   run-api_handler:
+#     type: boolean
+#     default: false
+#   run-partner_profile:
+#     type: boolean
+#     default: false
+#   run-api_handler-prod:
+#     type: boolean
+#     default: false
+#   run-partner_profile-prod:
+#     type: boolean
+#     default: false
+#   version:
+#     type: string
+#     default: ""
+#   tf-version:
+#     type: string
+#     default: "1.2.7"
+#   tf-api_handler:
+#     type: boolean
+#     default: false
+#   tf-partner_profile:
+#     type: boolean
+#     default: false
 
 orbs:
   path-filtering: circleci/path-filtering@0.1.1
