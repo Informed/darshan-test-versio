@@ -76,7 +76,7 @@ resource "aws_s3_bucket_object" "object" {
 
   bucket = "informed-techno-core-${var.environment}-lambda-images"
   key    = var.lambda_handler_file
-  acl    = "private"  # or can be "public-read"
+  acl    = "private" # or can be "public-read"
   source = "../../dummy_lambdas/partner_profile.zip"
 }
 
