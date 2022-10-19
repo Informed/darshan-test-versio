@@ -17,6 +17,9 @@ parameters:
   tf-version:
     type: string
     default: "1.2.7"
+  api_call:
+    type: boolean
+    default: false
   tf-api_handler:
     type: boolean
     default: false
