@@ -120,3 +120,11 @@ asdas
 
 asdasdasd
 asdasd
+asdasd
+
+
+x.y.z
+
+#minor: y will increment
+#major: x will increment
+: z will increment
