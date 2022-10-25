@@ -1,0 +1,20 @@
+jobs:
+  security-sca:
+    executor:
+      name: python/default
+      tag: "3.8"
+    parameters:
+      appName:
+        type: string
+    parallelism: 2
+    steps:
+      - checkout
+      - python/install-packages:
+          app-dir: ~/project/apps/<<parameters.appName>>
+          pkg-manager: poetry
+      - snyk/scan:
+          fail-on-issues: false
+          monitor-on-build: true
+          project: '${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}-app'
+          severity-threshold: high
+          token-variable: SNYK_TOKEN
