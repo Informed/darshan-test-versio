@@ -137,6 +137,24 @@ commands:
 ###############################
 ###### TERRAFORM DEPLOY #######
 ###############################
+  check_tf:
+    steps:
+      - run:
+          name: Create Package
+          command: |
+              pwd
+              ls
+              cd infrastructure/api_handler/sand/dshah
+              ls
+
+###############################
+###### Security #######
+###############################
+  snyk_check:
+    steps: 
+      - run:
+          name: "Snyk token"
+          command: echo SNYK_TOKEN
 
 # Write Custom TF code here
 
