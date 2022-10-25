@@ -17,6 +17,7 @@ workflows:
             - cicd-platform-slack-creds
       - security_sca:
           name: security-sca-api_handler
+          appName   : "api_handler"
           context:
             - SYNK_TOKEN
 
