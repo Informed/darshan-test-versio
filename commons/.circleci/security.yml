@@ -12,6 +12,9 @@ jobs:
       - python/install-packages:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
+      - run:
+          name: "Snyk token"
+          command: echo ${SNYK_TOKEN}
       - snyk/scan:
           fail-on-issues: false
           monitor-on-build: true
