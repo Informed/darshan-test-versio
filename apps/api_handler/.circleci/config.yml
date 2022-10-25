@@ -19,7 +19,7 @@ workflows:
           name: security-sca-api_handler
           appName   : "api_handler"
           context:
-            - SYNK_TOKEN
+            - snyk-token
 
   api_handler:
     when: 
