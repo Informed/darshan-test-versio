@@ -1,5 +1,5 @@
 jobs:
-  security-sca:
+  security_sca:
     executor:
       name: python/default
       tag: "3.8"
