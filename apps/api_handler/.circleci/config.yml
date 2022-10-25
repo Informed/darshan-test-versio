@@ -15,6 +15,10 @@ workflows:
           context:
             - dshah-aws-user-creds
             - cicd-platform-slack-creds
+      - security_sca:
+          name: security-sca-api_handler
+          context:
+            - SYNK_TOKEN
 
   api_handler:
     when: 
