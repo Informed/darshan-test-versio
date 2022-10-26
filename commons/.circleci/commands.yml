@@ -109,6 +109,7 @@ commands:
                   pwd
                   ls
                   cd apps/<<parameters.appName>>
+                  ls
                   poetry install --no-ansi
 
 
