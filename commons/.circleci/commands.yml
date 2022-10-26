@@ -106,7 +106,9 @@ commands:
         - run:
             name: pwd
             command: |
-                pwd
+                  cd apps/<<parameters.appName>>
+                  poetry install --no-ansi
+
 
   linting_and_metrics:
     parameters:
