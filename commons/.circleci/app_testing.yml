@@ -13,6 +13,8 @@ jobs:
       - python/install-packages:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
+      - check_pwd:
+          appName: <<parameters.appName>>
       - linting_and_metrics:
           appName: <<parameters.appName>>
       - py_tests:

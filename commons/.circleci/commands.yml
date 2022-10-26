@@ -97,6 +97,17 @@ commands:
 ################################
 ##### APP LINTER & TESTER ######
 ################################
+  check_pwd:
+    parameters:
+      appName:
+        default: ""
+        type: string
+    steps:
+        - run:
+            name: pwd
+            command: |
+                pwd
+
   linting_and_metrics:
     parameters:
       appName:
@@ -106,6 +117,7 @@ commands:
         - run:
             name: Linters
             command: |
+                pwd
                 cd apps/<<parameters.appName>>
                 poetry run flake8
   py_tests:
@@ -117,6 +129,7 @@ commands:
         - run:
             name: Pytests
             command: |
+                pwd
                 cd apps/<<parameters.appName>>/tests
                 poetry run pytest -v
             
