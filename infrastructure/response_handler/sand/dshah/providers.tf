@@ -12,9 +12,9 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "informed.terraform.us-west-2.dev"
-    key            = "techno-core/response-handler/terraform.tfstate"
-    profile        = "cicd"
+    bucket         = "informed.terraform.us-west-2.sand"
+    key            = "dshah/techno-core/response-handler/terraform.tfstate"
+    role_arn       = "arn:aws:iam::992538905015:role/iq-cicd-deployer-uswest2-role"
     region         = "us-west-2"
     dynamodb_table = "platform-state-locks"
     encrypt        = true
