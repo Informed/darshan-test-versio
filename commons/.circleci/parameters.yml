@@ -1,4 +1,7 @@
 parameters:
+  run-api_handler:
+    type: boolean
+    default: false
   run-api_handler-prod:
     type: boolean
     default: false
@@ -9,6 +12,9 @@ parameters:
     type: boolean
     default: false
 ### Partner Profile ###
+  run-partner_profile:
+    type: boolean
+    default: false
   run-partner_profile-prod:
     type: boolean
     default: false
@@ -19,6 +25,9 @@ parameters:
     type: boolean
     default: false
 ### Response Handler ###
+  run-response_handler:
+    type: boolean
+    default: false
   run-response_handler-prod:
     type: boolean
     default: false
