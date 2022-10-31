@@ -18,7 +18,7 @@ if [ -z ${tagToBits[0]} ]; then
     majorVersion="0"
 else
     majorVersion=${tagToBits[0]}
-    majorVersion=$( echo $majorVersion | sed 's/v//' )
+    majorVersion=$( echo $majorVersion | sed 's/-.*//' )
 fi
 
 if [ -z ${tagToBits[1]} ]; then
