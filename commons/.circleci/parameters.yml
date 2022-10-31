@@ -44,6 +44,9 @@ parameters:
   api_call:
     type: boolean
     default: false
+  tf-version:
+    type: string
+    default: "1.2.7"
 ### TF Params ###
   tf-api_handler:
     type: boolean
