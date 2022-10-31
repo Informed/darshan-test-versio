@@ -1,0 +1,6 @@
+bucket_prefix   = "informed"
+dns_base_domain = "informed.iq"
+environment     = "prod"
+project_name    = "techno-core"
+profile         = "prod"
+region          = "us-west-2"

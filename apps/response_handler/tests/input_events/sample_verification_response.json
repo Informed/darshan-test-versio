@@ -1,0 +1,18 @@
+{
+  "detail-type": "StipulationVerificationComplete",
+  "source": "ApplicationOrchestrator",
+  "detail": {
+    "metadata": {
+      "traceparent": "00-00-00-00"
+    },
+    "data": {
+      "application_id": "bb71a4f0-c7d2-457f-9b3e-d40e91e744b4",
+      "partner_id": "42926d5b-a56d-4975-934e-02e76a631173",
+      "jwt": "",
+      "action": "verify",
+      "webhook_url": "<URL>",
+      "response_type": "JSON",
+      "stipulation_result_uri": "s3://informed-techno-core-dev-exchange/42926d5b-a56d-4975-934e-02e76a631173/bb71a4f0-c7d2-457f-9b3e-d40e91e744b4/stip_verifications/bb71a4f0-c7d2-457f-9b3e-d40e91e744b4.json#cWT_RNBNDlFak8kHU_N0KKLZZRsiB6kb"
+    }
+  }
+}

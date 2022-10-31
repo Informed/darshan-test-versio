@@ -1,0 +1,21 @@
+.DS_Store
+.idea
+*.log
+tmp/
+
+*.py[cod]
+*.egg
+build
+htmlcov
+*.zip
+
+deploy.sh
+
+# Output files from the build
+dist
+package
+artifact.zip
+out
+
+.env
+tests/output_events
