@@ -50,6 +50,8 @@ fi
 
 newTag="${appName}-${majorVersion}.${minorVersion}.${patchVersion}"
 
+echo "export GIT_TAG=${newTag}" >> $BASH_ENV
+
 if [[ "${CIRCLE_PULL_REQUEST##*/}" = "" ]]; then
     echo "Pull Request Merge to main branch event..."
     echo "Current Tag for ${appName} is: ${currentTag}"
