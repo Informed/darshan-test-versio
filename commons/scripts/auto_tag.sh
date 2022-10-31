@@ -9,7 +9,7 @@ fi
 appName=$1
 
 # Get Current Tags for an appName
-currentTag=$( git tag --list --sort=v:refname | grep -w "${appName}" | tail -1 )
+currentTag=$( git tag --list --sort=committerdate | grep -w "${appName}" | tail -1 )
 appVersions=(${currentTag//-/ })
 tagToBits=(${appVersions[1]//./ })
 
