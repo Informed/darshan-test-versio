@@ -22,8 +22,10 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.region
-  profile = var.profile
+  region = var.region
+  assume_role {
+    role_arn = "arn:aws:iam::952618499031:role/iq-circleci-iac-deployer-role"
+  }
   default_tags {
     tags = {
       application = "response-handler"
