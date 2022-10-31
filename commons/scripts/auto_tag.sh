@@ -48,7 +48,7 @@ else
     patchVersion=$(( patchVersion+1 ))
 fi
 
-newTag="${appName}-v${majorVersion}.${minorVersion}.${patchVersion}"
+newTag="${appName}-${majorVersion}.${minorVersion}.${patchVersion}"
 
 if [[ "${CIRCLE_PULL_REQUEST##*/}" = "" ]]; then
     echo "Pull Request Merge to main branch event..."
