@@ -1,49 +1,59 @@
 #!/bin/bash
 
-#get highest tag number
-APPNAME=$1
-VERSION=` git tag --sort=committerdate | grep "$APPNAME" | tail -1`
-#replace . with space so can split into an array
-APPVERSIONS=(${VERSION//-/ })
-VERSION_BITS=(${APPVERSIONS[1]//./ })
-
-#get number parts and increase last one by 1
-
-VNUM1=${VERSION_BITS[0]}
-VNUM2=${VERSION_BITS[1]}
-VNUM3=${VERSION_BITS[2]}
-VNUM3=`echo $VNUM3 | sed 's/-.*//'`
-
-# Check for #major or #minor in commit message and increment the relevant version number
-MAJOR=`git log --format=%B -n 1 HEAD | grep '#major'`
-MINOR=`git log --format=%B -n 1 HEAD | grep '#minor'`
-
-if [ "$MAJOR" ]; then
-    echo "INFO: Update major version"
-    VNUM1=$((VNUM1+1))
-    VNUM2=0
-    VNUM3=0
-elif [ "$MINOR" ]; then
-    echo "INFO: Update minor version"
-    VNUM2=$((VNUM2+1))
-    VNUM3=0
-else
-    echo "INFO: Update patch version"
-    VNUM3=$((VNUM3+1))
+if [ $# -ne 1 ]; then
+    echo "Missing Argument -- Application Name."
+    echo "Usage: $0 [application name]"
+    exit 1
 fi
 
-#create new tag
-NEW_TAG="$APPNAME-$VNUM1.$VNUM2.$VNUM3"
+appName=$1
 
-#setting tag to ENV so we can use it to make versioned assests
-echo "export GIT_TAG=$NEW_TAG" >> $BASH_ENV
+# Get Current Tags for an appName
+currentTag=$( git tag --list --sort=v:refname | grep -w "${appName}" | tail -1 )
+appVersions=(${currentTag//-/ })
+tagToBits=(${appVersions[1]//./ })
 
-echo "INFO: Updating $VERSION to $NEW_TAG"
+# Get number parts and increment by 1
+if [ -z ${tagToBits[0]} ]; then
+    majorVersion="0"
+else
+    majorVersion=${tagToBits[0]}
+    majorVersion=$( echo $majorVersion | sed 's/v//' )
+fi
 
-#only tag if no tag already (would be better if the git describe command above could have a silent option)
-echo "INFO: Tagged with $NEW_TAG (Ignoring fatal:cannot describe - this means commit is untagged) "
-git tag $NEW_TAG 
-git push --tags 1> /dev/null
+if [ -z ${tagToBits[1]} ]; then
+    minorVersion="0"
+else
+    minorVersion=${tagToBits[1]}
+fi
 
-## If its prod commit 
-## Get the 
+if [ -z ${tagToBits[2]} ]; then
+    patchVersion="0"
+else
+    patchVersion=${tagToBits[2]}
+fi
+
+gitCommitMessage=$( git log --format=%B -n 1 HEAD | sed '/^$/d' | egrep -i '^MAJOR|^MINOR|^PATCH' | cut -d':' -f1 |  awk {'print tolower($0)'} )
+
+if [[ $gitCommitMessage == "major" ]]; then
+    majorVersion=$(( majorVersion+1 ))
+    minorVersion=0
+    patchVersion=0
+elif [[ $gitCommitMessage == "minor" ]]; then
+    minorVersion=$(( minorVersion+1 ))
+    patchVersion=0
+elif [[ $gitCommitMessage == "patch" ]]; then
+    patchVersion=$(( patchVersion+1 ))
+else
+    patchVersion=$(( patchVersion+1 ))
+fi
+
+newTag="${appName}-v${majorVersion}.${minorVersion}.${patchVersion}"
+
+if [[ "${CIRCLE_PULL_REQUEST##*/}" = "" ]]; then
+    echo "Pull Request Merge to main branch event..."
+    echo "Current Tag for ${appName} is: ${currentTag}"
+    echo "${appName} will be tagged with ${newTag}"
+    git tag $newTag
+    git push --tags
+fi

@@ -5,12 +5,37 @@ version: 2.1
 setup: true
 
 parameters:
+### Api Handler ###
   run-api_handler-prod:
     type: boolean
     default: false
+  run-api_handler-dev-api:
+    type: boolean
+    default: false
+  run-api_handler-qa:
+    type: boolean
+    default: false
+### Partner Profile ###
   run-partner_profile-prod:
     type: boolean
     default: false
+  run-partner_profile-qa:
+    type: boolean
+    default: false  
+  run-partner_profile-dev-api:
+    type: boolean
+    default: false
+### Response Handler ###
+  run-response_handler-prod:
+    type: boolean
+    default: false
+  run-response_handler-dev-api:
+    type: boolean
+    default: false
+  run-response_handler-qa:
+    type: boolean
+    default: false
+### Other param ### 
   version:
     type: string
     default: ""
