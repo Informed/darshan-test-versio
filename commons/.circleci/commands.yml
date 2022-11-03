@@ -180,9 +180,7 @@ commands:
       - run:
           name: "Snyk test"
           command: |
-            ls
-            pwd
-            curl https://static.snyk.io/cli/latest/snyk-alpine -o snyk
+            curl https://static.snyk.io/cli/latest/snyk-linux-arm64 -o snyk
             chmod +x ./snyk
             ./snyk auth <<parameters.snyk_token>>
             cd apps/<<parameters.appName>>
