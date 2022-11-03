@@ -14,4 +14,4 @@ jobs:
           pkg-manager: poetry
       - change_dir:
           appName: <<parameters.appName>>
-      - snyk-scan
+      - snyk/scan
