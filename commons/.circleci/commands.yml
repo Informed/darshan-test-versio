@@ -177,7 +177,7 @@ commands:
       - run:
           name: "Snyk test"
           command: |
-            cd projects/apps/<<parameters.appName>>
+            cd apps/<<parameters.appName>>
             snyk test --command=python3 
 
 # Write Custom TF code here
