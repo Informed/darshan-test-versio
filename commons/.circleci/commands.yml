@@ -183,9 +183,9 @@ commands:
             curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
             chmod +x snyk
             sudo mv ./snyk /usr/local/bin/
-            ./snyk auth <<parameters.snyk_token>>
+            snyk auth <<parameters.snyk_token>>
             cd apps/<<parameters.appName>>
-            ./snyk test --command=python3
+            snyk test --command=python3
 
 # Write Custom TF code here
 
