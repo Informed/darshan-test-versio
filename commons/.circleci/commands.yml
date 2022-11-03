@@ -168,7 +168,7 @@ commands:
 ###############################
 ###### Security #######
 ###############################
-  snyk-scan:
+  change_dir:
     parameters:
       appName:
         default: ""
@@ -178,7 +178,6 @@ commands:
           name: "Snyk test"
           command: |
             cd apps/<<parameters.appName>>
-            snyk test --command=python3 
 
 # Write Custom TF code here
 

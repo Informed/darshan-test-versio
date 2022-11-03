@@ -12,6 +12,6 @@ jobs:
       - python/install-packages:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
-      - snyk/scan
-      - snyk-scan:
-          appName: <<parameters.appName>>
+      - change_dir:
+        appName: <<parameters.appName>>
+      - snyk-scan
