@@ -168,11 +168,17 @@ commands:
 ###############################
 ###### Security #######
 ###############################
-  snyk_check:
+  snyk-scan:
+    parameters:
+      appName:
+        default: ""
+        type: string
     steps: 
       - run:
-          name: "Snyk token"
-          command: echo SNYK_TOKEN
+          name: "Snyk test"
+          command: |
+            cd projects/apps/<<parameters.appName>>
+            snyk test --command=python3 
 
 # Write Custom TF code here
 
