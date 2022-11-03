@@ -12,4 +12,5 @@ jobs:
       - python/install-packages:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
-      - snyk/scan
+      - snyk/scan:
+          target-file: apps/<<parameters.appName>>/pyproject.toml
