@@ -1,6 +1,6 @@
-working_directory: ~/project/apps/<<parameters.appName>>
 jobs:
   security_sca:
+    working_directory: ~/project/apps/<<parameters.appName>>
     executor:
       name: python/default
       tag: "3.8"
