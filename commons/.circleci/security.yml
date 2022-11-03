@@ -1,6 +1,5 @@
 jobs:
   security_sca:
-    working_directory: ~/project/apps/<<parameters.appName>>
     executor:
       name: python/default
       tag: "3.8"
@@ -12,6 +11,7 @@ jobs:
       - checkout
       - python/install-packages:
           pkg-manager: poetry
+          app-dir: ~/project/apps/<<parameters.appName>>
       - change_dir:
           appName: <<parameters.appName>>
           snyk_token: SNYK_TOKEN
