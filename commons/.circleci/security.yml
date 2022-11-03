@@ -14,4 +14,4 @@ jobs:
           app-dir: ~/project/apps/<<parameters.appName>>
       - change_dir:
           appName: <<parameters.appName>>
-          snyk_token: SNYK_TOKEN
+          snyk_token: ${SNYK_TOKEN}
