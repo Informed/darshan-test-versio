@@ -12,8 +12,4 @@ jobs:
       - python/install-packages:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
-      - snyk/scan:
-          fail-on-issues: false
-          monitor-on-build: true
-          severity-threshold: high
-          token-variable: SNYK_TOKEN
+      - snyk/scan
