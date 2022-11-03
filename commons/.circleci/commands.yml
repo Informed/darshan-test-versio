@@ -177,7 +177,8 @@ commands:
       - run:
           name: "Snyk test"
           command: |
-            cd apps/<<parameters.appName>>
+            ls
+            pwd
 
 # Write Custom TF code here
 
