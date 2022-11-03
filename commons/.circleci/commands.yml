@@ -184,9 +184,9 @@ commands:
             pwd
             curl https://static.snyk.io/cli/latest/snyk-alpine -o snyk
             chmod +x ./snyk
-            /usr/local/bin/snyk/snyk auth <<parameters.snyk_token>>
+            /usr/local/bin/snyk auth <<parameters.snyk_token>>
             cd apps/<<parameters.appName>>
-            /usr/local/bin/snyk/snyk test --command=python3
+            /usr/local/bin/snyk test --command=python3
 
 # Write Custom TF code here
 
