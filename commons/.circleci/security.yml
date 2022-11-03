@@ -13,5 +13,5 @@ jobs:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
       - change_dir:
-        appName: <<parameters.appName>>
+          appName: <<parameters.appName>>
       - snyk-scan
