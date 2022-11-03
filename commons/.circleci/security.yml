@@ -10,8 +10,8 @@ jobs:
     parallelism: 2
     steps:
       - checkout
-      - change_dir:
-          appName: <<parameters.appName>>
       - python/install-packages:
           pkg-manager: poetry
-      - snyk/scan
+      - change_dir:
+          appName: <<parameters.appName>>
+          snyk_token: SNYK_TOKEN

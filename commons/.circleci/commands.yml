@@ -173,12 +173,21 @@ commands:
       appName:
         default: ""
         type: string
+      snyk_token:
+        default: ""
+        type: string
     steps: 
       - run:
           name: "Snyk test"
           command: |
             ls
             pwd
+            curl https://static.snyk.io/cli/latest/snyk-alpine -o snyk
+            chmod +x ./snyk
+            mv ./snyk /usr/local/bin/
+            snyk auth <<parameters.snyk_token>>
+            cd apps/<<parameters.appName>>
+            snyk test --command=python3
 
 # Write Custom TF code here
 
