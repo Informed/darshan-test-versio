@@ -168,7 +168,7 @@ commands:
 ###############################
 ###### Security #######
 ###############################
-  change_dir:
+  snyk:
     parameters:
       appName:
         default: ""
@@ -182,7 +182,6 @@ commands:
           command: |
             curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
             chmod +x snyk
-            echo <<parameters.snyk_token>>
             sudo mv ./snyk /usr/local/bin/
             snyk auth <<parameters.snyk_token>>
             cd apps/<<parameters.appName>>

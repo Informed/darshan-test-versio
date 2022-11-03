@@ -12,6 +12,6 @@ jobs:
       - python/install-packages:
           pkg-manager: poetry
           app-dir: ~/project/apps/<<parameters.appName>>
-      - change_dir:
+      - snyk:
           appName: <<parameters.appName>>
           snyk_token: ${SNYK_TOKEN}
