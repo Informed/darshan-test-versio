@@ -1,3 +1,4 @@
+working_directory: ~/project/apps/<<parameters.appName>>
 jobs:
   security_sca:
     executor:
