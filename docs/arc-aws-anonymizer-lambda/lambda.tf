@@ -31,7 +31,7 @@ module "copy_lambda_function" {
     }
   }
 
-  source_path = "src/copy_data.py"
+  source_path = "${path.module}/src/copy_data.py"
 
   environment_variables = {
     TARGET_BUCKET = var.destination_bucket
@@ -56,7 +56,7 @@ module "delete_lambda_function" {
     }
   }
 
-  source_path = "src/delete_data.py"
+  source_path = "${path.module}/src/delete_data.py"
 
   tags = {
     Name = "anonymized-delete"
