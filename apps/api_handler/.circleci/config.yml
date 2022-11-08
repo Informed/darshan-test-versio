@@ -23,13 +23,13 @@ workflows:
         - equal: [ main, << pipeline.git.branch >> ]
         - equal: [ false, << pipeline.parameters.api_call>> ]
     jobs:
-      - app_testing:
+      - py_app_testing:
           name: app-tester-api_handler
           appName   : "api_handler"
           context:
             - dshah-aws-user-creds
             - cicd-platform-slack-creds
-      - app_builder:
+      - py_app_builder:
           name: app-builder-api_handler
           target-env: "dshah"
           appName   : "api_handler"

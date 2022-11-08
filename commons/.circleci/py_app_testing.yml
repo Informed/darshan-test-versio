@@ -1,6 +1,6 @@
  
 jobs:
-  app_testing:
+  py_app_testing:
     executor:
       name: python/default
       tag: "3.8"
@@ -13,7 +13,7 @@ jobs:
       - python/install-packages:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
-      - linting_and_metrics:
+      - py_linters:
           appName: <<parameters.appName>>
       - py_tests:
           appName: <<parameters.appName>>
