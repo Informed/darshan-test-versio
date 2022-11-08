@@ -28,7 +28,7 @@ workflows:
           context:
             - dshah-aws-user-creds
             - cicd-platform-slack-creds
-      - app_builder:
+      - py_app_builder:
           name: app-builder-partner_profile
           target-env: "dshah"
           appName   : "partner_profile"
