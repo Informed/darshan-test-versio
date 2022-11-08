@@ -39,7 +39,6 @@ module "copy_lambda_function" {
   tags = {
     Name = "anonymized-copy"
   }
-  provider = aws.source
 }
 
 module "delete_lambda_function" {
@@ -62,5 +61,4 @@ module "delete_lambda_function" {
   tags = {
     Name = "anonymized-delete"
   }
-  provider = aws.source
 }
