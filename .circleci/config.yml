@@ -70,9 +70,9 @@ workflows:
             apps/api_handler/.* run-api_handler true
             apps/partner_profile/.* run-partner_profile true
             apps/response_handler/.* run-response_handler true
-            infrastructure/api_handler/sand/dshah.* tf-api_handler true
-            infrastructure/partner_profile/sand/dshah.* tf-partner_profile true
-            infrastructure/response_handler/sand/dshah.* tf-response_handler true
+            infrastructure/api_handler/.* tf-api_handler true
+            infrastructure/partner_profile/.* tf-partner_profile true
+            infrastructure/response_handler/.* tf-response_handler true
           base-revision: main
           requires:
             - split-config/generate-config
