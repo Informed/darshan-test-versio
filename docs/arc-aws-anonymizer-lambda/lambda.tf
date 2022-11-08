@@ -15,11 +15,12 @@ data "aws_s3_bucket" "destination_bucket" {
 
 module "copy_lambda_function" {
   source = "git::https://github.com/informed/borg.git//aws-lambda"
-  provider= aws.source
   function_name = "anonymized-copy-${var.app_name}"
   handler       = "copy_data.lambda_handler"
   runtime       = "python3.9"
-
+  providers = {
+    aws = aws.source
+  }
   role_name        = "anonymized-copy"
   role_description = "used for copy lambda function"
   attach_policy_statements = true
@@ -39,11 +40,11 @@ module "copy_lambda_function" {
   tags = {
     Name = "anonymized-copy"
   }
+
 }
 
 module "delete_lambda_function" {
   source = "git::https://github.com/informed/borg.git//aws-lambda"
-  provider= aws.source
   function_name = "anonymized-delete-${var.app_name}"
   role_name        = "anonymized-delete"
   role_description = "used for delete lambda function"
@@ -60,5 +61,8 @@ module "delete_lambda_function" {
 
   tags = {
     Name = "anonymized-delete"
+  }
+  providers = {
+    aws = aws.source
   }
 }
