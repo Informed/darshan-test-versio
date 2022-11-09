@@ -10,7 +10,7 @@ module "copy_lambda_function" {
     s3 = {
       effect    = "Allow",
       actions   = ["s3:*"]
-      resources = ["arn:aws:s3:::${data.aws_s3_bucket.destination_bucket.id}","arn:aws:s3:::${data.aws_s3_bucket.data_bucket1.id}"]
+      resources = ["arn:aws:s3:::${data.aws_s3_bucket.destination_bucket.id}/*","arn:aws:s3:::${data.aws_s3_bucket.data_bucket1.id}/*"]
     }
   }
 
@@ -42,7 +42,7 @@ module "delete_lambda_function" {
     s3 = {
       effect    = "Allow",
       actions   = ["s3:*"]
-      resources = ["arn:aws:s3:::${data.aws_s3_bucket.destination_bucket.id}","arn:aws:s3:::${data.aws_s3_bucket.data_bucket1.id}"]
+      resources = ["arn:aws:s3:::${data.aws_s3_bucket.destination_bucket.id}/*","arn:aws:s3:::${data.aws_s3_bucket.data_bucket1.id}/*"]
     }
   }
 
