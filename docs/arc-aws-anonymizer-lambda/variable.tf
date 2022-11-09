@@ -14,12 +14,12 @@ variable "app_name" {
   type        = string
 }
 
-variable "source_bucket" {
-  description="backend key"
-  type= string
+variable "src_bucket" {
+  description = "backend key"
+  type        = string
 }
 
-variable "destination_bucket" {
-  description="dynamodb table"
-  type= string
+variable "dest_bucket" {
+  description = "dynamodb table"
+  type        = string
 }
