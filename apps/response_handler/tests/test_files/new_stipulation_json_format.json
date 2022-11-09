@@ -1,0 +1,136 @@
+{
+    "data_sources": {
+        "image_files": [
+            {
+                "file_id": "file_id_1",
+                "file_reference_id": "file_reference_id_1"
+            }
+        ],
+        "structured_data": [
+            {
+                "document_id": "document_id_1",
+                "document_reference_id": "document_reference_id_1"
+            }
+        ]
+    },
+    "verifications": {
+        "income": [
+            {
+                "status": "review",
+                "belongs_to": "applicant1",
+                "updated_at": "2022-08-22T20:56:24.560Z",
+                "description": "The applicant's income is in-line with what s/he stated based on the Current Paystub. Informed searched for a Current Paystub and found one in the deal jacket. The Current Paystub matches the applicant's name. The Current Paystub matches the applicant's employer's name. The Current Paystub has YTD earnings. The Current Paystub is not similar to a paystub known to be fraudulent. The Current Paystub was issued within 60 days of the contract date. The Current Paystub has no loan deductions. The Current Paystub has no garnishments.",
+                "verification_questions": {
+                    "poi_income_from_employer": {
+                        "question": "What is the income from the employer?",
+                        "expected": "",
+                        "answer": "$77,999.40",
+                        "status": "pass",
+                        "serialize": true
+                    },
+                    "poi_documents_used": {
+                        "question": "Which document was used to calculate income?",
+                        "expected": "",
+                        "answer": "Current Paystub",
+                        "status": "pass",
+                        "serialize": true
+                    },
+                    "poi_income_within_threshold": {
+                        "question": "Is the applicant's income in-line with that what s/he stated?",
+                        "expected": "$78,000.00",
+                        "answer": "$77,999.40",
+                        "status": "pass",
+                        "serialize": null
+                    }
+                },
+                "acceptable_documents": {
+                    "paystub": [
+                        {
+                            "document_id": "ef3f71eb-d135-4325-ace5-6eef68e80fd3",
+                            "file_ids": [
+                                "ec888318-fabf-4cda-a47f-423cca2b9e20"
+                            ],
+                            "file_reference_ids": [
+                                "test.pdf"
+                            ],
+                            "category": "current_paystub",
+                            "document_questions": {
+                                "matches_applicant_name": {
+                                    "question": "Matches the applicant's name?",
+                                    "expected": "First Last.",
+                                    "answer": "First Last",
+                                    "status": "pass",
+                                    "serialize": true
+                                },
+                                "has_garnishments_deducted": {
+                                    "question": "Garnishments deducted?",
+                                    "expected": "$0",
+                                    "answer": "$0.00",
+                                    "status": "pass",
+                                    "serialize": true
+                                },
+                                "has_loans_deducted": {
+                                    "question": "Loans deducted?",
+                                    "expected": "$0",
+                                    "answer": "$0.00",
+                                    "status": "pass",
+                                    "serialize": true
+                                },
+                                "has_ytd_earnings": {
+                                    "question": "Has YTD earnings?",
+                                    "expected": "TRUE",
+                                    "answer": "TRUE",
+                                    "status": "pass",
+                                    "serialize": true
+                                },
+                                "is_similar_to_fraudulent_paystub": {
+                                    "question": "Similar to a paystub known to be fraudulent?",
+                                    "expected": "FALSE",
+                                    "answer": "FALSE",
+                                    "status": "pass",
+                                    "serialize": true
+                                },
+                                "is_issued_recently": {
+                                    "question": "Issued within 60 days of the contract date?",
+                                    "expected": ">=03/10/2021",
+                                    "answer": "03/18/2022",
+                                    "status": "pass",
+                                    "serialize": true
+                                },
+                                "working_days_elapsed": {
+                                    "question": "Working days elapsed?",
+                                    "expected": "",
+                                    "answer": 74,
+                                    "status": "pass",
+                                    "serialize": true
+                                },
+                                "first_working_day": {
+                                    "question": "First working day of the year?",
+                                    "expected": "",
+                                    "answer": "01/01/2022",
+                                    "status": "pass",
+                                    "serialize": true
+                                },
+                                "first_working_day_methodology": {
+                                    "question": "Methodology used to calculate the first working day of the year?",
+                                    "expected": "",
+                                    "answer": "begin_of_year",
+                                    "status": "pass",
+                                    "serialize": true
+                                },
+                                "matches_employer_name": {
+                                    "question": "Matches the applicant's employer's name?",
+                                    "expected": "Buckeye Background Verification, Inc",
+                                    "answer": "",
+                                    "status": "review",
+                                    "serialize": true
+                                }
+                            }
+                        }
+                    ]
+                },
+                "recommendations": []
+            }
+        ]
+    }
+}

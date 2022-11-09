@@ -1,0 +1,20 @@
+{
+  "detail-type": "DocumentsExtractionComplete",
+  "source": "ApplicationOrchestrator",
+  "detail": {
+    "metadata": {
+      "traceparent": "00-00-00-00"
+    },
+    "data": {
+      "application_id": "bb71a4f0-c7d2-457f-9b3e-d40e91e744b4",
+      "partner_id": "42926d5b-a56d-4975-934e-02e76a631173",
+      "jwt": "",
+      "webhook_url": "<URL>",
+      "response_type": "JSON",
+      "application_data_uri": "s3://informed-techno-core-dev-exchange/42926d5b-a56d-4975-934e-02e76a631173/bb71a4f0-c7d2-457f-9b3e-d40e91e744b4/application/bb71a4f0-c7d2-457f-9b3e-d40e91e744b4.json#DiKsAcV9hsxMio21P24Z.2hPQ4d7cnnP",
+      "document_data_uris": [
+        "s3://informed-techno-core-dev-exchange/42926d5b-a56d-4975-934e-02e76a631173/bb71a4f0-c7d2-457f-9b3e-d40e91e744b4/documents/36030ef7-96ec-46b3-aa16-ab39231a033f#XE.bHPaRCta7FXxeZvIGIAimQTndEbrU"
+      ]
+    }
+  }
+}

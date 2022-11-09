@@ -1,0 +1,63 @@
+version: 2.1
+
+workflows:
+  response_handler-qa:
+    when: 
+      and:
+        - matches: 
+            pattern: /.*\d+\.\d+\.\d+$/ 
+            value: << pipeline.parameters.version >>
+        - equal: [ true, << pipeline.parameters.run-response_handler-qa >> ]
+        - equal: [ true, << pipeline.parameters.api_call>> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+    jobs:
+      - artifact_promoter:
+          name: artifact-promoter-response_handler-qa
+          target-env: "qa"
+          appName   : "response-handler"
+          directory : "response_handler"
+          version: << pipeline.parameters.version >>
+          context: 
+            - cicd-aws-user-creds
+            - cicd-platform-slack-creds
+      - tf-test:
+          name: tf-tester-api_handler-qa
+          target-env: "sand/dshah"
+          appName   : "response_handler"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - artifact-promoter-response_handler-qa
+      - tf-plan:
+          name: tf-plan-response_handler-qa
+          target-env: "sand/dshah"
+          appName   : "response_handler"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-tester-api_handler-qa
+      - tf-apply:
+          name: tf-apply-response_handler-qa
+          target-env: "sand/dshah"
+          appName   : "response_handler"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-plan-response_handler-qa
+      - app_starter:
+          name: app-starter-response_handler-qa
+          target-env: "qa"
+          appName   : "response-handler"
+          directory : "response_handler"
+          context: 
+            - qa-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - tf-apply-response_handler-qa
+      # - slack/on-hold:
+      #     mentions: '@dow-platform'
+      #     context: 
+      #       - cicd-platform-slack-creds
+      #     requires:
+      #       - app-starter-for-qa
+      

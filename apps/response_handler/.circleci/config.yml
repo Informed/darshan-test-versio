@@ -1,0 +1,49 @@
+version: 2.1
+
+workflows:
+  response_handler_PR:
+    when: 
+      and:
+        - equal: [ true, << pipeline.parameters.run-response_handler >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
+        - not:
+            equal: [ main, << pipeline.git.branch >> ]
+    jobs:
+      - py_app_testing:
+          appName   : "response_handler"
+          context:
+            - dshah-aws-user-creds
+            - cicd-platform-slack-creds
+
+  response_handler:
+    when: 
+      and:
+        - equal: [ true, << pipeline.parameters.run-response_handler >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
+    jobs:
+      - py_app_testing:
+          name: app-tester-response_handler
+          appName   : "response_handler"
+          context:
+            - dshah-aws-user-creds
+            - cicd-platform-slack-creds
+      - py_app_builder:
+          name: app-builder-response_handler
+          target-env: "dshah"
+          appName   : "response_handler"
+          context: 
+            - cicd-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - app-tester-response_handler
+      - app_starter:
+          name: app-starter-response_handler-dshah
+          target-env: "dshah"
+          appName   : "response-handler"
+          directory : "response_handler"
+          context: 
+            - dshah-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - app-builder-response_handler
