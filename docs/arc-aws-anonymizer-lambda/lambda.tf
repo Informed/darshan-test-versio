@@ -45,8 +45,12 @@ module "copy_lambda_function" {
 
 module "delete_lambda_function" {
   source = "git::https://github.com/informed/borg.git//aws-lambda"
+
   function_name = "anonymized-delete-${var.app_name}"
-  role_name        = "anonymized-delete"
+  handler       = "delete_data.lambda_handler"
+  runtime       = "python3.9"
+
+  role_name        = "lambda-delete"
   role_description = "used for delete lambda function"
   attach_policy_statements = true
   policy_statements = {
