@@ -13,13 +13,9 @@ jobs:
       - python/install-packages:
           app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
-<<<<<<< HEAD:commons/.circleci/app_testing.yml
       - check_pwd:
           appName: <<parameters.appName>>
-      - linting_and_metrics:
-=======
       - py_linters:
->>>>>>> main:commons/.circleci/py_app_testing.yml
           appName: <<parameters.appName>>
       - py_tests:
           appName: <<parameters.appName>>
