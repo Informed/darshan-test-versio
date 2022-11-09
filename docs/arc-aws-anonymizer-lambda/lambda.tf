@@ -3,9 +3,6 @@ module "copy_lambda_function" {
   function_name = "anonymized-copy-${var.app_name}"
   handler       = "copy_data.lambda_handler"
   runtime       = "python3.9"
-  providers = {
-    aws = aws.source
-  }
   role_name        = "anonymized-copy"
   role_description = "used for copy lambda function"
   attach_policy_statements = true
@@ -13,17 +10,18 @@ module "copy_lambda_function" {
     s3 = {
       effect    = "Allow",
       actions   = ["s3:*"]
-      resources = ["arn:aws:s3:::*"]
+      resources = ["arn:aws:s3:::${data.aws_s3_bucket.destination_bucket.name}"]
     }
   }
-
   source_path = "${path.module}/src/copy_data.py"
-
   environment_variables = {
     TARGET_BUCKET = var.destination_bucket
   }
   tags = {
     Name = "anonymized-copy"
+  }
+  providers = {
+    aws = aws.source
   }
 
 }
@@ -35,14 +33,14 @@ module "delete_lambda_function" {
   handler       = "delete_data.lambda_handler"
   runtime       = "python3.9"
 
-  role_name        = "lambda-delete"
+  role_name        = "anonymized-delete"
   role_description = "used for delete lambda function"
   attach_policy_statements = true
   policy_statements = {
     s3 = {
       effect    = "Allow",
       actions   = ["s3:*"]
-      resources = ["arn:aws:s3:::*"]
+      resources = ["arn:aws:s3:::${data.aws_s3_bucket.destination_bucket.name}"]
     }
   }
 
