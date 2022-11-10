@@ -64,19 +64,19 @@ def lambda_handler(event, context):
         file_reader = json_object['Body'].read().decode("utf-8")
         pii_data = json.loads(file_reader)
         if "documents" in source_key:
-            addList = os.environ['ADD_DOCUMENTS_PII']
-            removeList = os.environ['REMOVE_DOCUMENTS_PII']
+            addList = os.environ['ADD_DOCUMENTS_PII'].replace("'", "").split(',')
+            removeList = os.environ['REMOVE_DOCUMENTS_PII'].replace("'", "").split(',')
             print("INFO: Scrapping DOCUMENTS fields")
             parse_PII(pii_data,addList,removeList)
         elif "application" in source_key:
-            addList = os.environ['ADD_APPLICATION_PII']
-            removeList = os.environ['REMOVE_APPLICATION_PII']
+            addList = os.environ['ADD_APPLICATION_PII'].replace("'", "").split(',')
+            removeList = os.environ['REMOVE_APPLICATION_PII'].replace("'", "").split(',')
             print("INFO: Scrapping APPLICATION fields")
             parse_PII(pii_data,addList,removeList)
         elif "stip_verifications" in source_key:
-            addListStip = os.environ['ADD_STIP_VERIFICATION_PII']
-            addList = os.environ['ADD_STIP_VERIFICATION_LIST_PII']
-            removeList = os.environ['REMOVE_STIP_VERIFICATION_PII']
+            addListStip = os.environ['ADD_STIP_VERIFICATION_PII'].replace("'", "").split(',')
+            addList = os.environ['ADD_STIP_VERIFICATION_LIST_PII'].replace("'", "").split(',')
+            removeList = os.environ['REMOVE_STIP_VERIFICATION_PII'].replace("'", "").split(',')
             print("INFO: Scrapping STIP_VERIFICATION fields")
             stip_verifications_PII(pii_data,addListStip,addList,removeList)
         uploadByteStream = bytes(json.dumps(pii_data).encode("utf-8"))
