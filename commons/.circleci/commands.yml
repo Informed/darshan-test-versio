@@ -33,62 +33,25 @@ commands:
           aws-region: AWS_REGION
           from: <<parameters.from>>
           to  : <<parameters.to>>
-#######################################
-##### PYTHON APP LINTER & TESTER ######
-#######################################
-  py_linters:
+
+########################################
+##### ARTIFACT PROMOTION COMMANDS ######
+########################################
+
+  artifact_promotion:
     parameters:
-      appName:
-        default: ""
+      from:
+        type: string
+      to:
         type: string
     steps:
-        - run:
-            name: Linters
-            command: |
-                cd apps/<<parameters.appName>>
-                poetry run flake8
-  py_tests:
-    parameters:
-      appName:
-        default: ""
-        type: string
-    steps:
-        - run:
-            name: Pytests
-            command: |
-                cd apps/<<parameters.appName>>/tests
-                poetry run pytest -v
-#######################################
-##### PYTHON APP DEPLOY COMMANDS ######
-#######################################
-  poetry_build:
-    parameters:
-      appName:
-        default: ""
-        type: string
-    steps:
-      - run: 
-          name: Poetry Build
-          command: |
-                cd apps/<<parameters.appName>>
-                echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
-                poetry build
-                poetry run pip install --upgrade -t package dist/*.whl
-  py_create_package:
-    parameters:
-      appName:
-        default: ""
-        type: string
-    steps:
-      - run:
-          name: Create Package
-          command: |
-              cd apps/<<parameters.appName>>/package
-              echo Zipping the code in `pwd`
-              mkdir -p out
-              zip -r out/latest.zip . -x '*.pyc'
+      - aws-s3/copy:
+          aws-region: AWS_REGION
+          from: <<parameters.from>>
+          to  : <<parameters.to>>
+
 ################################
-##### APP STARTER COMMANDS #####
+##### APP Starter COMMANDS #####
 ################################
   start_lambda:
     parameters:
@@ -103,21 +66,11 @@ commands:
           name: Intiating Lambda
           command: |
             aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.directory>>/latest.zip
-####################################
-#### RUBY APP TESTER AND LINTER ####
-####################################
-  ruby_install_packages:
-    parameters:
-      appName:
-        default: ""
-        type: string
-    steps:
-        - run:
-            name: Install Ruby Package
-            command: |
-                cd apps/<<parameters.appName>>
-                gem install bundler -v 2.2.32
-  ruby_linters:
+
+################################
+##### APP LINTER & TESTER ######
+################################
+  linting_and_metrics:
     parameters:
       appName:
         default: ""
@@ -126,9 +79,10 @@ commands:
         - run:
             name: Linters
             command: |
+                pwd
                 cd apps/<<parameters.appName>>
-                bundle exec rubocop           
-  ruby_tests:
+                poetry run flake8
+  py_tests:
     parameters:
       appName:
         default: ""
@@ -137,59 +91,28 @@ commands:
         - run:
             name: Pytests
             command: |
-                cd apps/<<parameters.appName>>
-                bundle exec rspec
-###########################
-##### RUBY APP DEPLOY #####
-###########################   
-  bundle_build:
-    parameters:
-      appName:
-        default: ""
-        type: string
-    steps:
-      - run: 
-          name: Bundle Build
-          command: |
-                cd apps/<<parameters.appName>>
-                echo Building the code in `pwd` with: `ruby -v` and `bundler -v`
-                bundle config set --local deployment 'true'
-                bundle install
-  ruby_create_package:
-    parameters:
-      appName:
-        default: ""
-        type: string
+                cd apps/<<parameters.appName>>/tests
+                poetry run pytest -v
+            
+################################
+###### TERRAFORM TEST ##########
+################################
+  check_tf:
     steps:
       - run:
           name: Create Package
           command: |
-              cd apps/<<parameters.appName>>
-              echo Zipping the code in `pwd`
-              apt-get update && apt-get install -y zip
-              mkdir -p out
-              zip -r out/input_file_validator.zip .  
-########################################
-##### ARTIFACT PROMOTION COMMANDS ######
-########################################
-  artifact_promotion:
-    parameters:
-      from:
-        type: string
-      to:
-        type: string
-    steps:
-      - aws-s3/copy:
-          aws-region: AWS_REGION
-          from: <<parameters.from>>
-          to  : <<parameters.to>> 
-################################
-###### TERRAFORM TEST ##########
-################################
+              pwd
+              ls
+              cd infrastructure/api_handler/sand/dshah
+              ls
+
 
 ###############################
-###### TERRAFORM DEPLOY #######
+###### Security #######
 ###############################
+
+# Write Custom TF code here
 
 ################################
 ###### Push Notifications ######

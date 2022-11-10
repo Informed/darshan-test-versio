@@ -1,6 +1,5 @@
- 
 jobs:
-  py_app_testing:
+  security_sca:
     executor:
       name: python/default
       tag: "3.8"
@@ -11,12 +10,8 @@ jobs:
     steps:
       - checkout
       - python/install-packages:
-          app-dir: ~/project/apps/<<parameters.appName>>
           pkg-manager: poetry
-      - check_pwd:
+          app-dir: ~/project/apps/<<parameters.appName>>
+      - snyk:
           appName: <<parameters.appName>>
-      - py_linters:
-          appName: <<parameters.appName>>
-      - py_tests:
-          appName: <<parameters.appName>>
-      - notify_slack_error
+          snyk_token: ${SNYK_TOKEN}
