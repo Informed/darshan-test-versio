@@ -3,11 +3,6 @@ variable "environment" {
   type        = string
 }
 
-variable "profile" {
-  description = "Region to deploy terraform resources to"
-  type        = string
-}
-
 variable "region" {
   description = "Region to deploy terraform resources to"
   type        = string
