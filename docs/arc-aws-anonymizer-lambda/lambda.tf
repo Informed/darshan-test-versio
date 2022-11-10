@@ -1,8 +1,10 @@
 module "copy_lambda_function" {
   source                   = "git::https://github.com/informed/borg.git//aws-lambda"
+
   function_name            = "anonymized-copy-${var.app_name}"
   handler                  = "copy_data.lambda_handler"
   runtime                  = "python3.9"
+
   role_name                = "anonymized-copy"
   role_description         = "Used for copy anonymized data to destination bucket"
   attach_policy_statements = true
@@ -18,14 +20,22 @@ module "copy_lambda_function" {
 
   environment_variables = {
     TARGET_BUCKET = var.dest_bucket
+    ADD_DOCUMENTS_PII = var.add_documents_PII
+    REMOVE_DOCUMENTS_PII = var.remove_documents_PII
+    ADD_APPLICATION_PII = var.add_application_PII
+    REMOVE_APPLICATION_PII = var.remove_application_PII
+    ADD_STIP_VERIFICATION_PII = var.add_stip_verification_PII
+    ADD_STIP_VERIFICATION_LIST_PII = var.add_stip_verification_list_PII
+    REMOVE_STIP_VERIFICATION_PII = var.remove_stip_verification_PII
   }
+
   tags = {
     Name = "anonymized-copy"
   }
+
   providers = {
     aws = aws.source
   }
-
 }
 
 module "delete_lambda_function" {
@@ -48,9 +58,14 @@ module "delete_lambda_function" {
 
   source_path = "${path.module}/src/delete_data.py"
 
+  environment_variables = {
+    TARGET_BUCKET = var.dest_bucket
+  }
+
   tags = {
     Name = "anonymized-delete"
   }
+
   providers = {
     aws = aws.source
   }

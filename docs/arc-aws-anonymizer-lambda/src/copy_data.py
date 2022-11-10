@@ -39,27 +39,18 @@ def parse_json_recursively_stip(json_object, target_list):
 def remove_keys(json_object, target_key):
     if target_key in json_object: del json_object[target_key]
 
-def documents_PII(json_object):
-    addList = ["first_name","last_name","middle_name","suffix","email","ssn","driver_license_number","date_of_birth","dob","account_number","bank_account_number","vin","id_number", "policy_number","tin","itin","applicant_phone_number","trade_in_vin","zip","city","state","street_2","street_address","phone" ]
-    removeList = ["analysis_document_payload"]
+def parse_PII(json_object,addList,removeList):
     for x in addList:
         parse_json_recursively(json_object,x)
     for x in removeList:
         remove_keys(json_object,x)
-        
-def app_request_PII(json_object):
-    addList = ["first_name","last_name","middle_name","suffix","email","ssn","date_of_birth","dob","account_number","bank_account_number","vin","id_number", "policy_number","tin","itin","zip","city","state","street_2","street_address","phone" ]
-    for x in addList:
-        parse_json_recursively(json_object,x)
-     
-def application_PII(json_object):
-    addList = ["first_name","last_name","middle_name","suffix","email","ssn","date_of_birth","dob","account_number","bank_account_number","vin","id_number", "policy_number","tin","itin","applicant_phone_number","zip","city","state","street_2","street_address","phone" ]
-    for x in addList:
-        parse_json_recursively(json_object,x)
 
-def stip_verifications_PII(json_object):
-    addList = ["matches_applicant_name", "matches_applicant2_name","matches_applicant1_name" "matches_applicant_address","matches_applicant_ssn","vin","policy_number","matches_applicant_vin", "matches_approval_vin","account_number","matches_contract_vin","matches_approval_vin","dob","is_ssi_deposit_referencing_applicant_name","matches_applicant_dob"]
-    parse_json_recursively_stip(json_object,addList)
+def stip_verifications_PII(json_object,addListPII,addList,removeList):
+    parse_json_recursively_stip(json_object,addListPII)
+    for x in addList:
+        parse_json_recursively(json_object,x)
+    for x in removeList:
+        remove_keys(json_object,x)
 
 def lambda_handler(event, context):
     
@@ -67,23 +58,27 @@ def lambda_handler(event, context):
     source_bucket = event['Records'][0]['s3']['bucket']['name']
     source_key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'])
     # Regex which will fetch all the documents which we want to anonymized. i.e. bucket-exchange/partnerId/applicationId/classifications/documentId.json
-    x = re.search("^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/(?:documents|application|app_request|stip_verifications|classifications)/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}.json$", source_key) 
+    x = re.search("^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/(?:documents|application|stip_verifications|classifications)/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}.json$", source_key) 
     if x:
         json_object = s3_client.get_object(Bucket=source_bucket,Key=source_key)
         file_reader = json_object['Body'].read().decode("utf-8")
         pii_data = json.loads(file_reader)
         if "documents" in source_key:
+            addList = os.environ['ADD_DOCUMENTS_PII']
+            removeList = os.environ['REMOVE_DOCUMENTS_PII']
             print("INFO: Scrapping DOCUMENTS fields")
-            documents_PII(pii_data)
+            parse_PII(pii_data,addList,removeList)
         elif "application" in source_key:
+            addList = os.environ['ADD_APPLICATION_PII']
+            removeList = os.environ['REMOVE_APPLICATION_PII']
             print("INFO: Scrapping APPLICATION fields")
-            application_PII(pii_data)
-        elif "app_request" in source_key:
-            print("INFO: Scrapping APP_REQUEST fields")
-            app_request_PII(pii_data)
+            parse_PII(pii_data,addList,removeList)
         elif "stip_verifications" in source_key:
+            addListStip = os.environ['ADD_STIP_VERIFICATION_PII']
+            addList = os.environ['ADD_STIP_VERIFICATION_LIST_PII']
+            removeList = os.environ['REMOVE_STIP_VERIFICATION_PII']
             print("INFO: Scrapping STIP_VERIFICATION fields")
-            stip_verifications_PII(pii_data)
+            stip_verifications_PII(pii_data,addListStip,addList,removeList)
         uploadByteStream = bytes(json.dumps(pii_data).encode("utf-8"))
         target_key = source_key # Change if desired
         s3_client.put_object(Bucket=TARGET_BUCKET, Key=target_key, Body=uploadByteStream)
