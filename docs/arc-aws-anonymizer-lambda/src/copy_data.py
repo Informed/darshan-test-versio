@@ -39,27 +39,28 @@ def parse_json_recursively_stip(json_object, target_list):
 def remove_keys(json_object, target_key):
     if target_key in json_object: del json_object[target_key]
 
-def parse_PII(json_object,addList,removeList):
-    for x in addList:
-        parse_json_recursively(json_object,x)
-    for x in removeList:
-        remove_keys(json_object,x)
-
 def stip_verifications_PII(json_object,addListPII,addList,removeList):
     parse_json_recursively_stip(json_object,addListPII)
-    for x in addList:
-        parse_json_recursively(json_object,x)
-    for x in removeList:
-        remove_keys(json_object,x)
+    for key in addList:
+        parse_json_recursively(json_object,key)
+    for key in removeList:
+        remove_keys(json_object,key)
+
+def parse_PII(json_object,addList,removeList):
+    for key in addList:
+        parse_json_recursively(json_object,key)
+    for key in removeList:
+        remove_keys(json_object,key)
 
 def lambda_handler(event, context):
     
     # Get incoming bucket and key
     source_bucket = event['Records'][0]['s3']['bucket']['name']
     source_key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'])
+
     # Regex which will fetch all the documents which we want to anonymized. i.e. bucket-exchange/partnerId/applicationId/classifications/documentId.json
-    x = re.search("^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/(?:documents|application|stip_verifications|classifications)/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}.json$", source_key) 
-    if x:
+    pyrex = re.search("^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/(?:documents|application|stip_verifications|classifications)/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}.json$", source_key) 
+    if pyrex:
         json_object = s3_client.get_object(Bucket=source_bucket,Key=source_key)
         file_reader = json_object['Body'].read().decode("utf-8")
         pii_data = json.loads(file_reader)
@@ -79,6 +80,7 @@ def lambda_handler(event, context):
             removeList = os.environ['REMOVE_STIP_VERIFICATION_PII'].split(',')
             print("INFO: Scrapping STIP_VERIFICATION fields")
             stip_verifications_PII(pii_data,addListStip,addList,removeList)
+        # Create byte stream and upload it to target bucket.
         uploadByteStream = bytes(json.dumps(pii_data).encode("utf-8"))
         target_key = source_key # Change if desired
         s3_client.put_object(Bucket=TARGET_BUCKET, Key=target_key, Body=uploadByteStream)
