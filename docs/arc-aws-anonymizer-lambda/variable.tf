@@ -3,6 +3,11 @@ variable "environment" {
   type        = string
 }
 
+variable "profile" {
+  description = "Region to deploy terraform resources to"
+  type        = string
+}
+
 variable "region" {
   description = "Region to deploy terraform resources to"
   type        = string
@@ -70,5 +75,5 @@ variable "add_stip_verification_list_PII" {
 
 variable "remove_stip_verification_PII" {
   type    = string
-  default = "analysis_document_payload"
+  default = ""
 }
