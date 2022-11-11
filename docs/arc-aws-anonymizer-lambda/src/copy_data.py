@@ -52,34 +52,44 @@ def parse_PII(json_object,addList,removeList):
     for key in removeList:
         remove_keys(json_object,key)
 
+# Regex which will fetch all the documents which we want to anonymized. i.e. bucket-exchange/partnerId/applicationId/classifications/documentId.json
+def pyrex(source_key):
+    pyRex = re.search("^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/(?:documents|application|stip_verifications|classifications)/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}.json$", source_key) 
+    return pyRex
+
+def load_data():
+    global  addDocumentList, removeDocumentList , addApplicationList, removeApplicationList , addStipVerificationListStip , addStipVerificationList,  removeStipVerificationList
+    # Document List 
+    addDocumentList = os.environ['ADD_DOCUMENTS_PII'].split(',')
+    removeDocumentList = os.environ['REMOVE_DOCUMENTS_PII'].split(',')
+    # Application List
+    addApplicationList = os.environ['ADD_APPLICATION_PII'].split(',')
+    removeApplicationList = os.environ['REMOVE_APPLICATION_PII'].split(',') 
+    # Stip Verification List
+    addStipVerificationListStip = os.environ['ADD_STIP_VERIFICATION_PII'].split(',')
+    addStipVerificationList = os.environ['ADD_STIP_VERIFICATION_LIST_PII'].split(',')
+    removeStipVerificationList = os.environ['REMOVE_STIP_VERIFICATION_PII'].split(',')
+
 def lambda_handler(event, context):
     
     # Get incoming bucket and key
     source_bucket = event['Records'][0]['s3']['bucket']['name']
     source_key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'])
 
-    # Regex which will fetch all the documents which we want to anonymized. i.e. bucket-exchange/partnerId/applicationId/classifications/documentId.json
-    pyrex = re.search("^[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}/(?:documents|application|stip_verifications|classifications)/[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}.json$", source_key) 
-    if pyrex:
+    if pyrex(source_key):
         json_object = s3_client.get_object(Bucket=source_bucket,Key=source_key)
         file_reader = json_object['Body'].read().decode("utf-8")
         pii_data = json.loads(file_reader)
+        load_data()
         if "documents" in source_key:
-            addList = os.environ['ADD_DOCUMENTS_PII'].split(',')
-            removeList = os.environ['REMOVE_DOCUMENTS_PII'].split(',')
             print("INFO: Scrapping DOCUMENTS fields")
-            parse_PII(pii_data,addList,removeList)
+            parse_PII(pii_data,addDocumentList,removeDocumentList)
         elif "application" in source_key:
-            addList = os.environ['ADD_APPLICATION_PII'].split(',')
-            removeList = os.environ['REMOVE_APPLICATION_PII'].split(',')
             print("INFO: Scrapping APPLICATION fields")
-            parse_PII(pii_data,addList,removeList)
+            parse_PII(pii_data,addApplicationList,removeApplicationList)
         elif "stip_verifications" in source_key:
-            addListStip = os.environ['ADD_STIP_VERIFICATION_PII'].split(',')
-            addList = os.environ['ADD_STIP_VERIFICATION_LIST_PII'].split(',')
-            removeList = os.environ['REMOVE_STIP_VERIFICATION_PII'].split(',')
             print("INFO: Scrapping STIP_VERIFICATION fields")
-            stip_verifications_PII(pii_data,addListStip,addList,removeList)
+            stip_verifications_PII(pii_data,addStipVerificationListStip,addStipVerificationList,removeStipVerificationList)
         # Create byte stream and upload it to target bucket.
         uploadByteStream = bytes(json.dumps(pii_data).encode("utf-8"))
         target_key = source_key # Change if desired
