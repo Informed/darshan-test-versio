@@ -183,6 +183,74 @@ commands:
           aws-region: AWS_REGION
           from: <<parameters.from>>
           to  : <<parameters.to>> 
+  version_update:
+    parameters:
+      version:
+        default: ""
+        type: string
+      target-env:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: Version Update
+          command: bash commons/scripts/version_update.sh <<parameters.version>> <<parameters.target-env>>
+                
+###########################
+######## SECURITY #########
+###########################
+  snyk_sca:
+    parameters:
+      appName:
+        default: ""
+        type: string
+      snyk_token:
+        default: ""
+        type: string
+    steps: 
+      - run:
+          name: "Snyk test"
+          command: |
+            n=0
+            until [ "$n" -ge 5 ]
+            do
+                curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
+                chmod +x snyk
+                sudo mv ./snyk /usr/local/bin/
+                snyk auth <<parameters.snyk_token>>
+                cd apps/<<parameters.appName>>
+                snyk test --command=python3 --fail-on=all || true
+                break
+                echo -e "\nCurl command failed. Retrying again...\n"
+                n=$((n+1)) 
+                sleep 1
+            done
+  snyk_sast:
+    parameters:
+      appName:
+        default: ""
+        type: string
+      snyk_token:
+        default: ""
+        type: string
+    steps: 
+      - run:
+          name: "Snyk code test"
+          command: |
+            n=0
+            until [ "$n" -ge 5 ]
+            do
+                curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
+                chmod +x snyk
+                sudo mv ./snyk /usr/local/bin/
+                snyk auth <<parameters.snyk_token>>
+                cd apps/<<parameters.appName>>
+                snyk code test || true
+                break
+                echo -e "\nCurl command failed. Retrying again...\n"
+                n=$((n+1)) 
+                sleep 1
+            done
 ################################
 ###### TERRAFORM TEST ##########
 ################################

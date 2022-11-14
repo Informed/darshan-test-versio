@@ -10,8 +10,10 @@ appName=$1
 
 # Get Current Tags for an appName
 currentTag=$( git tag --list --sort=committerdate | grep -w "${appName}" | tail -1 )
+
 appVersions=(${currentTag//-/ })
 tagToBits=(${appVersions[1]//./ })
+suffix=(${appVersions[2]})
 
 # Get number parts and increment by 1
 if [ -z ${tagToBits[0]} ]; then
@@ -33,22 +35,36 @@ else
     patchVersion=${tagToBits[2]}
 fi
 
-gitCommitMessage=$( git log --format=%B -n 1 HEAD | sed '/^$/d' | egrep -i '^MAJOR|^MINOR|^PATCH' | cut -d':' -f1 |  awk {'print tolower($0)'} )
+if [ -z $suffix ]; then
+    preRelease="rc1"
+else
+    preRelease=$suffix
+fi
+
+gitCommitMessage=$( git log --format=%B -n 1 HEAD | sed '/^$/d' | egrep -i '^MAJOR|^MINOR|^PATCH|^FIX' | cut -d':' -f1 |  awk {'print tolower($0)'} )
 
 if [[ $gitCommitMessage == "major" ]]; then
     majorVersion=$(( majorVersion+1 ))
     minorVersion=0
     patchVersion=0
+    preRelease="rc1"
 elif [[ $gitCommitMessage == "minor" ]]; then
     minorVersion=$(( minorVersion+1 ))
     patchVersion=0
+    preRelease="rc1"
 elif [[ $gitCommitMessage == "patch" ]]; then
     patchVersion=$(( patchVersion+1 ))
+    preRelease="rc1"
+elif [[ $gitCommitMessage == "fix" ]]; then
+    preReleaseVersion=(${appVersions[2]//rc/})
+    preReleaseVersionNumber=$(( preReleaseVersion+1 ))
+    echo $preReleaseVersionNumber
+    preRelease=rc$preReleaseVersionNumber
 else
     patchVersion=$(( patchVersion+1 ))
 fi
 
-newTag="${appName}-${majorVersion}.${minorVersion}.${patchVersion}"
+newTag="${appName}-${majorVersion}.${minorVersion}.${patchVersion}-${preRelease}"
 
 echo "export GIT_TAG=${newTag}" >> $BASH_ENV
 
