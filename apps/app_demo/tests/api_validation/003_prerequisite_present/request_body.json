@@ -1,0 +1,17 @@
+{
+    "applicants":
+    {
+        "applicant1":
+        {
+            "date_of_birth": "1965-12-10"
+        }
+    },
+    "verifications":
+    {
+        "identity": []
+    },
+    "services":
+    [
+        "verify"
+    ]
+}

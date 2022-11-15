@@ -12,7 +12,7 @@ jobs:
       - attach_workspace:
           at: .
       - terraform/plan:
-          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+          path: infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>
       - persist_to_workspace:
           root: .
           paths:

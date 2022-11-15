@@ -1,0 +1,49 @@
+{
+    "version": "2.0",
+    "routeKey": "POST /v1/auto/applications",
+    "rawPath": "/v1/auto/applications",
+    "rawQueryString": "",
+    "headers": {
+        "accept": "*/*",
+        "accept-encoding": "gzip, deflate, br",
+        "authorization": "Basic YWNtZWZpbmFuY2lhbEBkcml2ZWluZm9ybWVkLmNvbTpjZjM2NDA0NC1kNDVmLTRkOWEtOGRkZi0zZjc5YjM3Zjc1OTY=",
+        "cache-control": "no-cache",
+        "content-length": "5181",
+        "content-type": "application/json",
+        "host": "api.rberger.informediq-infra.com",
+        "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyX3V1aWQiOiJlNmU0ZmQxMC0wOGU3LTQzNTctOTRiYy0xMzIyZGM2NzkxODEiLCJuYW1lIjoiYWNtZWZpbmFuY2lhbCIsImVtYWlsIjoiYWNtZWZpbmFuY2lhbEBkcml2ZWluZm9ybWVkLmNvbSIsInN0YXR1cyI6ImFjdGl2ZSIsImZ1bGxfbmFtZSI6IkFjbWUgRmluYW5jaWFsLCBMTEMiLCJpc3MiOiJQYXJ0bmVyIEF1dGhvcml6ZXIgTGFtYmRhIiwic3ViIjoiQXV0aG9yaXplZCB0b2tlbiBmb3IgaW50ZXJuYWwgdXNlIG9ubHkhIiwiaWF0IjoxNjY3MzY4NDQ3LjAzMDE4ODYsImV4cCI6MTY2NzM4Mjg0Ny4wMzAxODkzfQ.YSZ8VdIs37pIuvzfkUvYN9gsbbOfZEtzgjffLG55_wo",
+        "postman-token": "7fb699bb-0d79-42de-a541-4dff5a0c2a9b",
+        "traceparent": "00-636205fe7de4002351df1c0e5d86e6af-633d17dd89e8bd17-01",
+        "user-agent": "PostmanRuntime/7.29.2",
+        "x-amzn-trace-id": "Root=1-636205fe-149230800fe12d0d1dba2884",
+        "x-forwarded-for": "98.97.61.38",
+        "x-forwarded-port": "443",
+        "x-forwarded-proto": "https"
+    },
+    "requestContext": {
+        "accountId": "456773209430",
+        "apiId": "duwah0qsn3",
+        "authorizer": {
+            "lambda": {
+                "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyX3V1aWQiOiJlNmU0ZmQxMC0wOGU3LTQzNTctOTRiYy0xMzIyZGM2NzkxODEiLCJuYW1lIjoiYWNtZWZpbmFuY2lhbCIsImVtYWlsIjoiYWNtZWZpbmFuY2lhbEBkcml2ZWluZm9ybWVkLmNvbSIsInN0YXR1cyI6ImFjdGl2ZSIsImZ1bGxfbmFtZSI6IkFjbWUgRmluYW5jaWFsLCBMTEMiLCJpc3MiOiJQYXJ0bmVyIEF1dGhvcml6ZXIgTGFtYmRhIiwic3ViIjoiQXV0aG9yaXplZCB0b2tlbiBmb3IgaW50ZXJuYWwgdXNlIG9ubHkhIiwiaWF0IjoxNjY3MzY4NDQ3LjAzMDE4ODYsImV4cCI6MTY2NzM4Mjg0Ny4wMzAxODkzfQ.YSZ8VdIs37pIuvzfkUvYN9gsbbOfZEtzgjffLG55_wo",
+                "traceparent": "00-636205fe7de4002351df1c0e5d86e6af-633d17dd89e8bd17-01"
+            }
+        },
+        "domainName": "api.rberger.informediq-infra.com",
+        "domainPrefix": "api",
+        "http": {
+            "method": "POST",
+            "path": "/v1/auto/applications",
+            "protocol": "HTTP/1.1",
+            "sourceIp": "98.97.61.38",
+            "userAgent": "PostmanRuntime/7.29.2"
+        },
+        "requestId": "a9Xfyg87PHcES6w=",
+        "routeKey": "POST /v1/auto/applications",
+        "stage": "$default",
+        "time": "02/Nov/2022:05:54:06 +0000",
+        "timeEpoch": 1667368446464
+    },
+    "body": "{\n    \"application_reference_id\": \"rberger_env_app_144\",\n    \"application_date\": \"2021-05-09T09:11:38\",\n    \"contract_date\": \"2021-05-09T09:11:38\",\n    \"application_status\": \"active\",\n    \"contract_type\": \"Electronic\",\n    \"customer_language\": \"English\",\n    \"applicants\":\n    {\n        \"applicant1\":\n        {\n            \"first_name\": \"Jo\",\n            \"last_name\": \"Boren\",\n            \"middle_name\": null,\n            \"suffix\": null,\n            \"email\": \"jo.boren@gmail.com\",\n            \"phone\": \"9196201234\",\n            \"ssn\": \"681129638\",\n            \"date_of_birth\": \"1965-12-10\",\n            \"address_info\":\n            [\n                {\n                    \"address\":\n                    {\n                        \"street_address\": \"8717 S 4th Ave\",\n                        \"city\": \"Inglewood\",\n                        \"state\": \"CA\",\n                        \"zip\": \"90305\"\n                    },\n                    \"is_current\": true,\n                    \"start_date\": \"2020-10-01\",\n                    \"end_date\": null,\n                    \"residence_type\": \"Rent\",\n                    \"monthly_housing_cost\": 1000\n                }\n            ],\n            \"employment_info\":\n            [\n                {\n                    \"employment_type\": \"Employed\",\n                    \"employer_name\": \"Envoy Air, Inc.\",\n                    \"is_current\": true,\n                    \"occupation\": \"Crew Member\",\n                    \"income\":\n                    {\n                        \"period\": \"Yearly\",\n                        \"amount\": 74500\n                    },\n                    \"start_date\": \"2018-11-01\",\n                    \"end_date\": null,\n                    \"business_phone\": \"9196571475\"\n                }\n            ],\n            \"additional_incomes\":\n            [\n                {\n                    \"source\": \"ChildSupport\",\n                    \"income\":\n                    {\n                        \"period\": \"Yearly\",\n                        \"amount\": 10000\n                    }\n                }\n            ]\n        },\n        \"applicant2\":\n        {\n            \"first_name\": \"Lucinda\",\n            \"last_name\": \"Bonadio\",\n            \"email\": \"lucinda.bonadio@gmail.com\",\n            \"phone\": \"9196202345\",\n            \"ssn\": \"681129443\",\n            \"date_of_birth\": \"1965-12-10\",\n            \"address_info\":\n            [\n                {\n                    \"address\":\n                    {\n                        \"street_address\": \"8717 S 4th Ave\",\n                        \"city\": \"Inglewood\",\n                        \"state\": \"CA\",\n                        \"zip\": \"90305\"\n                    },\n                    \"is_current\": true,\n                    \"start_date\": \"2020-10-01\",\n                    \"end_date\": null,\n                    \"residence_type\": \"Rent\",\n                    \"monthly_housing_cost\": 1000\n                }\n            ],\n            \"employment_info\":\n            [\n                {\n                    \"employment_type\": \"Employed\",\n                    \"employer_name\": \"Informed Inc.\",\n                    \"is_current\": true,\n                    \"occupation\": \"Crew Member\",\n                    \"income\":\n                    {\n                        \"period\": \"Yearly\",\n                        \"amount\": 60000\n                    },\n                    \"start_date\": \"2018-11-01\",\n                    \"end_date\": null,\n                    \"business_phone\": \"9196571425\"\n                }\n            ]\n        }\n    },\n    \"verifications\":\n    {\n        \"income\":\n        [\n            {\n                \"belongs_to\": \"applicant1\"\n            },\n            {\n                \"belongs_to\": \"applicant2\"\n            }\n        ],\n        \"residence\":\n        [\n            {\n                \"belongs_to\": \"applicant1\"\n            }\n        ],\n        \"insurance\":\n        [\n            {\n                \"belongs_to\": \"applicant1\"\n            }\n        ],\n        \"identity\":\n        [\n            {\n                \"belongs_to\": \"applicant1\"\n            },\n            {\n                \"belongs_to\": \"applicant2\"\n            }\n        ],\n        \"odometer_statement\":\n        [\n            {\n                \"belongs_to\": \"application\"\n            }\n        ],\n        \"bookout_sheet\":\n        [\n            {\n                \"belongs_to\": \"application\"\n            }\n        ]\n    },\n    \"vehicle_info\":\n    {\n        \"vin\": \"1HGCR2F52GA195235\",\n        \"make\": \"Honda\",\n        \"model\": \"Accord\",\n        \"year\": 2014,\n        \"trim\": \"Sedan\",\n        \"color\": \"Black\",\n        \"odometer\": 62940,\n        \"condition\": \"Used\",\n        \"equipments\": \"Fog Lights, Power Mirrors\",\n        \"selling_price\": 16900\n    },\n    \"dealer_info\":\n    {\n        \"dealer_reference_id\": \"918278126\",\n        \"dealer_name\": \"Toyota Of Hollywood\",\n        \"dealer_phone\": \"3234982260\",\n        \"address\":\n        {\n            \"street_address\": \"6000 Hollywood Blvd\",\n            \"city\": \"Los Angeles\",\n            \"state\": \"CA\",\n            \"zip\": \"90028\"\n        }\n    },\n    \"services\":\n    [\n        \"classify\",\n        \"extract\",\n        \"verify\"\n    ],\n    \"webhook\": \"https://demo.informed.iq/119utbz1\"\n}",
+    "isBase64Encoded": false
+}

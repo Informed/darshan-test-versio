@@ -1,0 +1,10 @@
+{
+    "verifications":
+    {
+        "identity": []
+    },
+    "services":
+    [
+        "verify"
+    ]
+}

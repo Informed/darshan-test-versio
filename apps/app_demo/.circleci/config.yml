@@ -1,0 +1,62 @@
+version: 2.1
+
+workflows:
+  app-demo_PR:
+    when:
+      and:
+        - equal: [ true, << pipeline.parameters.run-app_demo >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
+        - not:
+            equal: [ main, << pipeline.git.branch >> ]
+    jobs:
+      - py_app_testing:
+          name: app-tester-app_demo
+          appName   : "app_demo"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - security_sca:
+          name: security-sca-app_demo
+          appName   : "app_demo"
+          context:
+            - snyk-token
+            - cicd-platform-slack-creds
+      - security_sast:
+          name: security-sast-app_demo
+          appName   : "app_demo"
+          context:
+            - snyk-token
+            - cicd-platform-slack-creds
+
+  app_demo:
+    when:
+      and:
+        - equal: [ true, << pipeline.parameters.run-app_demo >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
+    jobs:
+      - py_app_testing:
+          name: app-tester-app_demo
+          appName   : "app_demo"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - py_app_builder:
+          name: app-builder-app_demo
+          target-env: "dev"
+          appName   : "app_demo"
+          context:
+            - cicd-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - app-tester-app_demo
+      - app_starter:
+          name: app-starter-app_demo
+          target-env: "dev"
+          appName   : "app-demo"
+          directory : "app_demo"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - app-builder-app_demo

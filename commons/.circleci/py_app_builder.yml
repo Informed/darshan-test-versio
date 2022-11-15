@@ -1,0 +1,33 @@
+jobs:
+  py_app_builder:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    executor:
+      name: python/default
+      tag: "3.8"
+    parameters:
+      target-env:
+        type: string
+      appName:
+        type: string
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - start_slack_notification
+      - checkout
+      - tag_commit:
+          appName: <<parameters.appName>>
+      - python/install-packages:
+          app-dir: ~/project/apps/<<parameters.appName>>
+          pkg-manager: poetry
+      - poetry_build:
+          appName: <<parameters.appName>>
+      - py_create_package:
+          appName: <<parameters.appName>>
+      - upload_artifacts:
+          from: apps/<<parameters.appName>>/package/out
+          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>
+      - create_versioned_assets:
+          from: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/latest.zip
+          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/${GIT_TAG}.zip
+      - notify_slack_error

@@ -1,0 +1,48 @@
+version: 2.1
+
+workflows:
+
+  tf-app_demo-staging_PR:
+    when: 
+      and:
+        - equal: [ true, << pipeline.parameters.tf-app-demo-staging >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
+        - not:
+            equal: [ main, << pipeline.git.branch >> ]
+    jobs:
+      - tf-test:
+          name: tf-tester-app-demo
+          target-env: "staging"
+          appName   : "app-demo"
+          context: 
+            - cicd-deployer-aws-user
+
+  tf-app-demo-staging:
+    when:
+      and:
+        - equal: [ true, << pipeline.parameters.tf-app-demo-staging >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ] 
+    jobs:
+      - tf-test:
+          name: tf-tester-app-demo
+          target-env: "staging"
+          appName   : "app-demo"
+          context: 
+            - cicd-deployer-aws-user
+      - tf-plan:
+          name: tf-plan-app-demo
+          target-env: "staging"
+          appName   : "app-demo"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-tester-app-demo
+      - tf-apply:
+          name: tf-apply-app-demo
+          target-env: "staging"
+          appName   : "app-demo"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-plan-app-demo

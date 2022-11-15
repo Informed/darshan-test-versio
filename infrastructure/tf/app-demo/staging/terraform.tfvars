@@ -1,0 +1,5 @@
+bucket_prefix = "informed"
+project_name  = "techno-core"
+environment   = "staging"
+profile       = "staging"
+region        = "us-west-2"

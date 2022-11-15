@@ -1,0 +1,13 @@
+flows:
+  verify_non_income_consumer:
+    - "$.services[?(@ == 'verify')]"
+    - "$.verifications.['identity']"
+
+validations:
+  -
+    flows:
+      - "verify_non_income_consumer"
+    required_expressions:
+      - "$.verifications.*": "@{PARTNERCONFIG}:$.stipulationVerificationConfig.rules.stipulations.*"
+
+

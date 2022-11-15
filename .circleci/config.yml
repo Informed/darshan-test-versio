@@ -15,14 +15,98 @@ parameters:
   run-api_handler-qa:
     type: boolean
     default: false
+  run-api_handler-staging:
+    type: boolean
+    default: false
+###  App demo 
+  run-app_demo-prod:
+    type: boolean
+    default: false
+  run-app_demo-dev-api:
+    type: boolean
+    default: false
+  run-app_demo-qa:
+    type: boolean
+    default: false
+  run-app_demo-staging:
+    type: boolean
+    default: false
+### Image Converter ###
+  run-image_converter-prod:
+    type: boolean
+    default: false
+  run-image_converter-dev-api:
+    type: boolean
+    default: false
+  run-image_converter-qa:
+    type: boolean
+    default: false
+  run-image_converter-staging:
+    type: boolean
+    default: false
+### Input File Validator ###
+  run-input_file_validator-prod:
+    type: boolean
+    default: false
+  run-input_file_validator-dev-api:
+    type: boolean
+    default: false
+  run-input_file_validator-qa:
+    type: boolean
+    default: false
+  run-input_file_validator-staging:
+    type: boolean
+    default: false
+### Page Ocr ###
+  run-page_ocr-prod:
+    type: boolean
+    default: false
+  run-page_ocr-dev-api:
+    type: boolean
+    default: false
+  run-page_ocr-qa:
+    type: boolean
+    default: false
+  run-page_ocr-staging:
+    type: boolean
+    default: false
+### Page Vision Data Process ###
+  run-page_vision_data_process-prod:
+    type: boolean
+    default: false
+  run-page_vision_data_process-dev-api:
+    type: boolean
+    default: false
+  run-page_vision_data_process-qa:
+    type: boolean
+    default: false
+  run-page_vision_data_process-staging:
+    type: boolean
+    default: false
+### Partner Authorizer ###
+  run-partner_authorizer-prod:
+    type: boolean
+    default: false
+  run-partner_authorizer-dev-api:
+    type: boolean
+    default: false
+  run-partner_authorizer-qa:
+    type: boolean
+    default: false
+  run-partner_authorizer-staging:
+    type: boolean
+    default: false
 ### Partner Profile ###
   run-partner_profile-prod:
     type: boolean
     default: false
   run-partner_profile-qa:
     type: boolean
-    default: false  
+    default: false
   run-partner_profile-dev-api:
+    type: boolean
+    default: false
+  run-partner_profile-staging:
     type: boolean
     default: false
 ### Response Handler ###
@@ -35,7 +119,10 @@ parameters:
   run-response_handler-qa:
     type: boolean
     default: false
-### Other param ### 
+  run-response_handler-staging:
+    type: boolean
+    default: false
+### Other param ###
   version:
     type: string
     default: ""
@@ -50,10 +137,6 @@ workflows:
   setup-config:
     jobs:
       - split-config/generate-config:
-          # fixed-config-paths: |
-          #   ./apps/api_handler/.circleci/config.yml
-          #   ./apps/partner_profile/.circleci/config.yml
-          #   ./infrastructure/.circleci/config.yml
           find-config-regex: .*/\.circleci/.*\.yml
           generated-config-path: /tmp/generated_config.yml
           continuation: false
@@ -68,11 +151,54 @@ workflows:
           config-path: /tmp/generated_config.yml
           mapping: |
             apps/api_handler/.* run-api_handler true
+            apps/api_demo/.* run-app_demo true
+            apps/image_converter/.* run-image_converter true
+            apps/input_file_validator/.* run-input_file_validator true
+            apps/page_ocr/.* run-page_ocr true
+            apps/page_vision_data_process/.* run-page_vision_data_process true
+            apps/partner_authorizer/.* run-partner_authorizer true
             apps/partner_profile/.* run-partner_profile true
             apps/response_handler/.* run-response_handler true
-            infrastructure/api_handler/sand/dshah.* tf-api_handler true
-            infrastructure/partner_profile/sand/dshah.* tf-partner_profile true
-            infrastructure/response_handler/sand/dshah.* tf-response_handler true
+            infrastructure/tf/api-handler/dev/.* tf-api-handler-dev true
+            infrastructure/tf/app-demo/dev/.* tf-app-demo-dev true
+            infrastructure/tf/image-converter/dev/.* tf-image-converter-dev true
+            infrastructure/tf/input-file-validator/dev/.* tf-input-file-validator-dev true
+            infrastructure/tf/page-ocr/dev/.* tf-page-ocr-dev true
+            infrastructure/tf/page-vision-data-process/dev/.* tf-page-vision-data-process-dev true
+            infrastructure/tf/partner-profile/dev/.* tf-partner-profile-dev true
+            infrastructure/tf/response-handler/dev/.* tf-response-handler-dev true
+            infrastructure/tf/api-handler/dev-api/.* tf-api-handler-dev-api true
+            infrastructure/tf/app-demo/dev-api/.* tf-app-demo-dev-api true
+            infrastructure/tf/image-converter/dev-api/.* tf-image-converter-dev-api true
+            infrastructure/tf/input-file-validator/dev-api/.* tf-input-file-validator-dev-api true
+            infrastructure/tf/page-ocr/dev-api/.* tf-page-ocr-dev-api true
+            infrastructure/tf/page-vision-data-process/dev-api/.* tf-page-vision-data-process-dev-api true
+            infrastructure/tf/partner-profile/dev-api/.* tf-partner-profile-dev-api true
+            infrastructure/tf/response-handler/dev-api/.* tf-response-handler-dev-api true
+            infrastructure/tf/api-handler/qa/.* tf-api-handler-qa true
+            infrastructure/tf/app-demo/qa/.* tf-app-demo-qa true
+            infrastructure/tf/image-converter/qa/.* tf-image-converter-qa true
+            infrastructure/tf/input-file-validator/qa/.* tf-input-file-validator-qa true
+            infrastructure/tf/page-ocr/qa/.* tf-page-ocr-qa true
+            infrastructure/tf/page-vision-data-process/qa/.* tf-page-vision-data-process-qa true
+            infrastructure/tf/partner-profile/qa/.* tf-partner-profile-qa true
+            infrastructure/tf/response-handler/qa/.* tf-response-handler-qa true
+            infrastructure/tf/api-handler/staging/.* tf-api-handler-staging true
+            infrastructure/tf/app-demo/staging/.* tf-app-demo-staging true
+            infrastructure/tf/image-converter/staging/.* tf-image-converter-staging true
+            infrastructure/tf/input-file-validator/staging/.* tf-input-file-validator-staging true
+            infrastructure/tf/page-ocr/staging/.* tf-page-ocr-staging true
+            infrastructure/tf/page-vision-data-process/staging/.* tf-page-vision-data-process-staging true
+            infrastructure/tf/partner-profile/staging/.* tf-partner-profile-staging true
+            infrastructure/tf/response-handler/staging/.* tf-response-handler-staging true
+            infrastructure/tf/api-handler/prod/.* tf-api-handler-prod true
+            nfrastructure/tf/app-demo/prod/.* tf-app-demo-prod true
+            infrastructure/tf/image-converter/prod/.* tf-image-converter-prod true
+            infrastructure/tf/input-file-validator/prod/.* tf-input-file-validator-prod true
+            infrastructure/tf/page-ocr/prod/.* tf-page-ocr-prod true
+            infrastructure/tf/page-vision-data-process/prod/.* tf-page-vision-data-process-prod true
+            infrastructure/tf/partner-profile/prod/.* tf-partner-profile-prod true
+            infrastructure/tf/response-handler/prod/.* tf-response-handler-prod true
           base-revision: main
           requires:
             - split-config/generate-config

@@ -1,0 +1,7 @@
+{
+    "application_reference_id": "application_id_001",
+    "services":
+    [
+        "classify"
+    ]
+}

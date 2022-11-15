@@ -2,10 +2,10 @@ version: 2.1
 
 workflows:
   api_handler-qa:
-    when: 
+    when:
       and:
-        - matches: 
-            pattern: /.*\d+\.\d+\.\d+$/ 
+        - matches:
+            pattern: /^[a-zA-Z0-9_]+-\d+\.\d+\.\d-[rc\d]+$/
             value: << pipeline.parameters.version >>
         - equal: [ true, << pipeline.parameters.run-api_handler-qa >> ]
         - equal: [ true, << pipeline.parameters.api_call>> ]
@@ -17,30 +17,30 @@ workflows:
           appName   : "api-handler"
           directory : "api_handler"
           version: << pipeline.parameters.version >>
-          context: 
+          context:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
       - tf-test:
           name: tf-tester-api_handler-qa
-          target-env: "sand/dshah"
-          appName   : "api_handler"
-          context: 
+          target-env: "qa"
+          appName   : "api-handler"
+          context:
             - cicd-deployer-aws-user
           requires:
             - artifact-promoter-api_handler-qa
       - tf-plan:
           name: tf-plan-api_handler-qa
-          target-env: "sand/dshah"
-          appName   : "api_handler"
-          context: 
+          target-env: "qa"
+          appName   : "api-handler"
+          context:
             - cicd-deployer-aws-user
           requires:
             - tf-tester-api_handler-qa
       - tf-apply:
           name: tf-apply-api_handler-qa
-          target-env: "sand/dshah"
-          appName   : "api_handler"
-          context: 
+          target-env: "qa"
+          appName   : "api-handler"
+          context:
             - cicd-deployer-aws-user
           requires:
             - tf-plan-api_handler-qa
@@ -49,15 +49,14 @@ workflows:
           target-env: "qa"
           appName   : "api-handler"
           directory : "api_handler"
-          context: 
+          context:
             - qa-aws-user-creds
             - cicd-platform-slack-creds
           requires:
             - tf-apply-api_handler-qa
       # - slack/on-hold:
       #     mentions: '@dow-platform'
-      #     context: 
+      #     context:
       #       - cicd-platform-slack-creds
       #     requires:
-      #       - app-starter-for-dev
-      
+      #       - app-starter-for-qa

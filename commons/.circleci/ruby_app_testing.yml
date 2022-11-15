@@ -1,0 +1,20 @@
+ 
+jobs:
+  ruby_app_testing:
+    docker:
+      - image: ruby:3.0.3
+    parameters:
+      appName:
+        type: string
+    parallelism: 2
+    steps:
+      - checkout
+      - ruby_install_packages:
+          appName: <<parameters.appName>>
+      - bundle_build:
+          appName: <<parameters.appName>>
+      - ruby_linters:
+          appName: <<parameters.appName>>
+      - ruby_tests:
+          appName: <<parameters.appName>>
+      - notify_slack_error

@@ -1,0 +1,9 @@
+{
+    "stipulationVerificationConfig": {
+        "rules": {
+            "stipulations": {
+                "identity": {}
+            }
+        }
+    }
+}

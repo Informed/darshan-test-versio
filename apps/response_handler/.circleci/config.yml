@@ -9,7 +9,7 @@ workflows:
         - not:
             equal: [ main, << pipeline.git.branch >> ]
     jobs:
-      - app_testing:
+      - py_app_testing:
           appName   : "response_handler"
           context:
             - dshah-aws-user-creds
@@ -22,13 +22,13 @@ workflows:
         - equal: [ main, << pipeline.git.branch >> ]
         - equal: [ false, << pipeline.parameters.api_call>> ]
     jobs:
-      - app_testing:
+      - py_app_testing:
           name: app-tester-response_handler
           appName   : "response_handler"
           context:
             - dshah-aws-user-creds
             - cicd-platform-slack-creds
-      - app_builder:
+      - py_app_builder:
           name: app-builder-response_handler
           target-env: "dshah"
           appName   : "response_handler"

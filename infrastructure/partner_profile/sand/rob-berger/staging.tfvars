@@ -1,6 +1,0 @@
-bucket_prefix   = "informed"
-project_name    = "techno-core"
-dns_base_domain = "informed.iq"
-environment     = "staging"
-profile         = "staging"
-region          = "us-west-2"

@@ -1,0 +1,61 @@
+[tool.poetry]
+name = "app"
+version = "0.0.0"
+description = ""
+authors = ["Rahul Salla <rahul.salla@informed.iq>"]
+include = ["app_demo.py"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+# Expects otel to come from otel layer
+[tool.poetry.group.layer.dependencies]
+pyjwt = "==2.5.0"
+honeybadger = "0.8.0"
+simplejson = "3.17.6"
+pydantic = "1.10.2"
+requests = "2.28.1"
+jsonpath-ng = "1.5.3"
+boto3 = "1.25.3"
+aws-lambda-powertools = "==1.31.1"
+pyyaml = "6.0"
+
+[tool.poetry.group.dev.dependencies]
+coverage = {extras = ["toml"], version = "^6.5.0"}
+pytest = "^6.0"
+pytest-xdist = "^2.5.0"
+flake8 = "^4.0.1"
+flake8-bugbear = "^22.4.25"
+python-lambda-local = "^0.1.13"
+opentelemetry-sdk = "==1.13.0"
+opentelemetry-api = "==1.13.0"
+dunamai = "^1.13.2"
+
+[tool.poetry.scripts]
+create-api-spec = "app.scripts.api_spec:start"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+bump = true
+style = "semver"
+pattern = 'app_demo-(?P<base>\d+\.\d+\.\d+).*'
+# format-jinja = '{% if distance == 0 %}{{ base }}{% else %}{{ base }}-{{commit}}{% endif %}'
+
+[tool.poetry-dynamic-versioning.substitution]
+files = ["*/__init__.py"]
+
+[tool.pytest.ini_options]
+markers = [
+  "focus: focus specific tests to run"
+]
+
+[tool.coverage.run]
+omit = [".*", "*/site-packages/*"]
+
+[tool.coverage.report]
+fail_under = 40
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"

@@ -1,0 +1,5 @@
+bucket_prefix = "informed"
+project_name  = "techno-core"
+environment   = "rberger"
+profile       = "rberger"
+region        = "us-west-2"

@@ -2,10 +2,10 @@ version: 2.1
 
 workflows:
   api_handler-prod:
-    when: 
+    when:
       and:
-        - matches: 
-            pattern: /.*\d+\.\d+\.\d+$/ 
+        - matches:
+            pattern: /^[a-zA-Z0-9_]+-\d+\.\d+\.\d-[rc\d]+$/
             value: << pipeline.parameters.version >>
         - equal: [ true, << pipeline.parameters.run-api_handler-prod >> ]
         - equal: [ true, << pipeline.parameters.api_call>> ]
@@ -13,88 +13,50 @@ workflows:
     jobs:
       - artifact_promoter:
           name: artifact-promoter-api_handler-prod
-          target-env: "dev"
+          target-env: "prod"
           appName   : "api-handler"
           directory : "api_handler"
           version: << pipeline.parameters.version >>
-          context: 
+          context:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
       - tf-test:
-          name: tf-tester-api_handler-stag
-          target-env: "sand/dshah"
-          appName   : "api_handler"
-          context: 
-            - cicd-deployer-aws-user
-          requires:
-            - artifact-promoter-api_handler-prod
-      - tf-plan:
-          name: tf-plan-api_handler-stag
-          target-env: "sand/dshah"
-          appName   : "api_handler"
-          context: 
-            - cicd-deployer-aws-user
-          requires:
-            - tf-tester-api_handler-stag
-      - tf-apply:
-          name: tf-apply-api_handler-stag
-          target-env: "sand/dshah"
-          appName   : "api_handler"
-          context: 
-            - cicd-deployer-aws-user
-          requires:
-            - tf-plan-api_handler-stag
-      - app_starter:
-          name: app-starter-api_handler-stag
-          target-env: "dev"
-          appName   : "api-handler"
-          directory : "api_handler"
-          context: 
-            - dev-aws-user-creds
-            - cicd-platform-slack-creds
-          requires:
-            - tf-apply-api_handler-stag
-      # - slack/on-hold:
-      #     mentions: '@dow-platform'
-      #     context: 
-      #       - cicd-platform-slack-creds
-      #     requires:
-      #       - app-starter-for-dev
-      - pause_workflow:
-          type: approval
-          requires:
-            - app-starter-api_handler-stag
-      - tf-test:
           name: tf-tester-api_handler-prod
-          target-env: "sand/dshah"
-          appName   : "api_handler"
-          context: 
+          target-env: "prod"
+          appName   : "api-handler"
+          context:
             - cicd-deployer-aws-user
           requires:
             - pause_workflow
       - tf-plan:
           name: tf-plan-api_handler-prod
-          target-env: "sand/dshah"
-          appName   : "api_handler"
-          context: 
+          target-env: "prod"
+          appName   : "api-handler"
+          context:
             - cicd-deployer-aws-user
           requires:
             - tf-tester-api_handler-prod
       - tf-apply:
           name: tf-apply-api_handler-prod
-          target-env: "sand/dshah"
-          appName   : "api_handler"
-          context: 
+          target-env: "prod"
+          appName   : "api-handler"
+          context:
             - cicd-deployer-aws-user
           requires:
             - tf-plan-api_handler-prod
       - app_starter:
           name: app-starter-for-prod
-          target-env: "dev"
+          target-env: "prod"
           appName   : "api-handler"
           directory : "api_handler"
-          context: 
-            - dev-aws-user-creds
+          context:
+            - prod-aws-user-creds
             - cicd-platform-slack-creds
           requires:
             - tf-apply-api_handler-prod
+      # - slack/on-hold:
+      #     mentions: '@dow-platform'
+      #     context:
+      #       - cicd-platform-slack-creds
+      #     requires:
+      #       - app-starter-for-prod

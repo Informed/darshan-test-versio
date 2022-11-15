@@ -1,0 +1,11 @@
+{
+    "applicants":{},
+    "verifications":
+    {
+        "identity": []
+    },
+    "services":
+    [
+        "verify"
+    ]
+}

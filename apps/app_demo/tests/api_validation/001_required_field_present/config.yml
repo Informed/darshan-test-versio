@@ -1,0 +1,13 @@
+flows:
+  classify:
+    - "$.services[?(@ == 'classify')]"
+
+validations:
+  -
+    flows:
+      - "classify"
+    required_expressions:
+      - "$.application_reference_id": "@{PRESENT}"
+
+
+

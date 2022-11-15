@@ -1,0 +1,188 @@
+# Spreadsheet Reference: https://docs.google.com/spreadsheets/d/1z1nQRy1pAoVT5q4I7innV0HzdmlVXBqnsqf1161WrVI/edit?usp=sharing
+# TODO: Description:
+
+dealer_verifications: &dealer_verifications
+    "$.verifications.
+    [
+    'odometer_statement',
+    'bookout_sheet',
+    'vehicle_service_contract',
+    'gap_binder',
+    'contract_cancellation_option',
+    'cosigner_notice',
+    'added_products_services',
+    'appearance_protection',
+    'credit_application',
+    'foreign_language_acknowledgement',
+    'gap_disclosure',
+    'gap_waiver_contract',
+    'key_replacement',
+    'maitenance_plan',
+    'order_form',
+    'paintless_dent_repair',
+    'retail_installment_sales_contract',
+    'theft_protection',
+    'tire_wheel',
+    'title_application_receipt',
+    'title_application',
+    'windshield_protection'
+    ]"
+
+flows:
+  classify:
+    - "$.services[?(@ == 'classify')]"
+  extract:
+    - "$.services[?(@ == 'extract')]"
+  verify_income:
+    - "$.services[?(@ == 'verify')]"
+    - "$.verifications.income"
+  verify_non_income_consumer:
+    - "$.services[?(@ == 'verify')]"
+    - "$.verifications.['identity', 'ssn', 'insurance', 'residence']"
+  verify_dealer:
+    - "$.services[?(@ == 'verify')]"
+    - *dealer_verifications
+  income-calc:
+    - "$.services[?(@ == 'income-calc')]"
+  no_flow:
+    - "$"
+
+validations:
+  -
+    flows:
+      - "no_flow"
+    required_expressions:
+      - "$.services": "@{PRESENT}"
+  -
+    flows:
+      - "classify"
+      - "extract"
+      - "verify_income"
+      - "verify_non_income_consumer"
+      - "verify_dealer"
+      - "income-calc"
+    required_expressions:
+      - "$.application_reference_id": "@{PRESENT}"
+      - "$.application_date": "@{PRESENT}"
+      - "$.webhook": "@{PRESENT}"
+      # PartnerConfig - Check if this partner is configured to use the requested services
+      # Not all partners are configured to use every service we support
+      - "$.services[*]": "@{PARTNERCONFIG}:$.metadata.services[*]"
+  -
+    flows:
+      - "extract"
+      - "verify_income"
+      - "verify_non_income_consumer"
+      - "verify_dealer"
+      - "income-calc"
+    required_expressions:
+      - "$.applicants": "@{PRESENT}"
+      - "$.applicants.applicant1": "@{PRESENT}"
+      - "$.applicants.applicant1.first_name": "@{PRESENT}"
+      - "$.applicants.applicant1.last_name": "@{PRESENT}"
+  -
+    flows:
+      - "verify_income"
+      - "verify_non_income_consumer"
+      - "verify_dealer"
+    required_expressions:
+      - "$.contract_date": "@{PRESENT}"
+      - "$.applicants.applicant1.address_info": "@{PRESENT}"
+      - "$.applicants.applicant1.address_info[*].address.street_address": "@{PRESENT}"
+      - "$.applicants.applicant1.address_info[*].address.city": "@{PRESENT}"
+      - "$.applicants.applicant1.address_info[*].address.state": "@{PRESENT}"
+      - "$.applicants.applicant1.address_info[*].address.zip": "@{PRESENT}"
+      - "$.applicants.applicant1.address_info[?(@.is_current==true)]": "@{PRESENT}"
+      # PartnerConfig
+      - "$.verifications.*": "@{PARTNERCONFIG}:$.stipulationVerificationConfig.rules.stipulations.*"
+  -
+    flows:
+      - "verify_income"
+    required_expressions:
+      - "$.applicants.applicant1.employment_info": "@{PRESENT}"
+      - "$.applicants.applicant1.employment_info[*].employment_type": "@{PRESENT}"
+      - "$.applicants.applicant1.employment_info[*].income.period": "@{PRESENT}"
+      - "$.applicants.applicant1.employment_info[*].income.amount": "@{PRESENT}"
+      - "$.applicants.applicant1.employment_info[?(@.is_current==true)]": "@{PRESENT}"
+  -
+    flows:
+      - "verify_dealer"
+      - "verify_non_income_consumer"
+    required_expressions:
+      - "$.applicants.applicant1.date_of_birth": "@{PRESENT}"
+  -
+    flows:
+      - "extract"
+      - "verify_income"
+      - "verify_non_income_consumer"
+      - "verify_dealer"
+      - "income-calc"
+    prerequisites:
+      - "$.applicants.applicant2"
+    required_expressions:
+      - "$.applicants.applicant2.first_name": "@{PRESENT}"
+      - "$.applicants.applicant2.last_name": "@{PRESENT}"
+  -
+    flows:
+      - "verify_dealer"
+      - "verify_non_income_consumer"
+    prerequisites:
+      - "$.applicants.applicant2"
+    required_expressions:
+      - "$.applicants.applicant2.date_of_birth": "@{PRESENT}"
+  -
+    flows:
+      - "verify_income"
+      - "verify_non_income_consumer"
+      - "verify_dealer"
+    prerequisites:
+      - "$.applicants.applicant2"
+    required_expressions:
+      - "$.applicants.applicant2.address_info": "@{PRESENT}"
+      - "$.applicants.applicant2.address_info[*].address.street_address": "@{PRESENT}"
+      - "$.applicants.applicant2.address_info[*].address.city": "@{PRESENT}"
+      - "$.applicants.applicant2.address_info[*].address.state": "@{PRESENT}"
+      - "$.applicants.applicant2.address_info[*].address.zip": "@{PRESENT}"
+      - "$.applicants.applicant2.address_info[?(@.is_current==true)]": "@{PRESENT}"
+  -
+    flows:
+      - "verify_income"
+    prerequisites:
+      - "$.applicants.applicant2"
+    required_expressions:
+      - "$.applicants.applicant2.employment_info": "@{PRESENT}"
+      - "$.applicants.applicant2.employment_info[*].employment_type": "@{PRESENT}"
+      - "$.applicants.applicant2.employment_info[*].income.period": "@{PRESENT}"
+      - "$.applicants.applicant2.employment_info[*].income.amount": "@{PRESENT}"
+      - "$.applicants.applicant2.employment_info[?(@.is_current==true)]": "@{PRESENT}"
+  -
+    flows:
+      - "verify_dealer"
+    required_expressions:
+      - "$.contract_type": "@{PRESENT}"
+      - "$.dealer_info": "@{PRESENT}"
+      - "$.vehicle_info": "@{PRESENT}"
+  -
+    flows:
+      - "verify_dealer"
+    prerequisites:
+      - "$.dealer_info"
+    required_expressions:
+      - "$.dealer_info.dealer_reference_id": "@{PRESENT}"
+      - "$.dealer_info.dealer_name": "@{PRESENT}"
+      - "$.dealer_info.address.street_address": "@{PRESENT}"
+      - "$.dealer_info.address.city": "@{PRESENT}"
+      - "$.dealer_info.address.state": "@{PRESENT}"
+      - "$.dealer_info.address.zip": "@{PRESENT}"
+  -
+    flows:
+      - "verify_dealer"
+    prerequisites:
+      - "$.vehicle_info"
+    required_expressions:
+      - "$.vehicle_info.vin": "@{PRESENT}"
+      - "$.vehicle_info.model": "@{PRESENT}"
+      - "$.vehicle_info.make": "@{PRESENT}"
+      - "$.vehicle_info.year": "@{PRESENT}"
+      - "$.vehicle_info.odometer": "@{PRESENT}"
+      - "$.vehicle_info.condition": "@{PRESENT}"

@@ -1,0 +1,20 @@
+ 
+jobs:
+  py_app_testing:
+    executor:
+      name: python/default
+      tag: "3.8"
+    parameters:
+      appName:
+        type: string
+    parallelism: 2
+    steps:
+      - checkout
+      - python/install-packages:
+          app-dir: ~/project/apps/<<parameters.appName>>
+          pkg-manager: poetry
+      - py_linters:
+          appName: <<parameters.appName>>
+      - py_tests:
+          appName: <<parameters.appName>>
+      - notify_slack_error

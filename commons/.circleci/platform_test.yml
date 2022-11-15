@@ -12,10 +12,10 @@ jobs:
     steps:
       - checkout
       - terraform/fmt:
-          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+          path: infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>
           recursive: true
       - terraform/validate:
-          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+          path: infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>
       - persist_to_workspace:
           root: .
           paths:

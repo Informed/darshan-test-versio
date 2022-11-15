@@ -1,4 +1,5 @@
 parameters:
+### Api Handler ###
   run-api_handler:
     type: boolean
     default: false
@@ -9,6 +10,105 @@ parameters:
     type: boolean
     default: false
   run-api_handler-qa:
+    type: boolean
+    default: false
+  run-api_handler-staging:
+    type: boolean
+    default: false
+### App Demo ###
+  run-app_demo:
+    type: boolean
+    default: false
+  run-app_demo-prod:
+    type: boolean
+    default: false
+  run-app_demo-dev-api:
+    type: boolean
+    default: false
+  run-app_demo-qa:
+    type: boolean
+    default: false
+  run-app_demo-staging:
+    type: boolean
+    default: false
+### Image Converter ###
+  run-image_converter:
+    type: boolean
+    default: false
+  run-image_converter-prod:
+    type: boolean
+    default: false
+  run-image_converter-dev-api:
+    type: boolean
+    default: false
+  run-image_converter-qa:
+    type: boolean
+    default: false
+  run-image_converter-staging:
+    type: boolean
+    default: false
+### Input File Validator ###
+  run-input_file_validator:
+    type: boolean
+    default: false
+  run-input_file_validator-prod:
+    type: boolean
+    default: false
+  run-input_file_validator-dev-api:
+    type: boolean
+    default: false
+  run-input_file_validator-qa:
+    type: boolean
+    default: false
+  run-input_file_validator-staging:
+    type: boolean
+    default: false
+### Page Ocr ###
+  run-page_ocr:
+    type: boolean
+    default: false
+  run-page_ocr-prod:
+    type: boolean
+    default: false
+  run-page_ocr-dev-api:
+    type: boolean
+    default: false
+  run-page_ocr-qa:
+    type: boolean
+    default: false
+  run-page_ocr-staging:
+    type: boolean
+    default: false
+### Page Vision Data Process ###
+  run-page_vision_data_process:
+    type: boolean
+    default: false
+  run-page_vision_data_process-prod:
+    type: boolean
+    default: false
+  run-page_vision_data_process-dev-api:
+    type: boolean
+    default: false
+  run-page_vision_data_process-qa:
+    type: boolean
+    default: false
+  run-page_vision_data_process-staging:
+    type: boolean
+    default: false
+### Partner Authorizer ###
+  run-partner_authorizer:
+    type: boolean
+    default: false
+  run-partner_authorizer-prod:
+    type: boolean
+    default: false
+  run-partner_authorizer-dev-api:
+    type: boolean
+    default: false
+  run-partner_authorizer-qa:
+    type: boolean
+    default: false
+  run-partner_authorizer-staging:
     type: boolean
     default: false
 ### Partner Profile ###
@@ -24,6 +124,9 @@ parameters:
   run-partner_profile-dev-api:
     type: boolean
     default: false
+  run-partner_profile-staging:
+    type: boolean
+    default: false
 ### Response Handler ###
   run-response_handler:
     type: boolean
@@ -37,6 +140,9 @@ parameters:
   run-response_handler-qa:
     type: boolean
     default: false
+  run-response_handler-staging:
+    type: boolean
+    default: false
 ### Other param ### 
   version:
     type: string
@@ -48,12 +154,123 @@ parameters:
     type: string
     default: "1.2.7"
 ### TF Params ###
-  tf-api_handler:
+  tf-api-handler-dev:
     type: boolean
     default: false
-  tf-partner_profile:
+  tf-app-demo-dev:
     type: boolean
     default: false
-  tf-response_handler:
+  tf-image-converter-dev:
+    type: boolean
+    default: false
+  tf-input-file-validator-dev:
+    type: boolean
+    default: false
+  tf-page-ocr-dev:
+    type: boolean
+    default: false
+  tf-page-vision-data-process-dev:
+    type: boolean
+    default: false
+  tf-partner-profile-dev:
+    type: boolean
+    default: false
+  tf-response-handler-dev:
+    type: boolean
+    default: false
+  tf-api-handler-dev-api:
+    type: boolean
+    default: false
+  tf-app-demo-dev-api:
+    type: boolean
+    default: false
+  tf-image-converter-dev-api:
+    type: boolean
+    default: false
+  tf-input-file-validator-dev-api:
+    type: boolean
+    default: false
+  tf-page-ocr-dev-api:
+    type: boolean
+    default: false
+  tf-page-vision-data-process-dev-api:
+    type: boolean
+    default: false
+  tf-partner-profile-dev-api:
+    type: boolean
+    default: false
+  tf-response-handler-dev-api:
+    type: boolean
+    default: false  
+  tf-api-handler-qa:
+    type: boolean
+    default: false
+  tf-app-demo-qa:
+    type: boolean
+    default: false
+  tf-image-converter-qa:
+    type: boolean
+    default: false
+  tf-input-file-validator-qa:
+    type: boolean
+    default: false
+  tf-page-ocr-qa:
+    type: boolean
+    default: false
+  tf-page-vision-data-process-qa:
+    type: boolean
+    default: false
+  tf-partner-profile-qa:
+    type: boolean
+    default: false
+  tf-response-handler-qa:
+    type: boolean
+    default: false  
+  tf-api-handler-staging:
+    type: boolean
+    default: false
+  tf-app-demo-staging:
+    type: boolean
+    default: false
+  tf-image-converter-staging:
+    type: boolean
+    default: false
+  tf-input-file-validator-staging:
+    type: boolean
+    default: false
+  tf-page-ocr-staging:
+    type: boolean
+    default: false
+  tf-page-vision-data-process-staging:
+    type: boolean
+    default: false
+  tf-partner-profile-staging:
+    type: boolean
+    default: false
+  tf-response-handler-staging:
+    type: boolean
+    default: false  
+  tf-api-handler-prod:
+    type: boolean
+    default: false
+  tf-app-demo-prod:
+    type: boolean
+    default: false
+  tf-image-converter-prod:
+    type: boolean
+    default: false
+  tf-input-file-validator-prod:
+    type: boolean
+    default: false
+  tf-page-ocr-prod:
+    type: boolean
+    default: false
+  tf-page-vision-data-process-prod:
+    type: boolean
+    default: false
+  tf-partner-profile-prod:
+    type: boolean
+    default: false
+  tf-response-handler-prod:
     type: boolean
     default: false

@@ -1,0 +1,13 @@
+flows:
+  verify_non_income_consumer:
+    - "$.services[?(@ == 'verify')]"
+    - "$.verifications.['identity']"
+
+validations:
+  -
+    flows:
+      - "verify_non_income_consumer"
+    prerequisites:
+      - "$.applicants.applicant1"
+    required_expressions:
+      - "$.applicants.applicant1.date_of_birth": "@{PRESENT}"

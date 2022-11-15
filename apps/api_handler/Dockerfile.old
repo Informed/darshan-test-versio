@@ -1,0 +1,15 @@
+# If you need to add a layer to the image, add it here
+# FROM 456773209430.dkr.ecr.us-west-2.amazonaws.com/informed-aws-otel-layer-python-arm64-ver-1-12-0rc2:latest AS layer
+
+ARG PYTHON_VERSION=3.8
+FROM public.ecr.aws/lambda/python:$PYTHON_VERSION
+# Layer code
+# WORKDIR /opt
+# COPY --from=layer_build /opt/ .
+
+# Function code
+ARG HANDLER
+ENV HANDLER ${HANDLER}
+WORKDIR /var/task
+COPY package .
+CMD ["api_handler.handler"]

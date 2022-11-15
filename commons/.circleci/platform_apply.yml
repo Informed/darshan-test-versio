@@ -12,4 +12,4 @@ jobs:
       - attach_workspace:
           at: .
       - terraform/apply:
-          path: infrastructure/<<parameters.appName>>/<<parameters.target-env>>
+          path: infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>

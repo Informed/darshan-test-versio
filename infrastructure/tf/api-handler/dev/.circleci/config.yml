@@ -1,0 +1,48 @@
+version: 2.1
+
+workflows:
+
+  tf-api_handler-dev_PR:
+    when: 
+      and:
+        - equal: [ true, << pipeline.parameters.tf-api-handler-dev >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
+        - not:
+            equal: [ main, << pipeline.git.branch >> ]
+    jobs:
+      - tf-test:
+          name: tf-tester-api-handler
+          target-env: "dev"
+          appName   : "api-handler"
+          context: 
+            - cicd-deployer-aws-user
+
+  tf-api-handler-dev:
+    when:
+      and:
+        - equal: [ true, << pipeline.parameters.tf-api-handler-dev >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ] 
+    jobs:
+      - tf-test:
+          name: tf-tester-api-handler
+          target-env: "dev"
+          appName   : "api-handler"
+          context: 
+            - cicd-deployer-aws-user
+      - tf-plan:
+          name: tf-plan-api-handler
+          target-env: "dev"
+          appName   : "api-handler"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-tester-api-handler
+      - tf-apply:
+          name: tf-apply-api-handler
+          target-env: "dev"
+          appName   : "api-handler"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-plan-api-handler

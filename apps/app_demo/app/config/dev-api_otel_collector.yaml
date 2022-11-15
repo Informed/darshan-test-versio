@@ -1,0 +1,26 @@
+# Set an environemnt variable 'OPENTELEMETRY_COLLECTOR_CONFIG_FILE' to '/var/task/app/config/dev_otel_collector.yaml'
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  logging:
+    loglevel: error
+  awsxray:
+  otlp:
+    endpoint: "api.honeycomb.io:443"
+    headers: {
+      "x-honeycomb-team": "1m3fwgv0TSsXp9DVeTuGbG",
+      "x-honeycomb-dataset": "techno-core-dev-api-app-demo"
+    }
+
+# enables output for traces to xray
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: []
+      exporters: [logging, awsxray, otlp]

@@ -1,7 +1,7 @@
 commands:
-################################
-##### APP DEPLOY COMMANDS ######
-################################
+###############################
+####### SHARED COMMANDS #######
+###############################
   tag_commit:
     parameters:
       appName:
@@ -9,33 +9,6 @@ commands:
         type: string
     steps:
       - run : bash commons/scripts/auto_tag.sh <<parameters.appName>>
-
-  poetry_build:
-    parameters:
-      appName:
-        default: ""
-        type: string
-    steps:
-      - run: 
-          name: Poetry Build
-          command: |
-                cd apps/<<parameters.appName>>
-                echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
-                poetry build
-                poetry run pip install --upgrade -t package dist/*.whl
-  create_package:
-    parameters:
-      appName:
-        default: ""
-        type: string
-    steps:
-      - run:
-          name: Create Package
-          command: |
-              cd apps/<<parameters.appName>>/package
-              echo Zipping the code in `pwd`
-              mkdir -p out
-              zip -r out/latest.zip . -x '*.pyc'
   upload_artifacts:
     parameters: 
       from:
@@ -60,44 +33,10 @@ commands:
           aws-region: AWS_REGION
           from: <<parameters.from>>
           to  : <<parameters.to>>
-
-########################################
-##### ARTIFACT PROMOTION COMMANDS ######
-########################################
-
-  artifact_promotion:
-    parameters:
-      from:
-        type: string
-      to:
-        type: string
-    steps:
-      - aws-s3/copy:
-          aws-region: AWS_REGION
-          from: <<parameters.from>>
-          to  : <<parameters.to>>
-
-################################
-##### APP Starter COMMANDS #####
-################################
-  start_lambda:
-    parameters:
-      target-env:
-        type: string
-      appName:
-        type: string
-      directory:
-        type: string
-    steps:
-      - run:
-          name: Intiating Lambda
-          command: |
-            aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.directory>>/latest.zip
-
-################################
-##### APP LINTER & TESTER ######
-################################
-  linting_and_metrics:
+#######################################
+##### PYTHON APP LINTER & TESTER ######
+#######################################
+  py_linters:
     parameters:
       appName:
         default: ""
@@ -119,31 +58,210 @@ commands:
             command: |
                 cd apps/<<parameters.appName>>/tests
                 poetry run pytest -v
-            
-################################
-###### TERRAFORM TEST ##########
-################################
-  check_tf:
+#######################################
+##### PYTHON APP DEPLOY COMMANDS ######
+#######################################
+  poetry_build:
+    parameters:
+      appName:
+        default: ""
+        type: string
+    steps:
+      - run: 
+          name: Poetry Build
+          command: |
+                cd apps/<<parameters.appName>>
+                echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
+                poetry build
+                poetry run pip install --upgrade -t package dist/*.whl
+  py_create_package:
+    parameters:
+      appName:
+        default: ""
+        type: string
     steps:
       - run:
           name: Create Package
           command: |
-              pwd
-              ls
-              cd infrastructure/api_handler/sand/dshah
-              ls
-
+              cd apps/<<parameters.appName>>/package
+              echo Zipping the code in `pwd`
+              mkdir -p out
+              zip -r out/latest.zip . -x '*.pyc'
+################################
+##### APP STARTER COMMANDS #####
+################################
+  start_lambda:
+    parameters:
+      target-env:
+        type: string
+      appName:
+        type: string
+      directory:
+        type: string
+    steps:
+      - run:
+          name: Intiating Lambda
+          command: |
+            aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.directory>>/latest.zip
+####################################
+#### RUBY APP TESTER AND LINTER ####
+####################################
+  ruby_install_packages:
+    parameters:
+      appName:
+        default: ""
+        type: string
+    steps:
+        - run:
+            name: Install Ruby Package
+            command: |
+                cd apps/<<parameters.appName>>
+                gem install bundler -v 2.2.32
+  ruby_linters:
+    parameters:
+      appName:
+        default: ""
+        type: string
+    steps:
+        - run:
+            name: Linters
+            command: |
+                cd apps/<<parameters.appName>>
+                bundle exec rubocop           
+  ruby_tests:
+    parameters:
+      appName:
+        default: ""
+        type: string
+    steps:
+        - run:
+            name: Pytests
+            command: |
+                cd apps/<<parameters.appName>>
+                bundle exec rspec
+###########################
+##### RUBY APP DEPLOY #####
+###########################   
+  bundle_build:
+    parameters:
+      appName:
+        default: ""
+        type: string
+    steps:
+      - run: 
+          name: Bundle Build
+          command: |
+                cd apps/<<parameters.appName>>
+                echo Building the code in `pwd` with: `ruby -v` and `bundler -v`
+                bundle config set --local deployment 'true'
+                bundle install
+  ruby_create_package:
+    parameters:
+      appName:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: Create Package
+          command: |
+              cd apps/<<parameters.appName>>
+              echo Zipping the code in `pwd`
+              apt-get update && apt-get install -y zip
+              mkdir -p out
+              zip -r out/input_file_validator.zip .  
+########################################
+##### ARTIFACT PROMOTION COMMANDS ######
+########################################
+  artifact_promotion:
+    parameters:
+      from:
+        type: string
+      to:
+        type: string
+    steps:
+      - aws-s3/copy:
+          aws-region: AWS_REGION
+          from: <<parameters.from>>
+          to  : <<parameters.to>> 
+  version_update:
+    parameters:
+      version:
+        default: ""
+        type: string
+      target-env:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: Version Update
+          command: bash commons/scripts/version_update.sh <<parameters.version>> <<parameters.target-env>>
+                
+###########################
+######## SECURITY #########
+###########################
+  snyk_sca:
+    parameters:
+      appName:
+        default: ""
+        type: string
+      snyk_token:
+        default: ""
+        type: string
+    steps: 
+      - run:
+          name: "Snyk test"
+          command: |
+            n=0
+            until [ "$n" -ge 5 ]
+            do
+                curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
+                chmod +x snyk
+                sudo mv ./snyk /usr/local/bin/
+                snyk auth <<parameters.snyk_token>>
+                cd apps/<<parameters.appName>>
+                snyk test --command=python3 --fail-on=all || true
+                break
+                echo -e "\nCurl command failed. Retrying again...\n"
+                n=$((n+1)) 
+                sleep 1
+            done
+  snyk_sast:
+    parameters:
+      appName:
+        default: ""
+        type: string
+      snyk_token:
+        default: ""
+        type: string
+    steps: 
+      - run:
+          name: "Snyk code test"
+          command: |
+            n=0
+            until [ "$n" -ge 5 ]
+            do
+                curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
+                chmod +x snyk
+                sudo mv ./snyk /usr/local/bin/
+                snyk auth <<parameters.snyk_token>>
+                cd apps/<<parameters.appName>>
+                snyk code test || true
+                break
+                echo -e "\nCurl command failed. Retrying again...\n"
+                n=$((n+1)) 
+                sleep 1
+            done
+################################
+###### TERRAFORM TEST ##########
+################################
 
 ###############################
 ###### TERRAFORM DEPLOY #######
 ###############################
 
-# Write Custom TF code here
-
 ################################
 ###### Push Notifications ######
 ################################
-
   start_slack_notification:
     steps:
       - slack/notify:
@@ -197,11 +315,6 @@ commands:
           event: pass
           mentions: '@dow-platform'
           template: basic_success_1
-
-
 #############################
 ###### Gather metrics #######
 #############################
-# Write push notifications here 
-
-################################

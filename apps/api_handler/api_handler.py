@@ -1,22 +1,24 @@
+import html
+import os
+import traceback
 from http import HTTPStatus
-import app.controllers.application
-import app.controllers.documents
-import app.helpers.jwt
 
-from aws_lambda_powertools.event_handler.api_gateway import APIGatewayHttpResolver
-from aws_lambda_powertools.event_handler.exceptions import (
-    InternalServerError, NotFoundError, UnauthorizedError
-)
+import simplejson as json
 from aws_lambda_powertools.event_handler import Response, content_types
-
+from aws_lambda_powertools.event_handler.api_gateway import \
+    APIGatewayHttpResolver
+from aws_lambda_powertools.event_handler.exceptions import (
+    InternalServerError, NotFoundError, UnauthorizedError)
 from honeybadger import honeybadger
 from opentelemetry import trace
-from opentelemetry.trace import NonRecordingSpan, SpanContext, SpanKind, TraceFlags, Link
+from opentelemetry.trace import (Link, NonRecordingSpan, SpanContext, SpanKind,
+                                 TraceFlags)
 
-import os
-import simplejson as json
-import traceback
+import app.helpers.jwt
 import app.helpers.setup_logging
+from app.controllers.application_controller import ApplicationController
+from app.controllers.documents_controller import DocumentsController
+from app.controllers.edit_controller import EditController
 
 # Anytime an exception is raised, it triggers a
 # HoneyBadger in api_handler project
@@ -39,8 +41,7 @@ router = APIGatewayHttpResolver(serializer=custom_serializer)
 
 @router.get('/<version>/auto/applications')
 def get_applications(version):
-    response = app.controllers.application.Application() \
-                  .get_applications(router.current_event, version)
+    response = ApplicationController(router.current_event, version).get_applications()
 
     return render_response(response, 'payload')
 
@@ -48,8 +49,7 @@ def get_applications(version):
 # Create a new application
 @router.post('/<version>/auto/applications')
 def post_applications(version):
-    response = app.controllers.application.Application() \
-                  .create_application(router.current_event, version)
+    response = ApplicationController(router.current_event, version).create_application()
 
     return render_response(response)
 
@@ -57,8 +57,8 @@ def post_applications(version):
 # Update an existing application
 @router.put('/<version>/auto/applications/<application_id>')
 def put_applications(version, application_id):
-    response = app.controllers.application.Application() \
-                  .update_application(router.current_event, version, application_id)
+    application_id = html.escape(application_id)
+    response = ApplicationController(router.current_event, version).update_application(application_id)  # noqa: B950
 
     return render_response(response)
 
@@ -66,8 +66,8 @@ def put_applications(version, application_id):
 # Get an existing application
 @router.get('/<version>/auto/applications/<application_id>')
 def get_application(version, application_id):
-    response = app.controllers.application.Application() \
-                  .get_application(router.current_event, version, application_id)
+    application_id = html.escape(application_id)
+    response = ApplicationController(router.current_event, version).get_application(application_id)  # noqa: B950
 
     return render_response(response, 'payload')
 
@@ -75,9 +75,8 @@ def get_application(version, application_id):
 # Upload url to upload documents
 @router.post('/<version>/auto/applications/<application_id>/documents')
 def post_documents_upload(version, application_id):
-    response = app.controllers.documents.Documents() \
-                  .create_documents_upload_urls(
-                      router.current_event, version, application_id)
+    application_id = html.escape(application_id)
+    response = DocumentsController(router.current_event, version).create_documents_upload_urls(application_id)  # noqa: B950
 
     return render_response(response)
 
@@ -85,11 +84,20 @@ def post_documents_upload(version, application_id):
 # Get documents of an application
 @router.get('/<version>/auto/applications/<application_id>/documents')
 def get_documents(version, application_id):
-    response = app.controllers.documents.Documents() \
-                  .get_documents(
-                      router.current_event, version, application_id)
+    application_id = html.escape(application_id)
+    response = DocumentsController(router.current_event, version).get_documents(application_id)  # noqa: B950
 
     return render_response(response, 'payload')
+
+
+# Edit extracted_data
+@router.put('/<version>/auto/applications/<application_id>/documents/<document_id>')
+def post_edits(version, application_id, document_id):
+    app_id = html.escape(application_id)
+    doc_id = html.escape(document_id)
+    response = EditController(router.current_event, version).document(app_id, doc_id)
+
+    return render_response(response)
 
 
 # Catch any other route that is not defined
@@ -116,7 +124,7 @@ def render_response(response, key=None):
 
 # Validate JWT
 def validate_jwt(headers, raw_path):
-    valid, partner_info = app.helpers.jwt.Jwt().validate_jwt(headers.get('jwt'), raw_path)
+    valid, partner_info = app.helpers.jwt.Jwt().validate_jwt(headers.get('jwt'), raw_path)  # noqa: B950
     if not valid:
         raise ValueError
 

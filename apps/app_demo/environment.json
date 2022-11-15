@@ -1,0 +1,9 @@
+{
+    "HONEYBADGER_API_KEY": "hbp_2xj5epE6rHbEgxxkw95dDSQ5O4iESx3F6GDE",
+    "HONEYBADGER_ENVIRONMENT": "rberger",
+    "HONEYBADGER_FORCE_REPORT_DATA": "true",
+    "LOG_LEVEL": "INFO",
+    "AWS_REGION": "us-west-2",
+    "Environment": "rberger",
+    "environment": "rberger"
+}
