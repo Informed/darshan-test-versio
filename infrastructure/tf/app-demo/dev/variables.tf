@@ -31,7 +31,7 @@ EOF
 }
 
 variable "disable_layers" {
-  description = "Disable lambda layerasds if true"
+  description = "Disable lambda layerasdasds if true"
   type        = bool
   default     = false
 }
