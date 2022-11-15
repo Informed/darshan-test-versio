@@ -27,7 +27,7 @@ workflows:
           context:
             - cicd-deployer-aws-user
           requires:
-            - pause_workflow
+            - artifact-promoter-app_demo-prod
       - tf-plan:
           name: tf-plan-app_demo-prod
           target-env: "prod"
