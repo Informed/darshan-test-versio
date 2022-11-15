@@ -22,7 +22,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.region
+  region = var.region
   assume_role {
     role_arn = "arn:aws:iam::450112884190:role/iq-circleci-iac-deployer-role"
   }
