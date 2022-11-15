@@ -6,5 +6,5 @@ MOCKED_ENV_VARS = {
 }
 
 os.environ = MOCKED_ENV_VARS  # noqa: B003
-# just adding app_demo to get an accurate picture of code coverage
-import app_demo  # noqa: F401 E402
+# just adding api_handler to get an accurate picture of code coverage
+import api_handler  # noqa: F401 E402
