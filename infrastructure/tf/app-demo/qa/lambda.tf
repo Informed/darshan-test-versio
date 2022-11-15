@@ -165,81 +165,81 @@ module "app_demo_lambda_function" {
 ## API Gateway Integrations ##
 ##############################
 
-resource "aws_apigatewayv2_route" "app_demo_post_applications" {
-  api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
-  route_key          = "POST /v1/auto/applications"
-  target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
-}
+# resource "aws_apigatewayv2_route" "app_demo_post_applications" {
+#   api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
+#   route_key          = "POST /v1/auto/applications"
+#   target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
+#   authorization_type = "CUSTOM"
+#   authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
+# }
 
-resource "aws_apigatewayv2_route" "app_demo_get_applications" {
-  api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
-  route_key          = "GET /v1/auto/applications"
-  target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
-}
+# resource "aws_apigatewayv2_route" "app_demo_get_applications" {
+#   api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
+#   route_key          = "GET /v1/auto/applications"
+#   target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
+#   authorization_type = "CUSTOM"
+#   authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
+# }
 
-resource "aws_apigatewayv2_route" "app_demo_put_applications_by_id" {
-  api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
-  route_key          = "PUT /v1/auto/applications/{applicationId}"
-  target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
-}
+# resource "aws_apigatewayv2_route" "app_demo_put_applications_by_id" {
+#   api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
+#   route_key          = "PUT /v1/auto/applications/{applicationId}"
+#   target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
+#   authorization_type = "CUSTOM"
+#   authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
+# }
 
-resource "aws_apigatewayv2_route" "app_demo_get_applications_by_id" {
-  api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
-  route_key          = "GET /v1/auto/applications/{applicationId}"
-  target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
-}
+# resource "aws_apigatewayv2_route" "app_demo_get_applications_by_id" {
+#   api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
+#   route_key          = "GET /v1/auto/applications/{applicationId}"
+#   target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
+#   authorization_type = "CUSTOM"
+#   authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
+# }
 
-resource "aws_apigatewayv2_route" "app_demo_get_documents_by_application_id" {
-  api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
-  route_key          = "GET /v1/auto/applications/{applicationId}/documents"
-  target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
-}
+# resource "aws_apigatewayv2_route" "app_demo_get_documents_by_application_id" {
+#   api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
+#   route_key          = "GET /v1/auto/applications/{applicationId}/documents"
+#   target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
+#   authorization_type = "CUSTOM"
+#   authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
+# }
 
-resource "aws_apigatewayv2_route" "app_demo_post_documents_by_application_id" {
-  api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
-  route_key          = "POST /v1/auto/applications/{applicationId}/documents"
-  target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
-}
+# resource "aws_apigatewayv2_route" "app_demo_post_documents_by_application_id" {
+#   api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
+#   route_key          = "POST /v1/auto/applications/{applicationId}/documents"
+#   target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
+#   authorization_type = "CUSTOM"
+#   authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
+# }
 
-resource "aws_apigatewayv2_route" "app_demo_put_documents_by_application_id_and_document_id" {
-  api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
-  route_key          = "PUT /v1/auto/applications/{applicationId}/documents/{documentId}"
-  target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
-}
+# resource "aws_apigatewayv2_route" "app_demo_put_documents_by_application_id_and_document_id" {
+#   api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
+#   route_key          = "PUT /v1/auto/applications/{applicationId}/documents/{documentId}"
+#   target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
+#   authorization_type = "CUSTOM"
+#   authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
+# }
 
-resource "aws_apigatewayv2_route" "app_demo_post_documents_collect_by_application_id" {
-  api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
-  route_key          = "POST /v1/auto/applications/{applicationId}/documents/collect"
-  target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
-}
+# resource "aws_apigatewayv2_route" "app_demo_post_documents_collect_by_application_id" {
+#   api_id             = data.aws_ssm_parameter.api_gateway_api_id.value
+#   route_key          = "POST /v1/auto/applications/{applicationId}/documents/collect"
+#   target             = "integrations/${aws_apigatewayv2_integration.app_demo.id}"
+#   authorization_type = "CUSTOM"
+#   authorizer_id      = data.aws_ssm_parameter.authorizer_id.value
+# }
 
-resource "aws_apigatewayv2_integration" "app_demo" {
-  api_id                 = data.aws_ssm_parameter.api_gateway_api_id.value
-  integration_type       = "AWS_PROXY"
-  connection_type        = "INTERNET"
-  description            = "Pass thru to apiHandler Service"
-  integration_method     = "POST"
-  payload_format_version = "2.0"
-  integration_uri        = module.app_demo_lambda_function.lambda_function_invoke_arn
-  request_parameters = {
-    "append:header.OTEL_INFO"   = "$context.authorizer.otel_info"
-    "append:header.JWT"         = "$context.authorizer.jwt"
-    "append:header.TRACEPARENT" = "$context.authorizer.traceparent"
-  }
-}
+# resource "aws_apigatewayv2_integration" "app_demo" {
+#   api_id                 = data.aws_ssm_parameter.api_gateway_api_id.value
+#   integration_type       = "AWS_PROXY"
+#   connection_type        = "INTERNET"
+#   description            = "Pass thru to apiHandler Service"
+#   integration_method     = "POST"
+#   payload_format_version = "2.0"
+#   integration_uri        = module.app_demo_lambda_function.lambda_function_invoke_arn
+#   request_parameters = {
+#     "append:header.OTEL_INFO"   = "$context.authorizer.otel_info"
+#     "append:header.JWT"         = "$context.authorizer.jwt"
+#     "append:header.TRACEPARENT" = "$context.authorizer.traceparent"
+#   }
+# }
