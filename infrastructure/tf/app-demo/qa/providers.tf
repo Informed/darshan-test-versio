@@ -14,7 +14,7 @@ terraform {
   backend "s3" {
     bucket         = "informed.terraform.us-west-2.qa"
     key            = "techno-core/app-demo/terraform.tfstate"
-    profile        = "cicd"
+    role_arn       = "arn:aws:iam::992538905015:role/iq-cicd-deployer-uswest2-role"
     region         = "us-west-2"
     dynamodb_table = "platform-state-locks"
     encrypt        = true
@@ -22,8 +22,10 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.region
-  profile = var.profile
+  region = var.region
+  assume_role {
+    role_arn = "arn:aws:iam::949710002353:role/iq-cicd-deployer-uswest2-role"
+  }
   default_tags {
     tags = {
       application = "app-demo"

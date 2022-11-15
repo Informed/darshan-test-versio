@@ -124,8 +124,8 @@ module "app_demo_lambda_function" {
   memory_size    = var.memory_size
   create_package = false
   s3_existing_package = {
-    bucket = "informed-techno-core-${var.environment}-lambda-images"
-    key    = var.lambda_handler_file
+    bucket = "iq-artifacts-cicd-uswest2"
+    key    = "${var.environment}/app_demo/latest.zip"
   }
   layers = var.layer_arns
   environment_variables = merge(
