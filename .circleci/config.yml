@@ -151,7 +151,7 @@ workflows:
           config-path: /tmp/generated_config.yml
           mapping: |
             apps/api_handler/.* run-api_handler true
-            apps/api_demo/.* run-app_demo true
+            apps/app_demo/.* run-app_demo true
             apps/image_converter/.* run-image_converter true
             apps/input_file_validator/.* run-input_file_validator true
             apps/page_ocr/.* run-page_ocr true
