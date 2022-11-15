@@ -127,7 +127,7 @@ module "app_demo_lambda_function" {
     bucket = "iq-artifacts-cicd-uswest2"
     key    = "${var.environment}/app_demo/latest.zip"
   }
-  layers = var.layer_arns
+  #layers = var.layer_arns
   environment_variables = merge(
     {
       "LOG_LEVEL"                           = var.log_level
