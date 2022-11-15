@@ -192,7 +192,7 @@ workflows:
             infrastructure/tf/partner-profile/staging/.* tf-partner-profile-staging true
             infrastructure/tf/response-handler/staging/.* tf-response-handler-staging true
             infrastructure/tf/api-handler/prod/.* tf-api-handler-prod true
-            nfrastructure/tf/app-demo/prod/.* tf-app-demo-prod true
+            infrastructure/tf/app-demo/prod/.* tf-app-demo-prod true
             infrastructure/tf/image-converter/prod/.* tf-image-converter-prod true
             infrastructure/tf/input-file-validator/prod/.* tf-input-file-validator-prod true
             infrastructure/tf/page-ocr/prod/.* tf-page-ocr-prod true
