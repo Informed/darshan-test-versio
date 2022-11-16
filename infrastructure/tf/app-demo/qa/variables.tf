@@ -16,7 +16,7 @@ variable "environment" {
 }
 
 variable "app_demo_honeybadger_api_key" {
-  description = "API Key for API Handler Honeybadger access"
+  description = "API Key for API Handler Honeybadger accasaszdesasds"
   type        = string
   default     = "hbp_2xj5epE6rHbEgxxkw95dDSQ5O4iESx3F6GDE"
 }
@@ -31,7 +31,7 @@ EOF
 }
 
 variable "disable_layers" {
-  description = "Disable lambda layers if true"
+  description = "Disable lambda layerasdasds if true"
   type        = bool
   default     = false
 }
@@ -74,14 +74,14 @@ variable "timeout" {
 variable "memory_size" {
   description = "lambda memory size to use"
   type        = string
-  default     = "512"
+  default     = "1024"
 }
 
 variable "layer_arns" {
   description = "List of otel layer arns"
   type        = list(string)
   default = [
-    "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-python-amd64-ver-1-11-1:2",
+    "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-python38-amd64-ver-1-9-1:2",
   ]
 }
 
