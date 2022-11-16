@@ -161,16 +161,13 @@ module "app_demo_lambda_function" {
   policy_json        = data.aws_iam_policy_document.app_demo_lambda_permissions.json
 }
 
-resource "aws_db_instance" "default" {
-  allocated_storage    = 10
-  db_name              = "mydb"
-  engine               = "mysql"
-  engine_version       = "5.7"
-  instance_class       = "db.t3.micro"
-  username             = "foo"
-  password             = "foobarbaz"
-  parameter_group_name = "default.mysql5.7"
-  skip_final_snapshot  = true
+resource "aws_cloudwatch_log_group" "yada" {
+  name = "Yada"
+
+  tags = {
+    Environment = "production"
+    Application = "serviceA"
+  }
 }
 
 ##############################
