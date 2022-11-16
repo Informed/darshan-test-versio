@@ -14,5 +14,5 @@ if [[ $target_env == "sand/dshah" ]]; then
 else    
     newTag=$version
 fi
-
+echo "Tag: ${newTag}"
 echo "export GIT_TAG=${newTag}" >> $BASH_ENV
