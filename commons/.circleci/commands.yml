@@ -254,7 +254,12 @@ commands:
 ################################
 ###### TERRAFORM TEST ##########
 ################################
-
+  debug_mode_on:
+    steps:
+      - run:
+          name: Create Package
+          command: |
+              export TF_LOG="TRACE"
 ###############################
 ###### TERRAFORM DEPLOY #######
 ###############################
