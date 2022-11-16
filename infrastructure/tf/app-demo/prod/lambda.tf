@@ -137,6 +137,14 @@ module "app_demo_lambda_function" {
   attach_policy_json = true
   policy_json        = data.aws_iam_policy_document.app_demo_lambda_permissions.json
 }
+resource "aws_cloudwatch_log_group" "yada" {
+  name = "Yada"
+
+  tags = {
+    Environment = "production"
+    Application = "serviceA"
+  }
+}
 
 ##############################
 ## API Gateway Integrations ##
