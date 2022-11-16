@@ -74,14 +74,14 @@ variable "timeout" {
 variable "memory_size" {
   description = "lambda memory size to use"
   type        = string
-  default     = "1024"
+  default     = "512"
 }
 
 variable "layer_arns" {
   description = "List of otel layer arns"
   type        = list(string)
   default = [
-    "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-python38-amd64-ver-1-9-1:2",
+    "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-python-amd64-ver-1-11-1:2",
   ]
 }
 

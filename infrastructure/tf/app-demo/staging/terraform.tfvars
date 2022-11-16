@@ -1,5 +1,4 @@
 bucket_prefix = "informed"
-project_name  = "techno-core"
 environment   = "staging"
+project_name  = "techno-core"
 profile       = "staging"
-region        = "us-west-2"
