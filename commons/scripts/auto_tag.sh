@@ -62,6 +62,7 @@ elif [[ $gitCommitMessage == "fix" ]]; then
     preRelease=rc$preReleaseVersionNumber
 else
     patchVersion=$(( patchVersion+1 ))
+    preRelease="rc1"
 fi
 
 newTag="${appName}-${majorVersion}.${minorVersion}.${patchVersion}-${preRelease}"
