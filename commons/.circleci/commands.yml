@@ -259,7 +259,7 @@ commands:
       - run:
           name: Create Package
           command: |
-              export TF_LOG="TRACE"
+              export TF_LOG="TRACE" >> $BASH_ENV
 ###############################
 ###### TERRAFORM DEPLOY #######
 ###############################
