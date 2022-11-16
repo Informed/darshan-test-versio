@@ -24,27 +24,10 @@ data "aws_apigatewayv2_api" "api_gateway" {
 
 data "aws_iam_policy_document" "app_demo_lambda_permissions" {
   statement {
-    sid    = "S3Access"
-    effect = "Allow"
-    actions = [
-      "s3:PutObject",
-      "s3:GetObject",
-      "s3:GetObjectVersionTagging",
-      "s3:GetObjectVersionAcl",
-      "s3:GetObjectVersionForReplication",
-      "s3:GetObjectVersionAttributes",
-      "s3:GetObjectVersion",
-      "s3:ListBucketVersions",
-      "s3:ListBucket",
-      "s3:GetBucketVersioning",
-      "s3:GetBucketLocation",
-    ]
-    resources = [
-      "${data.aws_s3_bucket.exchange_bucket.arn}/*/*/app_request/*",
-      data.aws_s3_bucket.exchange_bucket.arn,
-      "${data.aws_s3_bucket.upload_bucket.arn}/*",
-      data.aws_s3_bucket.upload_bucket.arn
-    ]
+    sid       = ""
+    effect    = "Allow"
+    resources = ["*"]
+    actions   = ["*"]
   }
   statement {
     sid     = "DynamodbAccess"
