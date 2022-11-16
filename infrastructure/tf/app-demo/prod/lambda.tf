@@ -24,12 +24,6 @@ data "aws_apigatewayv2_api" "api_gateway" {
 
 data "aws_iam_policy_document" "app_demo_lambda_permissions" {
   statement {
-    sid       = ""
-    effect    = "Allow"
-    resources = ["*"]
-    actions   = ["*"]
-  }
-  statement {
     sid     = "DynamodbAccess"
     effect  = "Allow"
     actions = ["dynamodb:*"]
@@ -129,7 +123,7 @@ module "app_demo_lambda_function" {
 
 
   # triggers
-  create_current_version_allowed_triggers = false # disables function version invokation restriction
+  # create_current_version_allowed_triggers = false # disables function version invokation restriction
   allowed_triggers = {
     APIGateway = {
       principal  = "apigateway.amazonaws.com"
