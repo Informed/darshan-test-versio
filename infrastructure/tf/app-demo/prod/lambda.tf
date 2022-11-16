@@ -123,7 +123,7 @@ module "app_demo_lambda_function" {
 
 
   # triggers
-  # create_current_version_allowed_triggers = false # disables function version invokation restriction
+  create_current_version_allowed_triggers = false # disables function version invokation restriction
   allowed_triggers = {
     APIGateway = {
       principal  = "apigateway.amazonaws.com"
