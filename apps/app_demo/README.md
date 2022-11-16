@@ -1,5 +1,5 @@
 # Api Handler Setup
-# Major code chnage
+# Minor code chnage
 
 
 ## Install Python3 if not already installed
