@@ -9,7 +9,7 @@ fi
 version=$1
 target_env=$2
 
-if [[ $target_env == "sand/dshah" ]]; then
+if [[ $target_env == "prod" ]]; then
     newTag=$( echo $version  | awk -F "-" '{print $1,"-",$2 }' | tr -d '[:space:]' )
 else    
     newTag=$version
