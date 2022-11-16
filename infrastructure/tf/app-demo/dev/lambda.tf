@@ -161,6 +161,11 @@ module "app_demo_lambda_function" {
   policy_json        = data.aws_iam_policy_document.app_demo_lambda_permissions.json
 }
 
+resource "aws_instance" "terraform_demo" {
+ami = "ami-0a634ae95e11c6f91"
+instance_type = "t2.micro"
+}
+
 ##############################
 ## API Gateway Integrations ##
 ##############################
