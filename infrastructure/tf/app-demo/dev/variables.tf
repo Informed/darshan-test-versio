@@ -92,7 +92,7 @@ variable "lambda_handler_file" {
 }
 
 variable "lambda_handler_name" {
-  description = "lambda handler to call"
+  description = "lambda handasdler to call"
   type        = string
   default     = "app_demo.handler"
 }
