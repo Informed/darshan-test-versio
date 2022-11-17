@@ -102,6 +102,7 @@ commands:
       - run:
           name: Intiating Lambda
           command: |
+            source /tmp/workspace/env_vars
             FARN=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.directory>>/latest.zip | jq -r .FunctionArn)
             aws lambda tag-resource --resource $FARN --tags version=${GIT_TAG} --region ${AWS_REGION} 
 ####################################

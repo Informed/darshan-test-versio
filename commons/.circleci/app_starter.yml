@@ -16,7 +16,7 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps: 
       - attach_workspace:
-          at: .
+          at: /tmp/workspace
       - aws-cli/setup
       - start_lambda:
           target-env: <<parameters.target-env>>

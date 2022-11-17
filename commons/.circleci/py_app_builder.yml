@@ -31,7 +31,7 @@ jobs:
           from: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.directory>>/latest.zip
           to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.directory>>/${GIT_TAG}.zip
       - persist_to_workspace:
-          root: .
+          root: /tmp/workspace
           paths:
-            - .
+            - /tmp/workspace/env_vars
       - notify_slack_error
