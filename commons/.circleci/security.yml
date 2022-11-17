@@ -32,8 +32,6 @@ jobs:
       name: python/default
       tag: "3.8"
     parameters:
-      directory:
-        type: string
       target-env:
         type: string
       appName:
