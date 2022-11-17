@@ -253,9 +253,6 @@ commands:
             done
   snyk_iac:
     parameters:
-      directory:
-        default: ""
-        type: string
       snyk_token:
         default: ""
         type: string
