@@ -2,7 +2,7 @@ version: 2.1
 
 workflows:
   partner_profile_PR:
-    when: 
+    when:
       and:
         - equal: [ true, << pipeline.parameters.run-partner_profile >> ]
         - equal: [ false, << pipeline.parameters.api_call>> ]
@@ -10,13 +10,26 @@ workflows:
             equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - py_app_testing:
-          appName   : "partner_profile"
-          context:
-            - dshah-aws-user-creds
+          name      : app-tester-partner_profile
+          directory   : "partner_profile"
+          context   :
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - security_sca:
+          name      : security-sca-partner_profile
+          directory   : "partner_profile"
+          context   :
+            - snyk-token
+            - cicd-platform-slack-creds
+      - security_sast:
+          name      : security-sast-partner_profile
+          directory   : "partner_profile"
+          context   :
+            - snyk-token
             - cicd-platform-slack-creds
 
   partner_profile:
-    when: 
+    when:
       and:
         - equal: [ true, << pipeline.parameters.run-partner_profile >> ]
         - equal: [ main, << pipeline.git.branch >> ]
@@ -24,26 +37,26 @@ workflows:
     jobs:
       - py_app_testing:
           name: app-tester-partner_profile
-          appName   : "partner_profile"
+          directory   : "partner_profile"
           context:
-            - dshah-aws-user-creds
+            - dev-aws-user-creds
             - cicd-platform-slack-creds
       - py_app_builder:
           name: app-builder-partner_profile
-          target-env: "dshah"
-          appName   : "partner_profile"
-          context: 
+          target-env: "dev"
+          directory   : "partner_profile"
+          context:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
           requires:
             - app-tester-partner_profile
       - app_starter:
-          name: app-starter-partner_profile-dshah
-          target-env: "dshah"
+          name: app-starter-partner_profile
+          target-env: "dev"
           appName   : "partner-profile"
           directory : "partner_profile"
-          context: 
-            - dshah-aws-user-creds
+          context:
+            - dev-aws-user-creds
             - cicd-platform-slack-creds
           requires:
             - app-builder-partner_profile

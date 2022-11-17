@@ -2,7 +2,7 @@ version: 2.1
 
 workflows:
   response_handler_PR:
-    when: 
+    when:
       and:
         - equal: [ true, << pipeline.parameters.run-response_handler >> ]
         - equal: [ false, << pipeline.parameters.api_call>> ]
@@ -10,13 +10,26 @@ workflows:
             equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - py_app_testing:
-          appName   : "response_handler"
-          context:
-            - dshah-aws-user-creds
+          name      : app-tester-response_handler
+          directory   : "response_handler"
+          context   :
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - security_sca:
+          name      : security-sca-response_handler
+          directory   : "response_handler"
+          context   :
+            - snyk-token
+            - cicd-platform-slack-creds
+      - security_sast:
+          name      : security-sast-response_handler
+          directory   : "response_handler"
+          context   :
+            - snyk-token
             - cicd-platform-slack-creds
 
   response_handler:
-    when: 
+    when:
       and:
         - equal: [ true, << pipeline.parameters.run-response_handler >> ]
         - equal: [ main, << pipeline.git.branch >> ]
@@ -24,26 +37,26 @@ workflows:
     jobs:
       - py_app_testing:
           name: app-tester-response_handler
-          appName   : "response_handler"
+          directory   : "response_handler"
           context:
-            - dshah-aws-user-creds
+            - dev-aws-user-creds
             - cicd-platform-slack-creds
       - py_app_builder:
           name: app-builder-response_handler
-          target-env: "dshah"
-          appName   : "response_handler"
-          context: 
+          target-env: "dev"
+          directory   : "response_handler"
+          context:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
           requires:
             - app-tester-response_handler
       - app_starter:
-          name: app-starter-response_handler-dshah
-          target-env: "dshah"
+          name: app-starter-response_handler
+          target-env: "dev"
           appName   : "response-handler"
           directory : "response_handler"
-          context: 
-            - dshah-aws-user-creds
+          context:
+            - dev-aws-user-creds
             - cicd-platform-slack-creds
           requires:
             - app-builder-response_handler

@@ -10,21 +10,21 @@ workflows:
             equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - py_app_testing:
-          name: app-tester-api_handler
-          appName   : "api_handler"
-          context:
+          name      : app-tester-api_handler
+          directory   : "api_handler"
+          context   :
             - dev-aws-user-creds
             - cicd-platform-slack-creds
       - security_sca:
-          name: security-sca-api_handler
-          appName   : "api_handler"
-          context:
+          name      : security-sca-api_handler
+          directory   : "api_handler"
+          context   :
             - snyk-token
             - cicd-platform-slack-creds
       - security_sast:
-          name: security-sast-api_handler
-          appName   : "api_handler"
-          context:
+          name      : security-sast-api_handler
+          directory   : "api_handler"
+          context   :
             - snyk-token
             - cicd-platform-slack-creds
 
@@ -37,14 +37,14 @@ workflows:
     jobs:
       - py_app_testing:
           name: app-tester-api_handler
-          appName   : "api_handler"
+          directory   : "api_handler"
           context:
             - dev-aws-user-creds
             - cicd-platform-slack-creds
       - py_app_builder:
           name: app-builder-api_handler
           target-env: "dev"
-          appName   : "api_handler"
+          directory   : "api_handler"
           context:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
