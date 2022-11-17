@@ -69,8 +69,8 @@ newTag="${appName}-${majorVersion}.${minorVersion}.${patchVersion}-${preRelease}
 
 echo "export GIT_TAG=${newTag}" >> $BASH_ENV
 ### To make it usable across workspace ###
-mkdir -p /tmp/workspace
-echo "export GIT_TAG=\"${GIT_TAG}\"" >> /tmp/workspace/env_vars
+mkdir -p tmp_workspace
+echo "export GIT_TAG=\"${GIT_TAG}\"" >> tmp_workspace/env_vars
 
 if [[ "${CIRCLE_PULL_REQUEST##*/}" = "" ]]; then
     echo "Pull Request Merge to main branch event..."
