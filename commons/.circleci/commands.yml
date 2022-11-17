@@ -259,6 +259,10 @@ commands:
       snyk_token:
         default: ""
         type: string
+      target-env:
+        type: string
+      appName:
+        type: string
     steps: 
       - run:
           name: "Install: Snyk & Terraform"
