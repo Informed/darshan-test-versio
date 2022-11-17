@@ -4,11 +4,11 @@ commands:
 ###############################
   tag_commit:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
     steps:
-      - run : bash commons/scripts/auto_tag.sh <<parameters.appName>>
+      - run : bash commons/scripts/auto_tag.sh <<parameters.directory>>
   upload_artifacts:
     parameters: 
       from:
