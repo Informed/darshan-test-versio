@@ -39,7 +39,7 @@ workflows:
       - security_iac:
           name      : security-iac-api_handler-qa
           target-env: "qa"
-          directory   : "api_handler"
+          appName   : "api-handler"
           context   :
             - snyk-token
             - cicd-platform-slack-creds

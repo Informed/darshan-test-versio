@@ -36,6 +36,8 @@ jobs:
         type: string
       target-env:
         type: string
+      appName:
+        type: string
     parallelism: 2
     steps:
       - checkout
