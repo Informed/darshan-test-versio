@@ -37,7 +37,7 @@ jobs:
     parallelism: 2
     steps:
       - checkout
-      - snyk_sast:
+      - snyk_iac:
           directory: <<parameters.directory>>
           snyk_token: ${SNYK_TOKEN}
       - notify_slack_error
