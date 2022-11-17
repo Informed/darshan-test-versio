@@ -34,6 +34,8 @@ jobs:
     parameters:
       directory:
         type: string
+      target-env:
+        type: string
     parallelism: 2
     steps:
       - checkout
