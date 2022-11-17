@@ -27,3 +27,17 @@ jobs:
           directory: <<parameters.directory>>
           snyk_token: ${SNYK_TOKEN}
       - notify_slack_error
+  security_iac:
+    executor:
+      name: python/default
+      tag: "3.8"
+    parameters:
+      directory:
+        type: string
+    parallelism: 2
+    steps:
+      - checkout
+      - snyk_sast:
+          directory: <<parameters.directory>>
+          snyk_token: ${SNYK_TOKEN}
+      - notify_slack_error

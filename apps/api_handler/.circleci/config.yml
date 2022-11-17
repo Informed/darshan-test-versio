@@ -27,6 +27,13 @@ workflows:
           context   :
             - snyk-token
             - cicd-platform-slack-creds
+      - security_iac:
+          name      : security-sast-api_handler
+          directory   : "api_handler"
+          context   :
+            - snyk-token
+            - cicd-platform-slack-creds
+            - cicd-aws-user-creds
 
   api_handler:
     when:
