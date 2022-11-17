@@ -40,6 +40,4 @@ jobs:
     steps:
       - checkout
       - snyk_iac:
-          directory: <<parameters.directory>>
-          snyk_token: ${SNYK_TOKEN}
       - notify_slack_error
