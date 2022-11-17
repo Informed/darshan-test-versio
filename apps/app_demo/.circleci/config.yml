@@ -32,6 +32,7 @@ workflows:
     when:
       and:
         - equal: [ true, << pipeline.parameters.run-app_demo >> ]
+        - equal: [ false, << pipeline.parameters.tf-app-demo-dev >> ]
         - equal: [ main, << pipeline.git.branch >> ]
         - equal: [ false, << pipeline.parameters.api_call>> ]
     jobs:
@@ -60,3 +61,61 @@ workflows:
             - cicd-platform-slack-creds
           requires:
             - app-builder-app_demo
+
+  app_demo_tf:
+    when:
+      and:
+        - equal: [ true, << pipeline.parameters.run-app_demo >> ]
+        - equal: [ true, << pipeline.parameters.tf-app-demo-dev >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
+    jobs:
+      - py_app_testing:
+          name: app-tester-app_demo
+          directory   : "app_demo"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - py_app_builder:
+          name: app-builder-app_demo
+          target-env: "dev"
+          directory   : "app_demo"
+          context:
+            - cicd-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - app-tester-app_demo
+      - tf-test:
+          name: tf-tester-app-demo
+          target-env: "dev"
+          appName   : "app-demo"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - app-builder-app_demo
+      - tf-plan:
+          name: tf-plan-app-demo
+          target-env: "dev"
+          appName   : "app-demo"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-tester-app-demo
+      - tf-apply:
+          name: tf-apply-app-demo
+          target-env: "dev"
+          appName   : "app-demo"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-plan-app-demo
+      - app_starter:
+          name: app-starter-app_demo
+          target-env: "dev"
+          appName   : "app-demo"
+          directory : "app_demo"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - tf-apply-app-demo

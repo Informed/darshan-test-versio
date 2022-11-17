@@ -21,6 +21,7 @@ workflows:
     when:
       and:
         - equal: [ true, << pipeline.parameters.tf-app-demo-dev >> ]
+        - equal: [ false, << pipeline.parameters.run-app_demo >> ]
         - equal: [ main, << pipeline.git.branch >> ]
         - equal: [ false, << pipeline.parameters.api_call>> ] 
     jobs:
