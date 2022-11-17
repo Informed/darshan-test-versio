@@ -36,6 +36,16 @@ workflows:
             - cicd-deployer-aws-user
           requires:
             - tf-tester-api_handler-qa
+      - security_iac:
+          name      : security-iac-api_handler-qa
+          target-env: "qa"
+          directory   : "api_handler"
+          context   :
+            - snyk-token
+            - cicd-platform-slack-creds
+            - cicd-aws-user-creds
+          requires:
+            - tf-plan-api_handler-qa
       - tf-apply:
           name: tf-apply-api_handler-qa
           target-env: "qa"
@@ -44,6 +54,7 @@ workflows:
             - cicd-deployer-aws-user
           requires:
             - tf-plan-api_handler-qa
+            - security-iac-api_handler-qa
       - app_starter:
           name: app-starter-api_handler-qa
           target-env: "qa"
