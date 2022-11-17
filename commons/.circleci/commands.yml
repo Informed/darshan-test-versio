@@ -31,8 +31,6 @@ commands:
     steps:
       - aws-s3/copy:
           aws-region: AWS_REGION
-          arguments: |
-            --tagging "version=${GIT_TAG}"
           from: <<parameters.from>>
           to  : <<parameters.to>>
 #######################################
