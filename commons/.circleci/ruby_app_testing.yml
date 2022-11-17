@@ -4,17 +4,17 @@ jobs:
     docker:
       - image: ruby:3.0.3
     parameters:
-      appName:
+      directory:
         type: string
     parallelism: 2
     steps:
       - checkout
       - ruby_install_packages:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
       - bundle_build:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
       - ruby_linters:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
       - ruby_tests:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
       - notify_slack_error

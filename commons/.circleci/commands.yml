@@ -38,52 +38,52 @@ commands:
 #######################################
   py_linters:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
     steps:
         - run:
             name: Linters
             command: |
-                cd apps/<<parameters.appName>>
+                cd apps/<<parameters.directory>>
                 poetry run flake8
   py_tests:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
     steps:
         - run:
             name: Pytests
             command: |
-                cd apps/<<parameters.appName>>/tests
+                cd apps/<<parameters.directory>>/tests
                 poetry run pytest -v
 #######################################
 ##### PYTHON APP DEPLOY COMMANDS ######
 #######################################
   poetry_build:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
     steps:
       - run: 
           name: Poetry Build
           command: |
-                cd apps/<<parameters.appName>>
+                cd apps/<<parameters.directory>>
                 echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
                 poetry build
                 poetry run pip install --upgrade -t package dist/*.whl
   py_create_package:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
     steps:
       - run:
           name: Create Package
           command: |
-              cd apps/<<parameters.appName>>/package
+              cd apps/<<parameters.directory>>/package
               echo Zipping the code in `pwd`
               mkdir -p out
               zip -r out/latest.zip . -x '*.pyc'
@@ -108,63 +108,63 @@ commands:
 ####################################
   ruby_install_packages:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
     steps:
         - run:
             name: Install Ruby Package
             command: |
-                cd apps/<<parameters.appName>>
+                cd apps/<<parameters.directory>>
                 gem install bundler -v 2.2.32
   ruby_linters:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
     steps:
         - run:
             name: Linters
             command: |
-                cd apps/<<parameters.appName>>
+                cd apps/<<parameters.directory>>
                 bundle exec rubocop           
   ruby_tests:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
     steps:
         - run:
             name: Pytests
             command: |
-                cd apps/<<parameters.appName>>
+                cd apps/<<parameters.directory>>
                 bundle exec rspec
 ###########################
 ##### RUBY APP DEPLOY #####
 ###########################   
   bundle_build:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
     steps:
       - run: 
           name: Bundle Build
           command: |
-                cd apps/<<parameters.appName>>
+                cd apps/<<parameters.directory>>
                 echo Building the code in `pwd` with: `ruby -v` and `bundler -v`
                 bundle config set --local deployment 'true'
                 bundle install
   ruby_create_package:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
     steps:
       - run:
           name: Create Package
           command: |
-              cd apps/<<parameters.appName>>
+              cd apps/<<parameters.directory>>
               echo Zipping the code in `pwd`
               apt-get update && apt-get install -y zip
               mkdir -p out
@@ -201,7 +201,7 @@ commands:
 ###########################
   snyk_sca:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
       snyk_token:
@@ -218,7 +218,7 @@ commands:
                 chmod +x snyk
                 sudo mv ./snyk /usr/local/bin/
                 snyk auth <<parameters.snyk_token>>
-                cd apps/<<parameters.appName>>
+                cd apps/<<parameters.directory>>
                 snyk test --command=python3 --fail-on=all || true
                 break
                 echo -e "\nCurl command failed. Retrying again...\n"
@@ -227,7 +227,7 @@ commands:
             done
   snyk_sast:
     parameters:
-      appName:
+      directory:
         default: ""
         type: string
       snyk_token:
@@ -244,7 +244,7 @@ commands:
                 chmod +x snyk
                 sudo mv ./snyk /usr/local/bin/
                 snyk auth <<parameters.snyk_token>>
-                cd apps/<<parameters.appName>>
+                cd apps/<<parameters.directory>>
                 snyk code test || true
                 break
                 echo -e "\nCurl command failed. Retrying again...\n"

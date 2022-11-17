@@ -5,16 +5,16 @@ jobs:
       name: python/default
       tag: "3.8"
     parameters:
-      appName:
+      directory:
         type: string
     parallelism: 2
     steps:
       - checkout
       - python/install-packages:
-          app-dir: ~/project/apps/<<parameters.appName>>
+          app-dir: ~/project/apps/<<parameters.directory>>
           pkg-manager: poetry
       - py_linters:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
       - py_tests:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
       - notify_slack_error

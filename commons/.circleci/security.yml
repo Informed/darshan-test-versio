@@ -4,13 +4,13 @@ jobs:
       name: python/default
       tag: "3.8"
     parameters:
-      appName:
+      directory:
         type: string
     parallelism: 2
     steps:
       - checkout
       - snyk_sca:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
           snyk_token: ${SNYK_TOKEN}
       - notify_slack_error
   security_sast:
@@ -18,12 +18,12 @@ jobs:
       name: python/default
       tag: "3.8"
     parameters:
-      appName:
+      directory:
         type: string
     parallelism: 2
     steps:
       - checkout
       - snyk_sast:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
           snyk_token: ${SNYK_TOKEN}
       - notify_slack_error

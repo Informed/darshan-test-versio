@@ -5,21 +5,21 @@ jobs:
     parameters:
       target-env:
         type: string
-      appName:
+      directory:
         type: string
     steps:
       - start_slack_notification
       - checkout
       - tag_commit:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
       - bundle_build:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
       - ruby_create_package:
-          appName: <<parameters.appName>>
+          directory: <<parameters.directory>>
       - upload_artifacts:
-          from: apps/<<parameters.appName>>/out
-          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>
+          from: apps/<<parameters.directory>>/out
+          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.directory>>
       - create_versioned_assets:
-          from: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/latest.zip
-          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.appName>>/${GIT_TAG}.zip
+          from: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.directory>>/latest.zip
+          to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.directory>>/${GIT_TAG}.zip
       - notify_slack_error
