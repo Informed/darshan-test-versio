@@ -10,8 +10,6 @@ jobs:
       tag: <<pipeline.parameters.tf-version>>
     parallelism: 2
     steps:
-      - attach_workspace:
-          at: .
       - terraform/fmt:
           path: infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>
           recursive: true
