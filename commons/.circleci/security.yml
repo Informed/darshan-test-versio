@@ -36,7 +36,6 @@ jobs:
         type: string
       appName:
         type: string
-    parallelism: 2
     steps:
       - checkout
       - snyk_iac:
