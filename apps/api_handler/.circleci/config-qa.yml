@@ -44,6 +44,7 @@ workflows:
             - cicd-deployer-aws-user
           requires:
             - tf-plan-api_handler-qa
+            - security-iac-api_handler-qa
       - app_starter:
           name: app-starter-api_handler-qa
           target-env: "qa"

@@ -16,7 +16,7 @@ variable "environment" {
 }
 
 variable "app_demo_honeybadger_api_key" {
-  description = "API Key for API Handler Honeybasdadger accasdasaszdesasds"
+  description = "API Key for API Handler Honeyasdbaasdsdadger accasasddasaszdesasds"
   type        = string
   default     = "hbp_2xj5epE6rHbEgxxkw95dDSQ5O4iESx3F6GDE"
 }
