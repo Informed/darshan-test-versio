@@ -10,6 +10,7 @@ jobs:
       tag: <<pipeline.parameters.tf-version>>
     parallelism: 2
     steps:
+      - checkout
       - terraform/fmt:
           path: infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>
           recursive: true
