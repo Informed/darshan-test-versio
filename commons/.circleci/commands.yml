@@ -253,12 +253,12 @@ commands:
             done
   snyk_iac:
     parameters:
-      snyk_token:
-        default: ""
-        type: string
       target-env:
         type: string
       appName:
+        type: string
+      snyk_token:
+        default: ""
         type: string
     steps: 
       - run:
@@ -267,7 +267,7 @@ commands:
             wget https://static.snyk.io/cli/latest/snyk-linux -O snyk
             chmod +x snyk
             sudo mv snyk /usr/local/bin
-            snyk auth $SNYK_TOKEN
+            snyk auth <<parameters.snyk_token>>
             wget https://releases.hashicorp.com/terraform/1.2.7/terraform_1.2.7_linux_amd64.zip -O terraform.zip
             sudo unzip terraform.zip -d /usr/local/bin/
       - run:
