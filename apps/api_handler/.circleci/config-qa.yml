@@ -5,7 +5,7 @@ workflows:
     when:
       and:
         - matches:
-            pattern: /^[a-zA-Z0-9_]+-\d+\.\d+\.\d-[rc\d]+$/
+            pattern: /^[a-zA-Z0-9_]+-\d+\.\d+\.\d+-[rc\d]+$/
             value: << pipeline.parameters.version >>
         - equal: [ true, << pipeline.parameters.run-api_handler-qa >> ]
         - equal: [ true, << pipeline.parameters.api_call>> ]
