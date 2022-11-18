@@ -14,3 +14,7 @@ jobs:
       - debug_mode_on
       - terraform/apply:
           path: infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
