@@ -29,6 +29,11 @@ commands:
       to:
         type: string
     steps:
+      - run: 
+          name: Save Version
+          command: |
+                mkdir -p tmp_workspace
+                echo "export GIT_TAG=\"${GIT_TAG}\"" >> tmp_workspace/env_vars
       - aws-s3/copy:
           aws-region: AWS_REGION
           from: <<parameters.from>>
