@@ -11,7 +11,7 @@ workflows:
             equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - security_iac:
-          name      : security-iac-api_handler-dev
+          name      : security-iac-app_demo-dev
           target-env: "dev"
           appName   : "app-demo"
           context   :
@@ -24,6 +24,8 @@ workflows:
           appName   : "app-demo"
           context: 
             - cicd-deployer-aws-user
+          requires:
+            - security-iac-app_demo-dev
 
   tf-app-demo-dev:
     when:
