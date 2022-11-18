@@ -276,7 +276,8 @@ commands:
             echo "Executing Snyk tests for infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>..."
             terraform -chdir=infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>> init -input=false
             terraform -chdir=infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>> plan -input=false -out=tf-plan.out
-            cd ./infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>; terraform show -json tf-plan.out | jq '.' > tf-plan.json
+            cd infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>; 
+            terraform show -json tf-plan.out | jq '.' > tf-plan.json
             snyk iac test tf-plan.json --severity-threshold=high --report 
 ################################
 ###### TERRAFORM TEST ##########
