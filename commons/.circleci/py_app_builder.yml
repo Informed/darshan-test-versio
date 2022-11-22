@@ -17,9 +17,9 @@ jobs:
       - checkout
       - tag_commit:
           directory: <<parameters.directory>>
-      - python/install-packages:
-          app-dir: ~/project/apps/<<parameters.directory>>
-          pkg-manager: poetry
+      # - python/install-packages:
+      #     app-dir: ~/project/apps/<<parameters.directory>>
+      #     pkg-manager: poetry
       - poetry_build:
           directory: <<parameters.directory>>
       - py_create_package:
