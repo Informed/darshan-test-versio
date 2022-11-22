@@ -77,6 +77,7 @@ commands:
           command: |
                 cd apps/<<parameters.directory>>
                 echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
+                poetry install --with layer --sync
                 poetry build
                 poetry run pip install --upgrade -t package dist/*.whl
   py_create_package:
