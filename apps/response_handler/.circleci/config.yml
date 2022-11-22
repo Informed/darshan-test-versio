@@ -50,13 +50,13 @@ workflows:
             - cicd-platform-slack-creds
           requires:
             - app-tester-response_handler
-      - app_starter:
-          name: app-starter-response_handler
-          target-env: "dev"
-          appName   : "response-handler"
-          directory : "response_handler"
-          context:
-            - dev-aws-user-creds
-            - cicd-platform-slack-creds
-          requires:
-            - app-builder-response_handler
+      # - app_starter:
+      #     name: app-starter-response_handler
+      #     target-env: "dev"
+      #     appName   : "response-handler"
+      #     directory : "response_handler"
+      #     context:
+      #       - dev-aws-user-creds
+      #       - cicd-platform-slack-creds
+      #     requires:
+      #       - app-builder-response_handler
