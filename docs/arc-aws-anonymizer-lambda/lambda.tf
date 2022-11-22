@@ -5,7 +5,7 @@ module "copy_lambda_function" {
   handler       = "copy_data.lambda_handler"
   runtime       = "python3.9"
 
-  role_name                = "anonymized-copy"
+  role_name                = "anonymized-copy-${var.app_name}"
   role_description         = "Used for copy anonymized data to destination bucket"
   attach_policy_statements = true
   policy_statements = {
@@ -52,7 +52,7 @@ module "delete_lambda_function" {
   handler       = "delete_data.lambda_handler"
   runtime       = "python3.9"
 
-  role_name                = "anonymized-delete"
+  role_name                = "anonymized-delete-${var.app_name}"
   role_description         = "Delete anonymized data from destination bucket as soon as its deleted from Source bucket"
   attach_policy_statements = true
   policy_statements = {
