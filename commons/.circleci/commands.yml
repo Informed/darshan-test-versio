@@ -77,9 +77,9 @@ commands:
           command: |
                 cd apps/<<parameters.directory>>
                 echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
-                poetry install --with layer --sync
+                poetry export -with layer -f requirements.txt --output requirements.txt --without-hashes
                 poetry build
-                poetry run pip install --upgrade -t package dist/*.whl
+                poetry run pip install -r requirements.txt --upgrade --only-binary :all: --platform manylinux2010_x86_64 --target package dist/*.whl
   py_create_package:
     parameters:
       directory:
