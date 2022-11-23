@@ -1,0 +1,7 @@
+# Covers things somewhat common in all apps
+# If you need to override this in a particular sub directory use something like the following in  the .gitignore in your sub directory:
+# !requirements.txt
+# To allow requirements.txt in your subdirectory and below
+#
+.DS_Store
+requirements.txt

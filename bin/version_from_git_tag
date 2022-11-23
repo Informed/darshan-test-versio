@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+#
+#
+
+usage() {
+    echo -e "Extract last SEMVER from a monorepo git tag based on subproject name"
+    echo -e "Usage: $(basename $0) -b | <subproject name>"
+    echo -e "-b\t: Use the basename of the current directory for the subproject name and ignore the argument if any"
+}
+
+if [ $# -ne 1 ]; then
+    usage
+    exit 1
+fi
+
+while getopts ":b" arg; do
+    case "${arg}" in
+        b) project_name=$(basename $PWD) ;;
+        h)
+            usage
+            exit
+            ;;
+        \?)
+            echo -e "Error - Invalid option: $OPTARG"
+            usage
+            exit
+            ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+project_name=${1:-$project_name}
+
+# Get Current Tags for an project_name
+regex="^[a-zA-Z0-9_].+-[0-9]+.[0-9]+.[0-9]+-rc[0-9]+"
+currentTag=$( git tag --list --sort=committerdate | grep -w "${project_name}" | tail -1 )
+
+if [[ $currentTag =~ $regex ]]; then
+    appVersions=(${currentTag//-/ })
+    tagToBits=(${appVersions[1]//./ })
+    suffix=(${appVersions[2]})
+fi
+
+# Get number parts and increment by 1
+if [ -z ${tagToBits[0]} ]; then
+    majorVersion="0"
+else
+    majorVersion=${tagToBits[0]}
+    majorVersion=$( echo $majorVersion | sed 's/-.*//' )
+fi
+
+if [ -z ${tagToBits[1]} ]; then
+    minorVersion="0"
+else
+    minorVersion=${tagToBits[1]}
+fi
+
+if [ -z ${tagToBits[2]} ]; then
+    patchVersion="0"
+else
+    patchVersion=${tagToBits[2]}
+fi
+
+if [ -z $suffix ]; then
+    preRelease="rc1"
+else
+    preRelease=$suffix
+fi
+
+preReleaseVersion=(${appVersions[2]//rc/})
+preReleaseVersionNumber=$(( preReleaseVersion+1 ))
+preRelease=rc$preReleaseVersionNumber
+
+newTag="${project_name}-${majorVersion}.${minorVersion}.${patchVersion}-${preRelease}"
+
+echo -n $newTag

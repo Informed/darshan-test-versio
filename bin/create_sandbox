@@ -1,0 +1,61 @@
+#!/bin/sh
+
+usage ()
+{
+  echo 'Usage : create_sandbox.sh -a <<APP>> -e <<ENV>> -u <<UNAME>>'
+  echo '        APP: api-handler/ extractions / etc... '
+  echo '        UNAME: darshan-shah / rob-berger / etc... '
+  exit
+}
+
+move()
+{
+    mkdir -p sand
+    mkdir sand/$UNAME 2> /dev/null
+    if [ $? -ne 0 ]; then
+        echo "WARN: Environment for $UNAME Already Exists, Updating files"
+        continue
+    fi
+    cp dev/* sand/$UNAME/ 2> /dev/null
+    if [ $? -ne 0 ]; then
+        echo "ERROR: Unable to copy files"
+        exit
+    fi
+    cd sand/$UNAME
+}
+
+create_sandbox()
+{
+    # envs='prod stag qa dev'
+    # case " $envs " in (*" $ENV "*) :;; (*) false;; esac
+
+    move
+
+    # Update backend for UNAME
+    sed 's/dev/'$UNAME'/g' terraform.tfvars >> tmp.tf; mv tmp.tf terraform.tfvars
+    sed 's/dev/sand/g' providers.tf >> tmp.tf; mv tmp.tf providers.tf
+    sed 's/techno-core/'$UNAME'\/techno-core/g' providers.tf >> tmp.tf ; mv tmp.tf providers.tf
+    sed 's/.*state-lock.*/    dynamodb_table = \"sand-state-locks\"/' providers.tf >> tmp.tf ; mv tmp.tf providers.tf
+
+    if [ $? -eq 0 ]; then
+        echo "SUCCESS: Sandbox environment of $APP created for $UNAME "
+    else
+        echo "ERROR: Create sandbo script has failed to exec"
+    fi
+}
+
+while getopts "a:e:u:" option; do
+    case ${option} in
+        a) APP="${OPTARG}";;
+        u) UNAME="${OPTARG}";;
+        *) usage;;
+    esac
+done
+shift $((OPTIND -1))
+
+if [ -z $APP ] || [ -z $UNAME ] ; then
+    usage
+else
+    create_sandbox
+fi
+
