@@ -10,9 +10,6 @@ workflows:
             equal: [main, << pipeline.git.branch >>]
     jobs:
       - py_app_testing:
-          executor:
-            name: python/default
-            tag: "3.7"
           name: app-tester-page_ocr
           directory: "page_ocr"
           context:
