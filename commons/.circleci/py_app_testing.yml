@@ -3,7 +3,7 @@ jobs:
   py_app_testing:
     executor:
       name: python/default
-      tag: "3.8"
+      tag: <<pipeline.parameters.py-executor>>
     parameters:
       directory:
         type: string

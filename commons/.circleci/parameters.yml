@@ -153,6 +153,9 @@ parameters:
   tf-version:
     type: string
     default: "1.2.7"
+  py-executor:
+    type: string
+    default: "3.8"
 ### TF Params ###
   tf-api-handler-dev:
     type: boolean
