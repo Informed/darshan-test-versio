@@ -150,10 +150,10 @@ def upload_to_s3(c, env=None):
     with c.cd("package"):
         logging.info(f"Uploading to s3 bucket: {version_asset_s3_path}")
         c.run(
-            f"aws s3 cp out/{zip_file_name} s3://{version_asset_s3_path} --region {glbs.aws_region}"
+            f"aws s3 cp out/{zip_file_name} s3://{version_asset_s3_path} --region {glbs.aws_region} --profile 'cicd'"
         )
         c.run(
-            f"aws s3 cp s3://{version_asset_s3_path} s3://{latest_asset_s3_path} --region {glbs.aws_region}"
+            f"aws s3 cp s3://{version_asset_s3_path} s3://{latest_asset_s3_path} --region {glbs.aws_region} --profile 'cicd'"
         )
 
 
@@ -166,17 +166,21 @@ def update_lambda_function(c, env=None):
     version = project_version(with_sha=is_sandbox(env)) 
     upload_time = datetime.datetime.now().strftime("%x %X")
     logging.info(f"Updating lambda {lambda_name(env)}")
-    c.run(
+    function_arn=c.run(
         f"aws lambda update-function-code \
     --function-name {lambda_name(env)} \
     --s3-bucket {s3_lambda_bucket(env)} \
     --s3-key {env}/{glbs.project_name}/latest.zip \
-    --region {glbs.aws_region}"
+    --region {glbs.aws_region} \
+    --profile {env} \
+    --output json | jq -r .FunctionArn"
     )
+    function_arn = function_arn.stdout.strip()
     c.run(f"aws lambda tag-resource \
-        --resource $FARN \
-        --tags version=${version},time=${upload_time} \
-        --region {glbs.aws_region}"
+        --resource {function_arn} \
+        --tags version='{version}',time='{upload_time}' \
+        --region {glbs.aws_region} \
+        --profile {env}"
     )
 
 @task(post=[update_lambda_function], optional=["build_mode", "env"])

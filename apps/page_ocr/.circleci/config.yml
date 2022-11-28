@@ -1,0 +1,124 @@
+version: 2.1
+
+workflows:
+  page_ocr_PR:
+    when:
+      and:
+        - equal: [true, << pipeline.parameters.run-page_ocr >>]
+        - equal: [false, << pipeline.parameters.api_call>>]
+        - not:
+            equal: [main, << pipeline.git.branch >>]
+    jobs:
+      - py_app_testing:
+          executor:
+            name: python/default
+            tag: "3.7"
+          name: app-tester-page_ocr
+          directory: "page_ocr"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - security_sca:
+          name: security-sca-page_ocr
+          directory: "page_ocr"
+          context:
+            - snyk-token
+            - cicd-platform-slack-creds
+      - security_sast:
+          name: security-sast-page_ocr
+          directory: "page_ocr"
+          context:
+            - snyk-token
+            - cicd-platform-slack-creds
+
+  page_ocr:
+    when:
+      and:
+        - equal: [true, << pipeline.parameters.run-page_ocr >>]
+        - equal: [false, << pipeline.parameters.tf-page-ocr-dev >>]
+        - equal: [main, << pipeline.git.branch >>]
+        - equal: [false, << pipeline.parameters.api_call>>]
+    jobs:
+      - py_app_testing:
+          name: app-tester-page_ocr
+          directory: "page_ocr"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - py_app_builder:
+          name: app-builder-page_ocr
+          target-env: "dev"
+          directory: "page_ocr"
+          context:
+            - cicd-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - app-tester-page_ocr
+      - app_starter:
+          name: app-starter-page_ocr
+          target-env: "dev"
+          appName: "page-ocr"
+          directory: "page_ocr"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - app-builder-page_ocr
+
+  page_ocr_tf:
+    when:
+      and:
+        - equal: [true, << pipeline.parameters.run-page_ocr >>]
+        - equal: [true, << pipeline.parameters.tf-page-ocr-dev >>]
+        - equal: [main, << pipeline.git.branch >>]
+        - equal: [false, << pipeline.parameters.api_call>>]
+    jobs:
+      - py_app_testing:
+          name: app-tester-page_ocr
+          directory: "page_ocr"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - py_app_builder:
+          name: app-builder-page_ocr
+          target-env: "dev"
+          directory: "page_ocr"
+          context:
+            - cicd-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - app-tester-page_ocr
+      - tf-test:
+          name: tf-tester-page-ocr
+          target-env: "dev"
+          appName: "page-ocr"
+          context:
+            - cicd-deployer-aws-user
+          requires:
+            - app-builder-page_ocr
+      - tf-plan:
+          name: tf-plan-page-ocr
+          target-env: "dev"
+          appName: "page-ocr"
+          context:
+            - cicd-deployer-aws-user
+          requires:
+            - tf-tester-page-ocr
+      - tf-apply:
+          name: tf-apply-page-ocr
+          target-env: "dev"
+          appName: "page-ocr"
+          context:
+            - cicd-deployer-aws-user
+          requires:
+            - tf-plan-page-ocr
+      - app_starter:
+          name: app-starter-page_ocr
+          target-env: "dev"
+          appName: "page-ocr"
+          directory: "page_ocr"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - tf-apply-page-ocr
