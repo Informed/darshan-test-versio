@@ -12,7 +12,7 @@ workflows:
       - py_app_testing:
           name: app-tester-page_ocr
           directory: "page_ocr"
-          executor: "3.7"
+          py-executor: "3.7"
           context:
             - dev-aws-user-creds
             - cicd-platform-slack-creds
