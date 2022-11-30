@@ -1,0 +1,12 @@
+region: us-west-2
+
+function_name: app_demo_page_ocr
+handler: handler.handler
+runtime: python3.8
+
+environment_variables:
+    LOG_LEVEL: INFO
+    POWERTOOLS_METRICS_NAMESPACE: PageOCR
+    GOOGLE_CLOUD_API_KEY: AIzaSyBP1HK3ttcGdFX3RQ-TetsanOi3F-rv2m4
+    Environment: dev
+    AWS_PROFILE: dev
