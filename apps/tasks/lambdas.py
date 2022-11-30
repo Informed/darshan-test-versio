@@ -44,7 +44,7 @@ def zip_name_with_version(env=None):
     """
     env = env or glbs.env_name
     with_sha = is_sandbox(env)
-    zip_file_name = f"{glbs.project_name}-{project_version(with_sha=with_sha)}.zip"
+    zip_file_name = f"{project_version(with_sha=with_sha)}.zip"
     logging.debug(f"zip_file_name: {zip_file_name}")
     return zip_file_name
 
@@ -88,34 +88,43 @@ def build_python_lambda(c, build_mode=None):
       main   - Minimal deployable code. Expects all dependencies in layer[s]
                Just main dependencies
       layer  - Just the layer dependencies
+      full   - Main and layer dependencies
       docker - Docker based Lambda
                main, layer and docker dependencies
     """
-    logging.debug(
-        f"build_python_lambda build_mode: {build_mode} _build_mode: {_build_mode}"
-    )
+    global _build_mode
     # See if local build_mode should be set from global _build_mode
+    logging.info(
+        f"1: build_python_lambda build_mode: {build_mode} _build_mode: {_build_mode}"
+    )
     if build_mode == None:
         build_mode = _build_mode
 
+    logging.info(
+        f"2: build_python_lambda build_mode: {build_mode} _build_mode: {_build_mode}"
+    )
     if build_mode == "local":
-        extra_args = "--with layer,dev --without docker"
+        extra_args = "--with layer,dev"
+    elif build_mode == "full":
+        extra_args = "--with layer"
     elif build_mode == "main":
         extra_args = "--only main"
     elif build_mode == "layer":
         extra_args = "--only layer"
     elif build_mode == "docker":
-        extra_args = "--only main,layer,docker"
+        extra_args = "--only main,layer"
     else:
         SystemExit(
             f"Invalid build_mode: {build_mode} for task lambdas.build_python_lambda"
         )
 
-    cmd = f"poetry install {extra_args} --sync"
-    logging.debug(f"cmd: {cmd}")
-    c.run(cmd)
+    c.run(
+        f"poetry export {extra_args} -f requirements.txt --output requirements.txt --without-hashes"
+    )
     c.run("poetry build")
-    c.run("poetry run pip install --upgrade -t package dist/*.whl")
+    c.run(
+        "poetry run pip install -r requirements.txt --upgrade --only-binary :all: --platform manylinux2010_x86_64 --target package dist/*.whl"
+    )
 
 
 ###
@@ -123,7 +132,7 @@ def build_python_lambda(c, build_mode=None):
 ###
 
 
-@task(pre=[call(build_python_lambda, _build_mode)], optional=["env"])
+@task(pre=[build_python_lambda], optional=["env"])
 def python_zip_it(c, env=None):
     """
     Zip the package and the python wheel files suitable for a lambda function
@@ -156,7 +165,6 @@ def upload_to_s3(c, env=None):
             f"aws s3 cp s3://{version_asset_s3_path} s3://{latest_asset_s3_path} --region {glbs.aws_region} --profile 'cicd'"
         )
 
-
 @task(pre=[call(upload_to_s3, env=None)], optional=["env"])
 def update_lambda_function(c, env=None):
     """
@@ -183,6 +191,7 @@ def update_lambda_function(c, env=None):
         --profile {env}"
     )
 
+
 @task(post=[update_lambda_function], optional=["build_mode", "env"])
 def build_and_deploy_python_lambda(c, env=None, build_mode="main"):
     """
@@ -194,9 +203,16 @@ def build_and_deploy_python_lambda(c, env=None, build_mode="main"):
       docker - Docker based Lambda
                main, layer and docker dependencies
     """
-    glbs.set_env_name(env)
-    logging.debug(f"build_and_deploy_python_lambda build_mode: {build_mode} env: {env}")
+    global _build_mode
+    if env:
+        glbs.set_env_name(env)
+    else:
+        env = glbs.env_name
+
     _build_mode = build_mode
+    logging.info(
+        f"build_and_deploy_python_lambda build_mode: {build_mode} _build_mode: {_build_mode} env: {env}"
+    )
     pass
 
 
