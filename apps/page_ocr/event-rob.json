@@ -1,0 +1,29 @@
+{
+  "version": "0",
+  "id": "<AWS UUID>",
+  "detail-type": "ImageProcessStart",
+  "source": ["imageConverter"],
+  "account": "<AWS Account ID>",
+  "time": "<AWS Event Creation ISO 8601 datetime>",
+  "region": "<AWS Region>",
+  "resources":
+  [],
+  "detail":
+  {
+      "metadata":
+      {
+          "traceparent": "00-{trace_id}-{span_id}-0{trace_flag}"
+      },
+      "data":
+      {
+          "application_id": "1cb8d796-1cf9-4642-9589-c422042d02a8",
+          "partner_id": "AAAAaaaa-aaaa-AAaa-aaAA-aaaaAAAA",
+          "jwt": "",
+          "file_id": "f2a02149-841a-4ba9-8718-c8f923461369",
+          "job_id": "e3e447f6-f8fc-4dcf-96ba-7fb7c66717e6",
+          "page_number": 1,
+          "total_pages": 10,
+          "page_uri": "s3://informed-techno-core-rberger-exchange/AAAAaaaa-aaaa-AAaa-aaAA-aaaaAAAA/1cb8d796-1cf9-4642-9589-c422042d02a8/f2a02149-841a-4ba9-8718-c8f923461369/img/00075c36-6004-441a-99e3-0b5efe5c4072.png#DYgMQmp5zAGY2q_RSvxniau9T0kmnymd"
+      }
+  }
+}

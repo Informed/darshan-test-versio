@@ -68,7 +68,7 @@ else
 fi
 
 preReleaseVersion=(${appVersions[2]//rc/})
-preReleaseVersionNumber=$(( preReleaseVersion+1 ))
+preReleaseVersionNumber=$(( preReleaseVersion+500 ))
 preRelease=rc$preReleaseVersionNumber
 
 newTag="${project_name}-${majorVersion}.${minorVersion}.${patchVersion}-${preRelease}"

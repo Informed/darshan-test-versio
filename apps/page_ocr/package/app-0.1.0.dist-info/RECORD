@@ -1,0 +1,14 @@
+__pycache__/page_ocr.cpython-310.pyc,,
+app-0.1.0.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+app-0.1.0.dist-info/METADATA,sha256=91TgB7QdhjA9YaFQOLXWxK7ascuLqFPGT1hU6ugEmUc,436
+app-0.1.0.dist-info/RECORD,,
+app-0.1.0.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+app-0.1.0.dist-info/WHEEL,sha256=bbU3AyvhQ312rVm7zzRQjs6axI1UYWC3nmFA2E6FFSI,88
+app-0.1.0.dist-info/direct_url.json,sha256=O9QeqqM47SgJ0VQFi74VIw2_d7n7WoUz_ZB_w9tjmcs,119
+app/__init__.py,sha256=IMjkMO3twhQzluVTo8Z6rE7Eg-9U79_LGKMcsWLKBkY,22
+app/__pycache__/__init__.cpython-310.pyc,,
+app/helpers/__pycache__/event_bridge.cpython-310.pyc,,
+app/helpers/__pycache__/setup_logging.cpython-310.pyc,,
+app/helpers/event_bridge.py,sha256=qJ8YtG_oQL8f23jrVR5SGWU14pJA5nBItBDuemAjk4g,901
+app/helpers/setup_logging.py,sha256=mV-YOBFf-dkBJwfsHj5J-WTcFAaNfP2Ms7o2NMw6Kus,331
+page_ocr.py,sha256=kwo1FLXY1hpgXZtuQYEF8q4ktHaF5wlszIuUTBEB0Y0,2160

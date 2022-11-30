@@ -3,10 +3,13 @@ jobs:
   py_app_testing:
     executor:
       name: python/default
-      tag: "3.8"
+      tag: <<parameters.py-executor>>
     parameters:
       directory:
         type: string
+      py-executor:
+        type: string
+        default: "3.8"
     parallelism: 2
     steps:
       - checkout
