@@ -38,6 +38,7 @@ jobs:
           appName: <<parameters.appName>>
           otelLayerArn: <<parameters.otelLayerArn>>
           ecrRepo: <<parameters.ecrRepo>>
+          py-executor: <<parameters.py-executor>>
       - docker_push:
           appName: <<parameters.appName>>
           ecrRepo: <<parameters.ecrRepo>>
