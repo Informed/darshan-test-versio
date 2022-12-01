@@ -29,7 +29,8 @@ jobs:
       - tag_commit:
           directory: <<parameters.directory>>
       - aws-cli/setup
-      - docker-install
+      - setup_remote_docker:
+          version: 20.10.11
       - poetry_container_build:
           directory: <<parameters.directory>>
       - py_docker_build:
