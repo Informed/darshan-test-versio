@@ -11,7 +11,7 @@
 #
 ARG HANDLER="app_demo_page_ocr.handler.handler"
 ARG BUILD_SITE_PACKAGES="/app/lib/python3.7/site-packages"
-ARG PYTHON_VERSION="3.8"
+ARG PYTHON_VERSION="3.7"
 
 FROM amazonlinux:2 as build
 
