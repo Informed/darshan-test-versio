@@ -314,6 +314,34 @@ commands:
                 n=$((n+1)) 
                 sleep 1
             done
+  snyk_iac:
+    parameters:
+      target-env:
+        type: string
+      appName:
+        type: string
+      snyk_token:
+        default: ""
+        type: string
+    steps: 
+      - run:
+          name: "Install: Snyk & Terraform"
+          command: |
+            wget https://static.snyk.io/cli/latest/snyk-linux -O snyk
+            chmod +x snyk
+            sudo mv snyk /usr/local/bin
+            snyk auth <<parameters.snyk_token>>
+            wget https://releases.hashicorp.com/terraform/1.2.7/terraform_1.2.7_linux_amd64.zip -O terraform.zip
+            sudo unzip terraform.zip -d /usr/local/bin/
+      - run:
+          name: "Test: Snyk iac"
+          command: |
+            echo "Executing Snyk tests for infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>..."
+            terraform -chdir=infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>> init -input=false
+            terraform -chdir=infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>> plan -input=false -out=tf-plan.out
+            cd infrastructure/tf/<<parameters.appName>>/<<parameters.target-env>>; 
+            terraform show -json tf-plan.out | jq '.' > tf-plan.json
+            snyk iac test tf-plan.json --severity-threshold=high --report || true
 ################################
 ###### TERRAFORM TEST ##########
 ################################
