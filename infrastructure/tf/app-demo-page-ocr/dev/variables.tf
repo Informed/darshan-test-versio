@@ -17,7 +17,7 @@ variable "bucket_prefix" {
 }
 
 variable "project_name" {
-  description = "Name of Proasasddject"
+  description = "Name of Proasdasasddject"
   type        = string
   default     = "techno"
 }
