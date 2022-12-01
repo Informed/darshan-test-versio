@@ -30,7 +30,7 @@ jobs:
           directory: <<parameters.directory>>
       - aws-cli/setup
       - setup_remote_docker:
-          version: 20.10.11
+          version: 20.10.17
       - poetry_container_build:
           directory: <<parameters.directory>>
       - py_docker_build:
