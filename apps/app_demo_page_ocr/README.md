@@ -5,7 +5,7 @@ asd
 
 Not recommended to use pip to do the install as it will also install Poetry’s dependencies which might cause conflicts with other packages.
 
-```bash
+```bashasd
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
