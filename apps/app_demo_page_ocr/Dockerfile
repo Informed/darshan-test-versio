@@ -9,7 +9,7 @@
 # ARG defined "globally" for the entire Dockerfile
 # but the ARG statement without assignment has to be repeated in each build stage
 #
-ARG HANDLER="page_ocr.handler.handler"
+ARG HANDLER="app_demo_page_ocr.handler.handler"
 ARG BUILD_SITE_PACKAGES="/app/lib/python3.7/site-packages"
 ARG PYTHON_VERSION="3.8"
 
@@ -75,7 +75,7 @@ ARG HANDLER
 ARG PYTHON_VERSION
 ENV PYTHONUNBUFFERED 1
 ARG SITE_PACKAGES=${LAMBDA_TASK_ROOT}/lib/python${PYTHON_VERSION}/site-packages
-ENV PYTHONPATH ${LAMBDA_TASK_ROOT}:${SITE_PACKAGES}:${LAMBDA_TASK_ROOT}/page_ocr:${PYTHONPATH}
+ENV PYTHONPATH ${LAMBDA_TASK_ROOT}:${SITE_PACKAGES}:${LAMBDA_TASK_ROOT}/app_demo_page_ocr:${PYTHONPATH}
 WORKDIR ${LAMBDA_TASK_ROOT}
 
 # RUN mkdir -p ${SITE_PACKAGES}
@@ -90,4 +90,4 @@ RUN echo "HANDLER: ${HANDLER}" \
   && echo "PYTHONPATH: ${PYTHONPATH}"
 
 # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
-CMD [ "page_ocr.handler.handler" ]
+CMD [ "app_demo_page_ocr.handler.handler" ]
