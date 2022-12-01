@@ -151,6 +151,10 @@ def upload_to_s3(c, env=None):
     Upload the zip file to s3
     """
     env = env or glbs.env_name
+    if env in ["dev","dev-api"]:
+        profile = "cicd"
+    else: 
+        profile = env 
     zip_file_name = zip_name_with_version(env)
     version_asset_s3_path = f"{s3_lambda_bucket(env)}/{env}/{glbs.project_name}/{project_version(with_sha=is_sandbox(env))}.zip"
     latest_asset_s3_path = (
@@ -159,11 +163,12 @@ def upload_to_s3(c, env=None):
     with c.cd("package"):
         logging.info(f"Uploading to s3 bucket: {version_asset_s3_path}")
         c.run(
-            f"aws s3 cp out/{zip_file_name} s3://{version_asset_s3_path} --region {glbs.aws_region} --profile 'cicd'"
+            f"aws s3 cp out/{zip_file_name} s3://{version_asset_s3_path} --region {glbs.aws_region} --profile '{profile}'"
         )
         c.run(
-            f"aws s3 cp s3://{version_asset_s3_path} s3://{latest_asset_s3_path} --region {glbs.aws_region} --profile 'cicd'"
+            f"aws s3 cp s3://{version_asset_s3_path} s3://{latest_asset_s3_path} --region {glbs.aws_region} --profile '{profile}'"
         )
+
 
 @task(pre=[call(upload_to_s3, env=None)], optional=["env"])
 def update_lambda_function(c, env=None):
@@ -171,10 +176,10 @@ def update_lambda_function(c, env=None):
     Update the lambda function with the new code from the image in s3 bucket
     """
     env = env or glbs.env_name
-    version = project_version(with_sha=is_sandbox(env)) 
+    version = project_version(with_sha=is_sandbox(env))
     upload_time = datetime.datetime.now().strftime("%x %X")
     logging.info(f"Updating lambda {lambda_name(env)}")
-    function_arn=c.run(
+    function_arn = c.run(
         f"aws lambda update-function-code \
     --function-name {lambda_name(env)} \
     --s3-bucket {s3_lambda_bucket(env)} \
@@ -184,12 +189,16 @@ def update_lambda_function(c, env=None):
     --output json | jq -r .FunctionArn"
     )
     function_arn = function_arn.stdout.strip()
-    c.run(f"aws lambda tag-resource \
+    c.run(
+        f"aws lambda tag-resource \
         --resource {function_arn} \
         --tags version='{version}',time='{upload_time}' \
         --region {glbs.aws_region} \
         --profile {env}"
     )
+    if env in ["dev", "dev-api"]: 
+        c.run(f"git tag {version}")
+        c.run(f"git push --tags")
 
 
 @task(post=[update_lambda_function], optional=["build_mode", "env"])
@@ -241,7 +250,7 @@ def docker_build_image(c, env=None):
     Build a docker image of the lambda function (Does not deploy to ECR or Lambda)
     """
     env = env or glbs.env_name
-    with_sha = not env in ["dev", "qa", "prod"]
+    with_sha = not env in ["dev", "dev-api"]
     if not glbs.is_ruby_project:
         otel_layer_arn = f"{ecr_repo(env)}/aws-otel-python-{glbs.arch}-ver-{glbs.otel_version.replace('.', '-')}:{glbs.otel_layer_version}"
         logging.info(
@@ -283,7 +292,7 @@ def docker_build_and_push_image_to_ecr(c, env=None):
     Build and Push the docker image to ECR
     """
     env = env or glbs.env_name
-    with_sha = not env in ["dev", "qa", "prod"]
+    with_sha = not env in ["dev", "dev-api"]
     logging.info(f"Pushing docker image to ECR env: {env}")
     c.run(
         f"aws ecr get-login-password --profile {glbs.env_name} --region {glbs.aws_region} | docker login --username AWS --password-stdin {ecr_repo(env)}/{glbs.project_dash_name}"

@@ -38,6 +38,22 @@ commands:
           aws-region: AWS_REGION
           from: <<parameters.from>>
           to  : <<parameters.to>>
+  docker_push:
+    parameters:
+      appName:
+        default: ""
+        type: string
+      ecrRepo:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: Docker Push
+          command: |
+            docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/<<parameters.appName>>:latest
+            docker push <<parameters.ecrRepo>>/<<parameters.appName>>:latest
+            docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/<<parameters.appName>>:${GIT_TAG}
+            docker push <<parameters.ecrRepo>>/<<parameters.appName>>:${GIT_TAG}
 #######################################
 ##### PYTHON APP LINTER & TESTER ######
 #######################################
@@ -93,6 +109,44 @@ commands:
               echo Zipping the code in `pwd`
               mkdir -p out
               zip -r out/latest.zip . -x '*.pyc'
+################################
+#### PYTHON CONTAINER BUILD ####
+################################
+  poetry_container_build:
+    parameters:
+      directory:
+        default: ""
+        type: string
+    steps:
+      - run: 
+          name: Poetry Container Build
+          command: |
+                cd apps/<<parameters.directory>>
+                echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
+                poetry export --only main,layer,docker -f requirements.txt --output requirements.txt --without-hashes -vvv
+  py_docker_build:
+    parameters:
+      directory:
+        default: ""
+        type: string
+      appName:
+        default: ""
+        type: string
+      otelLayerArn:
+        default: ""
+        type: string
+      ecrRepo:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: Python Docker Build
+          command: |
+            cd apps/<<parameters.directory>>
+            echo Building docker image for <<parameters.appName>>  otel_layer_arn: <<parameters.otelLayerArn>>
+            aws ecr get-login-password --profile cicd --region us-west-2 | docker login --username AWS --password-stdin <<parameters.ecrRepo>>
+            docker build --platform linux/amd64 -t <<parameters.appName>>:latest --build-arg PYTHON_VERSION=3.8 --build-arg HANDLER=<<parameters.directory>>.handler .
+#           docker build --platform linux/amd64 -t <<parameters.appName>>:latest --build-arg PYTHON_VERSION=3.8 --build-arg OTEL_LAYER_ARN=<<parameters.otelLayerArn>> --build-arg HANDLER=<<parameters.directory>>.handler .
 ################################
 ##### APP STARTER COMMANDS #####
 ################################

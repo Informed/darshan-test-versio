@@ -241,7 +241,7 @@ def python_version(seperator="dot"):
                If 'none', no seperator is used
     """
     poetry_version = get_pyproject_toml()["tool"]["poetry"]["dependencies"]["python"]
-    py_version = re.findall("[0-9]+\.[0-9]+\.?[0-9]*", poetry_version)[0]
+    py_version = re.findall("[0-9]+\.[0-9]+", poetry_version)[0]
     if seperator == "dot":
         version = py_version
     elif seperator == "dash":

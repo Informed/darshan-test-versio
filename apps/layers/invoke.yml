@@ -1,0 +1,3 @@
+debug: false
+run:
+    echo: true
