@@ -107,10 +107,11 @@ def handler(event: EventBridgeEvent, context: LambdaContext):
         partner_id = event_data['partner_id']
         application_id = event_data['application_id']
         resource_id = event_data['resource_id']
+        resource_type = event_data['resource_type']
         page_uri = event_data['page_uri']
-
+        error = event_data['error_message'] if 'error_message' in event_data else None
         try:
-            test_app = event_data['metadata']['internal_use']['test_application']
+            test_app = event['metadata']['internal_use']['testing']['test_application']
         except BaseException:
             test_app = False
 
@@ -124,59 +125,60 @@ def handler(event: EventBridgeEvent, context: LambdaContext):
         metric_wrapper.track_request_received()
         metric_wrapper.timer_start('ExecutionTime')
 
-        file_name = S3.download_uri(page_uri)
-        s3 = S3.factory_from_uri(page_uri)
-        page_fn = S3.key_from_uri(page_uri).split('/')[-1]
-        page_key_prefix = f"{partner_id}/{application_id}/{resource_id}/ocr/{os.path.splitext(page_fn)[0]}"  # noqa: B950
+        if not error:
+            file_name = S3.download_uri(page_uri)
+            s3 = S3.factory_from_uri(page_uri)
+            page_fn = S3.key_from_uri(page_uri).split('/')[-1]
+            directory = 'file' if resource_type == 'file' else 'documents'
+            page_key_prefix = f"{partner_id}/{application_id}/{directory}/{resource_id}/ocr/{os.path.splitext(page_fn)[0]}"  # noqa: B950
 
-        ocr_result = run_google_ocr(file_name,
-                                    metric_wrapper,
-                                    post_rotation=False)
+            ocr_result = run_google_ocr(file_name,
+                                        metric_wrapper,
+                                        post_rotation=False)
 
-        run_ocr_again = rotate_image_if_needed(file_name, words(ocr_result))
-        if run_ocr_again:
-            ocr_result = run_google_ocr(file_name, metric_wrapper)
+            run_ocr_again = rotate_image_if_needed(file_name, words(ocr_result))
+            if run_ocr_again:
+                ocr_result = run_google_ocr(file_name, metric_wrapper)
 
-        # for certain document types, we want to run an additional type of OCR called
-        # TEXT_DETECTION. This typically works better on images, like driver licenses,
-        # than the default DOCUMENT_TEXT_DETECTION
-        # since we don't know what the document type is at this stage, we have a
-        # specialized model for determining whether or not we should call TEXT_DETECTION
-        if should_run_text_detection(text(ocr_result)):
-            text_result = run_google_ocr(file_name,
-                                         metric_wrapper,
-                                         features=[TEXT],
-                                         post_rotation=run_ocr_again)
-            if text_result is not None:
-                ocr_result = text_result if ocr_result is None else {
-                    **ocr_result,
-                    **text_result
-                }
+            # for certain document types, we want to run an additional type of OCR called
+            # TEXT_DETECTION. This typically works better on images, like driver licenses,
+            # than the default DOCUMENT_TEXT_DETECTION
+            # since we don't know what the document type is at this stage, we have a
+            # specialized model for determining whether or not we should call TEXT_DETECTION
+            if should_run_text_detection(text(ocr_result)):
+                text_result = run_google_ocr(file_name,
+                                             metric_wrapper,
+                                             features=[TEXT],
+                                             post_rotation=run_ocr_again)
+                if text_result is not None:
+                    ocr_result = text_result if ocr_result is None else {
+                        **ocr_result,
+                        **text_result
+                    }
 
-        google_data = {}  # initialize return data
-        google_data['ocr_data'] = ocr_result
+            google_data = {}  # initialize return data
+            google_data['ocr_data'] = ocr_result
 
-        # upload final page image to s3 and then grab the dimensions for the image since
-        # we have it open
-        dimensions = {}
-        with open(file_name, 'rb') as image:
-            image_version = S3.put_uri(page_uri, image)
-            img = PIL_Image.open(image)
-            width, height = img.size
-            dimensions = {'height': height, 'width': width}
+            # upload final page image to s3 and then grab the dimensions for the image since
+            # we have it open
+            dimensions = {}
+            with open(file_name, 'rb') as image:
+                image_version = S3.put_uri(page_uri, image)
+                img = PIL_Image.open(image)
+                width, height = img.size
+                dimensions = {'height': height, 'width': width}
 
-        aws_data = {}
-        aws_data['ocr_data'] = run_aws_ocr(page_uri, metric_wrapper)
+            aws_data = {}
+            aws_data['ocr_data'] = run_aws_ocr(page_uri, metric_wrapper)
 
-        google_data['dimensions'] = dimensions
-        aws_data['dimensions'] = dimensions
+            google_data['dimensions'] = dimensions
+            aws_data['dimensions'] = dimensions
 
-        # store page ocr data in s3
-        google_page_key = f"{page_key_prefix}.json"
-        google_ocr_version = s3.put_object(google_page_key,
-                                           package_data(google_data))
-        aws_page_key = f"{page_key_prefix}-AWS.json"
-        aws_ocr_version = s3.put_object(aws_page_key, package_data(aws_data))
+            # store page ocr data in s3
+            google_page_key = f"{page_key_prefix}.json"
+            google_ocr_version = s3.put_object(google_page_key, package_data(google_data))
+            aws_page_key = f"{page_key_prefix}-AWS.json"
+            aws_ocr_version = s3.put_object(aws_page_key, package_data(aws_data))
     except BaseException as e:
         error = str(e)
         honeybadger.notify(e, context=event)
@@ -192,7 +194,7 @@ def handler(event: EventBridgeEvent, context: LambdaContext):
             'partner_id': partner_id,
             'application_id': application_id,
             'resource_id': resource_id,
-            'resource_type': event_data.get('resource_type'),
+            'resource_type': resource_type,
             'page_number': event_data.get('page_number'),
             'total_pages': event_data.get('total_pages'),
             'job_id': event_data.get('job_id')
@@ -214,7 +216,7 @@ def handler(event: EventBridgeEvent, context: LambdaContext):
         else:
             details['data_uris'] = []
             details['page_uri'] = event_data.get('page_uri')
-            details['error'] = error
+            details['error_message'] = error
 
         EventBridge.push_event('ImageProcessCompleted', {
             'metadata': event['metadata'],

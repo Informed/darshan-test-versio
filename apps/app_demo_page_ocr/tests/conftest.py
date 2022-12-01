@@ -5,7 +5,7 @@ from unittest.mock import mock_open, patch
 from moto import mock_events, mock_s3
 import pytest
 
-sys.path.insert(0, '../app_demo_page_ocr')
+sys.path.insert(0, '../app_demo_app_demo_page_ocr')
 MOCKED_ENV_VARS = {
     'LOG_LEVEL': 'INFO',
     'POWERTOOLS_METRICS_NAMESPACE': 'PageOCR',

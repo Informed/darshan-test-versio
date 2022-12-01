@@ -18,6 +18,7 @@ FROM amazonlinux:2 as build
 ARG PYTHON_VERSION
 
 RUN echo "PYTHON_VERSION ${PYTHON_VERSION} without dots: ${PYTHON_VERSION//.}"
+RUN
 
 ## NOTE: This won't work with python 3.8 for now as the amazonlinux2 image requires
 ## a different mechanism to install 3.8 vs 3.7

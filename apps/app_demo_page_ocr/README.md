@@ -1,11 +1,11 @@
-# Page Ocr asdSetup
-asdasd
+# Page Ocr Setup
+
 
 ## [Install poetry](https://python-poetry.org/docs/master/#installing-with-the-official-installer)
 
 Not recommended to use pip to do the install as it will also install Poetry’s dependencies which might cause conflicts with other packages.
 
-```bashasd
+```bash
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
@@ -75,7 +75,7 @@ Python:  3.7.13
 Virtualenv
 Python:         3.7.13
 Implementation: CPython
-Path:           /Users/rahulsalla/Library/Caches/pypoetry/virtualenvs/app-demo-page-ocr-7E-CUEjg-py3.7
+Path:           /Users/rahulsalla/Library/Caches/pypoetry/virtualenvs/page-ocr-7E-CUEjg-py3.7
 Valid:          True
 
 System

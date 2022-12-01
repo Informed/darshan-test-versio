@@ -37,7 +37,7 @@ BASE_EVENT = {
 class MockLambdaContext(LambdaContext):
 
     def __init__(self):
-        self._function_name = 'app_demo_page_ocr'
+        self._function_name = 'app_demo_app_demo_page_ocr'
         self._memory_limit_in_mb = 128
         self._invoked_function_arn = 'arn:aws:lambda:'
         self._aws_request_id = '1234'
