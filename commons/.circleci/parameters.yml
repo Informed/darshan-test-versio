@@ -290,19 +290,19 @@ parameters:
   tf-response-handler-prod:
     type: boolean
     default: false
-  tf-app-demo-page-ocr-dev_PR: 
+  tf-app-demo-page-ocr-dev: 
     type: boolean
     default: false
-  tf-app-demo-page-ocr-dev-api_PR: 
+  tf-app-demo-page-ocr-dev-api: 
     type: boolean
     default: false
-  tf-app-demo-page-ocr-qa_PR: 
+  tf-app-demo-page-ocr-qa: 
     type: boolean
     default: false
-  tf-app-demo-page-ocr-staging_PR: 
+  tf-app-demo-page-ocr-staging: 
     type: boolean
     default: false
-  tf-app-demo-page-ocr-prod_PR: 
+  tf-app-demo-page-ocr-prod: 
     type: boolean
     default: false
 
