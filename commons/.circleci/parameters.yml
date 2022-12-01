@@ -31,6 +31,22 @@ parameters:
   run-app_demo-staging:
     type: boolean
     default: false
+###  App demo  page ocr
+  run-app_demo_page_ocr:
+    type: boolean
+    default: false
+  run-app_demo_page_ocr-prod:
+    type: boolean
+    default: false
+  run-app_demo_page_ocr-dev-api:
+    type: boolean
+    default: false
+  run-app_demo_page_ocr-qa:
+    type: boolean
+    default: false
+  run-app_demo_page_ocr-staging:
+    type: boolean
+    default: false
 ### Image Converter ###
   run-image_converter:
     type: boolean
@@ -274,3 +290,19 @@ parameters:
   tf-response-handler-prod:
     type: boolean
     default: false
+  tf-app-demo-page-ocr-dev_PR: 
+    type: boolean
+    default: false
+  tf-app-demo-page-ocr-dev-api_PR: 
+    type: boolean
+    default: false
+  tf-app-demo-page-ocr-qa_PR: 
+    type: boolean
+    default: false
+  tf-app-demo-page-ocr-staging_PR: 
+    type: boolean
+    default: false
+  tf-app-demo-page-ocr-prod_PR: 
+    type: boolean
+    default: false
+

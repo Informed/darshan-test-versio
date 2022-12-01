@@ -1,0 +1,56 @@
+version: 2.1
+
+workflows:
+
+  tf-app-demo-page-ocr-qa_PR:
+    when: 
+      and:
+        - equal: [ true, << pipeline.parameters.tf-app-demo-page-ocr-qa >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ]
+        - not:
+            equal: [ main, << pipeline.git.branch >> ]
+    jobs:
+      - security_iac:
+          name      : security-iac-image-app-demo-page-ocr-qa
+          target-env: "qa"
+          appName   : "app-demo-page-ocr"
+          context   :
+            - snyk-token
+            - cicd-platform-slack-creds
+            - cicd-aws-user-creds
+      - tf-test:
+          name: tf-tester-app-demo-page-ocr
+          target-env: "qa"
+          appName   : "app-demo-page-ocr"
+          context: 
+            - cicd-deployer-aws-user
+
+  tf-app-demo-page-ocr-qa:
+    when:
+      and:
+        - equal: [ true, << pipeline.parameters.tf-app-demo-page-ocr-qa >> ]
+        - equal: [ main, << pipeline.git.branch >> ]
+        - equal: [ false, << pipeline.parameters.api_call>> ] 
+    jobs:
+      - tf-test:
+          name: tf-tester-app-demo-page-ocr
+          target-env: "qa"
+          appName   : "app-demo-page-ocr"
+          context: 
+            - cicd-deployer-aws-user
+      - tf-plan:
+          name: tf-plan-app-demo-page-ocr
+          target-env: "qa"
+          appName   : "app-demo-page-ocr"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-tester-app-demo-page-ocr
+      - tf-apply:
+          name: tf-apply-app-demo-page-ocr
+          target-env: "qa"
+          appName   : "app-demo-page-ocr"
+          context: 
+            - cicd-deployer-aws-user
+          requires:
+            - tf-plan-app-demo-page-ocr
