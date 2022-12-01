@@ -165,6 +165,7 @@ workflows:
           mapping: |
             apps/api_handler/.* run-api_handler true
             apps/app_demo/.* run-app_demo true
+            apps/app_demo_page_ocr/.* run-app_demo_page_ocr true
             apps/image_converter/.* run-image_converter true
             apps/input_file_validator/.* run-input_file_validator true
             apps/page_ocr/.* run-page_ocr true
