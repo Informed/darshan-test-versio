@@ -54,6 +54,12 @@ commands:
             docker push <<parameters.ecrRepo>>/<<parameters.appName>>:latest
             docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/<<parameters.appName>>:${GIT_TAG}
             docker push <<parameters.ecrRepo>>/<<parameters.appName>>:${GIT_TAG}
+  docker-install:
+    steps:
+      - run:
+          name: Install Docker client
+          command: apk add docker-cli
+
 #######################################
 ##### PYTHON APP LINTER & TESTER ######
 #######################################

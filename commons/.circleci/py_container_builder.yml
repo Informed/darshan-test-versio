@@ -3,7 +3,8 @@ jobs:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     executor:
-      name: cimg/python:3.7.0
+      name: python/default
+      tag: <<parameters.py-executor>>
     parameters:
       target-env:
         type: string
@@ -17,6 +18,9 @@ jobs:
       otelLayerArn:
         default: "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-python-amd64-ver:1"
         type: string
+      py-executor:
+        type: string
+        default: "3.8"
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
@@ -25,6 +29,7 @@ jobs:
       - tag_commit:
           directory: <<parameters.directory>>
       - aws-cli/setup
+      - docker-install
       - poetry_container_build:
           directory: <<parameters.directory>>
       - py_docker_build:
