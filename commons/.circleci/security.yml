@@ -27,3 +27,19 @@ jobs:
           directory: <<parameters.directory>>
           snyk_token: ${SNYK_TOKEN}
       - notify_slack_error
+  security_iac:
+    executor:
+      name: python/default
+      tag: "3.8"
+    parameters:
+      target-env:
+        type: string
+      appName:
+        type: string
+    steps:
+      - checkout
+      - snyk_iac:
+          snyk_token: ${SNYK_TOKEN}
+          target-env: <<parameters.target-env>>
+          appName: <<parameters.appName>>
+      - notify_slack_error
