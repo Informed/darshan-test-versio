@@ -1,7 +1,7 @@
-    c.run(
-        f"aws lambda update-function-code \
-    --profile {glbs.env_name} \
-    --function-name {lambda_name(env)} \
-    --image-uri {ecr_repo(env)}/{glbs.project_dash_name}:latest \
-    --region {glbs.aws_region}"
-    )
+    # c.run(
+    #     f"aws lambda update-function-code \
+    # --profile {glbs.env_name} \
+    # --function-name {lambda_name(env)} \
+    # --image-uri {ecr_repo(env)}/{glbs.project_dash_name}:latest \
+    # --region {glbs.aws_region}"
+    # )
