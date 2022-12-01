@@ -3,8 +3,7 @@ jobs:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     executor:
-      name: docker
-      tag: docker:17.05.0-ce-git
+      name: cimg/python:3.7.0
     parameters:
       target-env:
         type: string

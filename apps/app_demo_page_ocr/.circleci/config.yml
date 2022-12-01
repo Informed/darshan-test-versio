@@ -44,9 +44,8 @@ workflows:
           context:
             - dev-aws-user-creds
             - cicd-platform-slack-creds
-      - py_app_builder:
+      - py_container_builder:
           name: app-builder-app_demo_page_ocr
-          py-executor: "3.7"
           target-env: "dev"
           directory: "app_demo_page_ocr"
           context:
