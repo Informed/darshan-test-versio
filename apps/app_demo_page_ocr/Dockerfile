@@ -9,8 +9,8 @@
 # ARG defined "globally" for the entire Dockerfile
 # but the ARG statement without assignment has to be repeated in each build stage
 #
-ARG HANDLER
-ARG BUILD_SITE_PACKAGES="/tmp/site-packages"
+ARG HANDLER="page_ocr.handler.handler"
+ARG BUILD_SITE_PACKAGES="/app/lib/python3.7/site-packages"
 ARG PYTHON_VERSION="3.8"
 
 FROM amazonlinux:2 as build
@@ -32,7 +32,7 @@ RUN yum groupinstall -y "Development Tools" \
 # We create an /app directory with a virtual environment in it to store our
 # application in.
 RUN set -x \
-    && python${PYTHON_VERSION} -m venv /app
+  && python${PYTHON_VERSION} -m venv /app
 
 # Setting the PATH ensures that our pip commands below use the pip inside the virtual environment,
 # adding the compiled wheels to the collection we will later copy to the final image.
@@ -40,7 +40,7 @@ ENV PATH="/app/bin:${PATH}"
 ARG BUILD_SITE_PACKAGES
 
 RUN echo "BUILD_SITE_PACKAGES: ${BUILD_SITE_PACKAGES}" \
-    && mkdir -p ${BUILD_SITE_PACKAGES}
+  && mkdir -p ${BUILD_SITE_PACKAGES}
 
 # Next, we want to update pip, setuptools, and wheel inside of this virtual
 # environment to ensure that we have the latest versions of them.
@@ -55,13 +55,13 @@ COPY requirements.txt /app/requirements.txt
 # and its contents are what we will copy to the final image.
 # Also cleans up the dependencies that are not needed in the final image
 RUN --mount=type=cache,id=custom-pip,target=/root/.cache/pip pip3 install --disable-pip-version-check  \
-    -r /app/requirements.txt -t ${BUILD_SITE_PACKAGES} \
+  -r /app/requirements.txt -t ${BUILD_SITE_PACKAGES} \
   && find ${BUILD_SITE_PACKAGES} -wholename "*/tests/*" -type f -delete \
   && find ${BUILD_SITE_PACKAGES} -regex '^.*\(__pycache__\|\.py[co]\)$' -delete
-  # && find ${BUILD_SITE_PACKAGES} -name '*.so' -type f -exec strip "{}" \; \
 
-COPY lib /app/lib/
-COPY app_demo_page_ocr /app/
+# COPY ${BUILD_SITE_PACKAGES} /app/lib/
+COPY src /app
+
 
 ###
 ### Start of the second stage Docker image
@@ -73,23 +73,21 @@ FROM public.ecr.aws/lambda/python:${PYTHON_VERSION}
 
 ARG HANDLER
 ARG PYTHON_VERSION
-ARG BUILD_SITE_PACKAGES
 ENV PYTHONUNBUFFERED 1
 ARG SITE_PACKAGES=${LAMBDA_TASK_ROOT}/lib/python${PYTHON_VERSION}/site-packages
-ENV PYTHONPATH ${SITE_PACKAGES}:${PYTHONPATH}
+ENV PYTHONPATH ${LAMBDA_TASK_ROOT}:${SITE_PACKAGES}:${LAMBDA_TASK_ROOT}/page_ocr:${PYTHONPATH}
 WORKDIR ${LAMBDA_TASK_ROOT}
 
-RUN mkdir -p ${SITE_PACKAGES}
+# RUN mkdir -p ${SITE_PACKAGES}
 
 # We now copy all the wheels we created in the build phase
 COPY --from=build /app ${LAMBDA_TASK_ROOT}
-COPY --from=build ${BUILD_SITE_PACKAGES} ${SITE_PACKAGES}
 
 RUN echo "HANDLER: ${HANDLER}" \
-    && echo "PYTHON_VERSION: ${PYTHON_VERSION}" \
-    && echo "BUILD_SITE_PACKAGES: ${BUILD_SITE_PACKAGES}" \
-    && echo "SITE_PACKAGES: ${SITE_PACKAGES}" \
-    && echo "LAMBDA_TASK_ROOT: ${LAMBDA_TASK_ROOT}" \
-    && echo "PYTHONPATH: ${PYTHONPATH}"
+  && echo "PYTHON_VERSION: ${PYTHON_VERSION}" \
+  && echo "SITE_PACKAGES: ${SITE_PACKAGES}" \
+  && echo "LAMBDA_TASK_ROOT: ${LAMBDA_TASK_ROOT}" \
+  && echo "PYTHONPATH: ${PYTHONPATH}"
+
 # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
-CMD [ "handler.handler" ]
+CMD [ "page_ocr.handler.handler" ]
