@@ -174,7 +174,7 @@ workflows:
             apps/response_handler/.* run-response_handler true
             infrastructure/tf/api-handler/dev/.* tf-api-handler-dev true
             infrastructure/tf/app-demo/dev/.* tf-app-demo-dev true
-            infrastructure/tf/app-demo-page-ocr/dev/.* tf-app-demo-page-ocr-dev
+            infrastructure/tf/app-demo-page-ocr/dev/.* tf-app-demo-page-ocr-dev true
             infrastructure/tf/image-converter/dev/.* tf-image-converter-dev true
             infrastructure/tf/input-file-validator/dev/.* tf-input-file-validator-dev true
             infrastructure/tf/page-ocr/dev/.* tf-page-ocr-dev true
