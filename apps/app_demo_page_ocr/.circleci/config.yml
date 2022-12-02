@@ -46,7 +46,7 @@ workflows:
           context:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
-      - app_starter:
+      - container_starter:
           name: app-starter-app_demo_page_ocr
           target-env: "dev"
           appName: "app-demo-page-ocr"
