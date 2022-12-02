@@ -10,8 +10,6 @@ jobs:
         type: string
       appName:
         type: string
-      directory:
-        type: string
       version:
         type: string
     # Add steps to the job
