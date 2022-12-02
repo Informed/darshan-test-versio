@@ -25,16 +25,19 @@ def test_validation_empty_event_fails():
 
 def test_validation_missing_file_id_fails():
     with pytest.raises(SchemaValidationError):
-        handler(event_data(resource_id=None), {})
+        handler(event_data(data_args={'resource_id': None}), {})
 
 
 def test_validation_complete_event_passes():
     try:
-        with patch('libraries.event_bridge.EventBridge.client.put_events',
-                   side_effect=mocked_event_bridge_no_error) as mocked, patch(
+        with patch('handler.package_data') as mocked, patch(
+            'libraries.lambdas.TextractAnalysis.process',
+            return_value=AWS_OCR_DATA
+        ), patch(
             'libraries.google_vision_api.GoogleVisionRestClient.annotate',
             return_value=OCR_DATA
-        ):
+        ), patch('libraries.event_bridge.EventBridge.client.put_events',
+                 side_effect=mocked_event_bridge_no_error):
             handler(event_data(), context())
             mocked.assert_called()
     except SchemaValidationError:
@@ -71,6 +74,16 @@ def test_ocr_throws_non_200_error_still_sends_event():
         mocked.assert_called()
 
 
+def test_ocr_with_incoming_error_event_forwards_error():
+    with patch(
+        'libraries.event_bridge.EventBridge.client.put_events', side_effect=mocked_incoming_event_error  # noqa: B950
+    ) as mocked, patch(
+        'libraries.google_vision_api.GoogleVisionRestClient.annotate'  # noqa: B950
+    ):
+        handler(event_data(data_args={'error_message': 'DocumentService error message', 'page_uri': ''}), context())  # noqa: B950
+        mocked.assert_called()
+
+
 def test_ocr_has_all_keys():
     with patch(
             'libraries.google_vision_api.GoogleVisionRestClient.annotate',
@@ -82,15 +95,48 @@ def test_ocr_has_all_keys():
         assert 'full_text_annotation' not in results  # we are not using pages
 
 
+def test_metadata_persists():
+    with patch('handler.package_data') as mocked, patch(
+        'libraries.lambdas.TextractAnalysis.process',
+        return_value=AWS_OCR_DATA
+    ), patch(
+        'libraries.google_vision_api.GoogleVisionRestClient.annotate',
+        return_value=OCR_DATA
+    ), patch('libraries.event_bridge.EventBridge.client.put_events',
+             side_effect=mocked_event_bridge_persists_metadata):
+        handler(event_data(metadata_args={'internal_use': {'testing': {'test_application': True}}}), context())  # noqa: B950
+        mocked.assert_called()
+
+
 def mocked_event_bridge_no_error(*args, **kwargs):
     event = event_checker(*args, **kwargs)
-    assert 'error' not in event
+    assert 'error_message' not in event['data']
 
 
 def mocked_event_bridge_error(*args, **kwargs):
     event = event_checker(*args, **kwargs)
-    assert 'error' in event['data']
-    assert 'Google Cloud Vision returned non-200' in event['data']['error']
+    assert 'error_message' in event['data']
+    assert 'Google Cloud Vision returned non-200' in event['data']['error_message']
+
+
+def mocked_incoming_event_error(*args, **kwargs):
+    event = event_checker(*args, **kwargs)
+    event_data = event['data']
+    assert 'error_message' in event_data
+    assert 'DocumentService error message' in event_data['error_message']
+    assert event_data['data_uris'] == []
+    assert event_data['page_uri'] == ''
+
+
+def mocked_event_bridge_persists_metadata(*args, **kwargs):
+    event = event_checker(*args, **kwargs)
+    assert 'error_message' not in event['data']
+    assert 'metadata' in event
+    event_metadata = event['metadata']
+    assert 'internal_use' in event_metadata
+    assert 'testing' in event_metadata['internal_use']
+    assert 'test_application' in event_metadata['internal_use']['testing']
+    assert event_metadata['internal_use']['testing']['test_application'] is True
 
 
 def event_checker(*args, **kwargs):

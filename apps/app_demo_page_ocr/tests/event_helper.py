@@ -16,7 +16,7 @@ BASE_EVENT = {
     {
         "metadata":
         {
-            "traceparent": "00-{trace_id}-{span_id}-0{trace_flag}"
+            "traceparent": "00-00-00-00"
         },
         "data":
         {
@@ -37,7 +37,7 @@ BASE_EVENT = {
 class MockLambdaContext(LambdaContext):
 
     def __init__(self):
-        self._function_name = 'app_demo_app_demo_page_ocr'
+        self._function_name = 'app_demo_page_ocr'
         self._memory_limit_in_mb = 128
         self._invoked_function_arn = 'arn:aws:lambda:'
         self._aws_request_id = '1234'
@@ -51,7 +51,12 @@ def event_copy():
     return copy.deepcopy(BASE_EVENT)
 
 
-def event_data(**kwargs):
+def event_data(data_args=None, metadata_args=None):
+    if data_args is None:
+        data_args = {}
+    if metadata_args is None:
+        metadata_args = {}
     copy = event_copy()
-    copy['detail']['data'].update(**kwargs)
+    copy['detail']['data'].update(**data_args)
+    copy['detail']['metadata'].update(**metadata_args)
     return copy
