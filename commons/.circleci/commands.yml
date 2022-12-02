@@ -55,7 +55,7 @@ commands:
           command: |
             docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-latest
             docker push <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-latest
-            docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-${GIT_TAG}
+            docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:${GIT_TAG}
             docker push <<parameters.ecrRepo>>/cicd:${GIT_TAG}
   docker-install:
     steps:
