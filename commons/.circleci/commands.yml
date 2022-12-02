@@ -50,7 +50,7 @@ commands:
       - run:
           name: Docker Push
           command: |
-            docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:<<parameters.appName>>
+            docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-latest
             docker push <<parameters.ecrRepo>>/<<parameters.appName>>:latest
             docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-${GIT_TAG}
             docker push <<parameters.ecrRepo>>/<<parameters.appName>>:${GIT_TAG}
