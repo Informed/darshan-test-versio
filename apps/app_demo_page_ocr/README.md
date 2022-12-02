@@ -3,7 +3,7 @@
 
 ## [Install poetry](https://python-poetry.org/docs/master/#installing-with-the-official-installer)
 
-Not recommended to use pip to do the install as it will also install Poetry’s dependencies which might cause conflicts with other packages.
+Not recommended to use pip to do the install as it will also install Poetry’s dependencies which masdight cause conflicts with other packages.
 
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
