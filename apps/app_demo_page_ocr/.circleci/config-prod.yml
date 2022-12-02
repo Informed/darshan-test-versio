@@ -12,7 +12,7 @@ workflows:
         - equal: [main, << pipeline.git.branch >>]
     jobs:
       - container_promoter:
-          name: artifact-promoter-app_demo_page_ocr-prod
+          name: container-promoter-app_demo_page_ocr-prod
           target-env: "prod"
           appName: "app-demo-page-ocr"
           version: << pipeline.parameters.version >>
@@ -43,7 +43,7 @@ workflows:
             - cicd-deployer-aws-user
           requires:
             - tf-plan-app_demo_page_ocr-prod
-      - app_starter:
+      - container_starter:
           name: app-starter-for-prod
           target-env: "prod"
           appName: "app-demo-page-ocr"

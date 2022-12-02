@@ -173,7 +173,7 @@ commands:
         type: string
     steps:
       - run:
-          name: Intiating Lambda
+          name: Initiating Lambda
           command: |
             source tmp_workspace/env_vars
             FARN=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.directory>>/latest.zip | jq -r .FunctionArn)
@@ -197,14 +197,10 @@ commands:
         default: ""
         type: string
     steps:
-      - run: 
-          name: Update Version Tag
+      - run:
+          name: Initiating Container Lambda
           command: |
             source tmp_workspace/env_vars
-            bash commons/scripts/version_update.sh ${GIT_TAG} <<parameters.target-env>>
-      - run:
-          name: Python Docker Build
-          command: |
             FARN=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --image-uri <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-latest | jq -r .FunctionArn)
             date=$( date +'%m/%d/%Y %H:%M:%S:%3N')
             aws lambda tag-resource --resource $FARN --tags version=${GIT_TAG},time="$date" --region ${AWS_REGION} 

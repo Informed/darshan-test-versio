@@ -21,6 +21,10 @@ jobs:
           version: <<parameters.version>>
           target-env: <<parameters.target-env>>
           appName: <<parameters.appName>>
+      - version_update:
+          version: <<parameters.version>>
+          target-env: <<parameters.target-env>>
+      - create_env_vars
       - persist_to_workspace:
           root: .
           paths:
