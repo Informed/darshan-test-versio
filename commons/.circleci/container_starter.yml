@@ -1,7 +1,37 @@
-    # c.run(
-    #     f"aws lambda update-function-code \
-    # --profile {glbs.env_name} \
-    # --function-name {lambda_name(env)} \
-    # --image-uri {ecr_repo(env)}/{glbs.project_dash_name}:latest \
-    # --region {glbs.aws_region}"
-    # )
+jobs:
+  app_starter:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    executor:
+      name: python/default
+      tag: "3.8"
+    parameters:
+      target-env:
+        type: string
+      directory:
+        type: string
+      appName:
+        type: string
+      ecrRepo:
+        default: 992538905015.dkr.ecr.us-west-2.amazonaws.com
+        type: string
+      otelLayerArn:
+        default: "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-python-amd64-ver:1"
+        type: string
+      py-executor:
+        type: string
+        default: "3.8"
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps: 
+      - attach_workspace:
+          at: .
+      - aws-cli/setup
+      - start_container_lambda:
+          directory:  <<parameters.directory>>
+          appName: <<parameters.appName>>
+          otelLayerArn: <<parameters.otelLayerArn>>
+          ecrRepo: <<parameters.ecrRepo>>
+          target-env: <<parameters.target-env>>
+      - notify_slack_error
+      - completed_slack_notification   

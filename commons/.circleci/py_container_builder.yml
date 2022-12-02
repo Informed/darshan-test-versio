@@ -42,6 +42,7 @@ jobs:
       - docker_push:
           appName: <<parameters.appName>>
           ecrRepo: <<parameters.ecrRepo>>
+      - create_env_vars
       - persist_to_workspace:
           root: .
           paths:

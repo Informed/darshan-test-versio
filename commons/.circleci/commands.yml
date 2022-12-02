@@ -29,15 +29,18 @@ commands:
       to:
         type: string
     steps:
+      - aws-s3/copy:
+          aws-region: AWS_REGION
+          from: <<parameters.from>>
+          to  : <<parameters.to>>
+  create_env_vars:
+    steps:
       - run: 
           name: Save Version
           command: |
                 mkdir -p tmp_workspace
                 echo "export GIT_TAG=\"${GIT_TAG}\"" >> tmp_workspace/env_vars
-      - aws-s3/copy:
-          aws-region: AWS_REGION
-          from: <<parameters.from>>
-          to  : <<parameters.to>>
+
   docker_push:
     parameters:
       appName:
@@ -51,9 +54,9 @@ commands:
           name: Docker Push
           command: |
             docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-latest
-            docker push <<parameters.ecrRepo>>/<<parameters.appName>>:latest
+            docker push <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-latest
             docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-${GIT_TAG}
-            docker push <<parameters.ecrRepo>>/<<parameters.appName>>:${GIT_TAG}
+            docker push <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-${GIT_TAG}
   docker-install:
     steps:
       - run:
@@ -172,6 +175,37 @@ commands:
           command: |
             source tmp_workspace/env_vars
             FARN=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.directory>>/latest.zip | jq -r .FunctionArn)
+            date=$( date +'%m/%d/%Y %H:%M:%S:%3N')
+            aws lambda tag-resource --resource $FARN --tags version=${GIT_TAG},time="$date" --region ${AWS_REGION} 
+###################################
+## PYTHON CONTAINER APP STARTER ##
+###################################
+  start_container_lambda:
+    parameters:
+      directory:
+        default: ""
+        type: string
+      target-env:
+        type: string
+        default: ""
+      appName:
+        default: ""
+        type: string
+      otelLayerArn:
+        default: ""
+        type: string
+      ecrRepo:
+        default: ""
+        type: string
+      py-executor:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: Python Docker Build
+          command: |
+            source tmp_workspace/env_vars
+            FARN=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --image-uri <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-latest | jq -r .FunctionArn)
             date=$( date +'%m/%d/%Y %H:%M:%S:%3N')
             aws lambda tag-resource --resource $FARN --tags version=${GIT_TAG},time="$date" --region ${AWS_REGION} 
 ####################################

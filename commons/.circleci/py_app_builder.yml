@@ -30,6 +30,7 @@ jobs:
       - upload_artifacts:
           from: apps/<<parameters.directory>>/package/out
           to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.directory>>
+      - create_env_vars
       - create_versioned_assets:
           from: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.directory>>/latest.zip
           to: s3://iq-artifacts-cicd-uswest2/<<parameters.target-env>>/<<parameters.directory>>/${GIT_TAG}.zip
