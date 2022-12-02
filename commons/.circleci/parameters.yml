@@ -47,6 +47,22 @@ parameters:
   run-app_demo_page_ocr-staging:
     type: boolean
     default: false
+###  App demo  verification service
+  run-app_demo_verification_service:
+    type: boolean
+    default: false
+  run-app_demo_verification_service-prod:
+    type: boolean
+    default: false
+  run-app_demo_verification_service-dev-api:
+    type: boolean
+    default: false
+  run-app_demo_verification_service-qa:
+    type: boolean
+    default: false
+  run-app_demo_verification_service-staging:
+    type: boolean
+    default: false
 ### Image Converter ###
   run-image_converter:
     type: boolean

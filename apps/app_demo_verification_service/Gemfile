@@ -1,0 +1,31 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+gem 'activerecord'
+gem 'activesupport'
+gem 'aws-sdk-dynamodb'
+gem 'aws-sdk-eventbridge'
+gem 'aws-sdk-lambda'
+gem 'aws-sdk-s3'
+gem 'damerau-levenshtein'          # calculate edit distances
+gem 'dry-struct'
+gem 'faraday'
+gem 'geokit'
+gem 'honeybadger'
+gem 'jaro_winkler'
+gem 'money'
+gem 'rails', '7.0.4'
+gem 'ruby-geometry', git: 'https://github.com/Informed/ruby-geometry.git', require: 'geometry'
+gem 'typhoeus'
+gem 'wongi-engine'
+gem 'zeitwerk'
+
+group :development, :test do
+  gem 'dotenv'
+  gem 'pry-byebug'
+  gem 'rake', '~> 13.0'
+  gem 'rspec', '~> 3.0'
+  gem 'rubocop', '~> 1.21'
+  gem 'rubocop-rspec'
+end

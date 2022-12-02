@@ -1,0 +1,233 @@
+require: rubocop-rspec
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  TargetRubyVersion: 3.0
+  NewCops: enable
+
+  Exclude:
+    - 'db/schema.rb'
+    - 'log/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - 'my_utils.rb'
+    - 'config/initializers/my_utils.rb'
+
+################################################################################
+# Capybara
+################################################################################
+RSpec/Capybara:
+  EnabledMethods: ['feature', 'scenario', 'xscenario']
+
+################################################################################
+# METRICS
+################################################################################
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+################################################################################
+# LAYOUTS
+################################################################################
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+
+################################################################################
+# STYLES
+################################################################################
+# The `do this and return` pattern is too useful to discard, but we don't want
+# to deal with them in conditionals, where order-of-operations matters. So we
+# restrict to that.
+# see http://www.prestonlee.com/2010/08/04/ruby-on-the-perl-origins-of-and-versus-and-and-or/
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+# Maybe some day, but rails still gets angry with frozen string literals
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# DoubleNegation is a useful pattern
+Style/DoubleNegation:
+  Enabled: false
+
+Style/GlobalVars:
+  AllowedVariables:
+    - $redis
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/Lambda:
+  Enabled: false
+
+# Once CodeClimate updates, we can remove this
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%i': '[]'
+    '%I': '[]'
+    '%r': '{}'
+    '%w': '[]'
+    '%W': '[]'
+
+Style/TernaryParentheses:
+  Enabled: false
+
+Style/ClassVars:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/RescueStandardError:
+  Enabled: false
+
+Style/RedundantRegexpEscape: # Should we enable this?
+  Enabled: false
+
+Style/RedundantRegexpCharacterClass: # Should we enable this?
+  Enabled: false
+
+Style/OptionalBooleanParameter: # We should ideally enable this
+  Enabled: false
+
+Style/RedundantFreeze: # Should we enable this?
+  Enabled: false
+
+################################################################################
+# RSPEC
+################################################################################
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Exclude:
+    - 'spec/controllers/**/*'
+
+RSpec/DescribeClass:
+  Enabled: false # this is causing problems or there's a bug in rubocop or something
+  Exclude:
+    - 'spec/lib/tasks/*'
+
+# ExampleWording breaks rubocop
+RSpec/ExampleWording:
+  Enabled: false
+
+# I'd love to turn this on, but in the real world we dont always get what we want
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MessageChain:
+  Enabled: false
+
+RSpec/RepeatedExample:
+  Enabled: false
+
+RSpec/ExpectOutput:
+  Enabled: false
+
+RSpec/BeforeAfterAll:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/FactoryBot/CreateList:
+  Enabled: false
+
+RSpec/Rails/HttpStatus:
+  Enabled: false
+
+################################################################################
+# NAMING
+################################################################################
+
+Naming/MethodParameterName:
+  Enabled: false
+
+# We should turn this on at some point
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+################################################################################
+# LINT
+################################################################################
+
+Lint/OrAssignmentToConstant:
+  Enabled: false
+
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: false
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: false
+
+Lint/SymbolConversion: # Should we enable this?
+  Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false
+
+Lint/EmptyBlock:
+  Enabled: false
+
+Lint/ConstantDefinitionInBlock:
+  Enabled: false

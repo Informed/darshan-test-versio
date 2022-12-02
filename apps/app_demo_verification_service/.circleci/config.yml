@@ -1,0 +1,121 @@
+version: 2.1
+
+workflows:
+  app_demo_verification_service_PR:
+    when:
+      and:
+        - equal: [true, << pipeline.parameters.run-app_demo_verification_service >>]
+        - equal: [false, << pipeline.parameters.api_call>>]
+        - not:
+            equal: [main, << pipeline.git.branch >>]
+    jobs:
+      - ruby_app_testing:
+          name: app-tester-app_demo_verification_service
+          directory: "app_demo_verification_service"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - security_sca:
+          name: security-sca-app_demo_verification_service
+          directory: "app_demo_verification_service"
+          context:
+            - snyk-token
+            - cicd-platform-slack-creds
+      - security_sast:
+          name: security-sast-app_demo_verification_service
+          directory: "app_demo_verification_service"
+          context:
+            - snyk-token
+            - cicd-platform-slack-creds
+
+  app_demo_verification_service:
+    when:
+      and:
+        - equal: [true, << pipeline.parameters.run-app_demo_verification_service >>]
+        - equal: [false, << pipeline.parameters.tf-app-demo-verification-service-dev >>]
+        - equal: [main, << pipeline.git.branch >>]
+        - equal: [false, << pipeline.parameters.api_call>>]
+    jobs:
+      - ruby_app_testing:
+          name: app-tester-app_demo_verification_service
+          directory: "app_demo_verification_service"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - ruby_container_builder:
+          name: container-builder-app_demo_verification_service
+          target-env: "dev"
+          appName: "app-demo-verification-service"
+          directory: "app_demo_verification_service"
+          context:
+            - cicd-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - app-tester-app_demo_verification_service
+      - container_starter:
+          name: container-starter-app_demo_verification_service
+          target-env: "dev"
+          appName: "app-demo-verification-service"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - container-builder-app_demo_verification_service
+
+  app_demo_verification_service_tf:
+    when:
+      and:
+        - equal: [true, << pipeline.parameters.run-app_demo_verification_service >>]
+        - equal: [true, << pipeline.parameters.tf-app-demo-verification-service-dev >>]
+        - equal: [main, << pipeline.git.branch >>]
+        - equal: [false, << pipeline.parameters.api_call>>]
+    jobs:
+      - ruby_app_testing:
+          name: app-tester-app_demo_verification_service
+          py-executor: "3.7"
+          directory: "app_demo_verification_service"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+      - ruby_container_builder:
+          name: container-builder-app_demo_verification_service
+          target-env: "dev"
+          appName: "app-demo-verification-service"
+          directory: "app_demo_verification_service"
+          py-executor: "3.7"
+          context:
+            - cicd-aws-user-creds
+            - cicd-platform-slack-creds
+      - tf-test:
+          name: tf-tester-app-demo-verification-service
+          target-env: "dev"
+          appName: "app-demo-verification-service"
+          context:
+            - cicd-deployer-aws-user
+          requires:
+            - container-builder-app_demo_verification_service
+      - tf-plan:
+          name: tf-plan-app-demo-verification-service
+          target-env: "dev"
+          appName: "app-demo-verification-service"
+          context:
+            - cicd-deployer-aws-user
+          requires:
+            - tf-tester-app-demo-verification-service
+      - tf-apply:
+          name: tf-apply-app-demo-verification-service
+          target-env: "dev"
+          appName: "app-demo-verification-service"
+          context:
+            - cicd-deployer-aws-user
+          requires:
+            - tf-plan-app-demo-verification-service
+      - container_starter:
+          name: container-starter-app_demo_verification_service
+          target-env: "dev"
+          appName: "app-demo-verification-service"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
+          requires:
+            - tf-apply-app-demo-verification-service

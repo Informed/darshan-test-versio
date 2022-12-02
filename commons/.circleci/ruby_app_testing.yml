@@ -2,7 +2,7 @@
 jobs:
   ruby_app_testing:
     docker:
-      - image: ruby:3.0.3
+      - image: ruby:2.7
     parameters:
       directory:
         type: string

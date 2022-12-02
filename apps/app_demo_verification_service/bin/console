@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative '../app_demo_verification_service'
+
+# Load ENV from .env.local (add dotenv to gemfile)
+Dotenv.load('.env.local', '.env')
+
+Pry.start
+
+# require 'irb'
+# IRB.start(__FILE__)
