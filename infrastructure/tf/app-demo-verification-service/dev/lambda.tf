@@ -120,7 +120,7 @@ module "app_demo_verification_service_lambda_function" {
   create_current_version_allowed_triggers = false # disables function version invokation restriction
 
   # lambda role
-  role_name          = "${var.project_name}-${var.environment}-app-demo-verification-service-${data.aws_region.current.name}"
+  role_name          = "${var.environment}-app-demo-verification-service-${data.aws_region.current.name}"
   role_description   = "used for ${var.project_name}-${var.environment}-app-demo-verification-service function"
   attach_policy_json = true
   policy_json        = data.aws_iam_policy_document.app_demo_verification_service_lambda_permissions.json
