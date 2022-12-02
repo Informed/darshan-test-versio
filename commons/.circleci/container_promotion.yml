@@ -1,5 +1,5 @@
 jobs:
-  container_starter:
+  artifact_promoter:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     executor:
@@ -10,25 +10,22 @@ jobs:
         type: string
       appName:
         type: string
-      ecrRepo:
-        default: 992538905015.dkr.ecr.us-west-2.amazonaws.com
+      directory:
         type: string
-      otelLayerArn:
-        default: "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-python-amd64-ver:1"
+      version:
         type: string
-      py-executor:
-        type: string
-        default: "3.8"
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-    steps: 
-      - attach_workspace:
-          at: .
+    steps:
+      - checkout
       - aws-cli/setup
-      - start_container_lambda:
-          appName: <<parameters.appName>>
-          otelLayerArn: <<parameters.otelLayerArn>>
-          ecrRepo: <<parameters.ecrRepo>>
+      - container_promotion:
+          version: <<parameters.version>>
           target-env: <<parameters.target-env>>
+          appName: <<parameters.appName>>
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
       - notify_slack_error
-      - completed_slack_notification   
+      

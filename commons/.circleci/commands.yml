@@ -48,12 +48,15 @@ commands:
       ecrRepo:
         default: ""
         type: string
+      target-env:
+        default: ""
+        type: string
     steps:
       - run:
           name: Docker Push
           command: |
-            docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-latest
-            docker push <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-latest
+            docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-<<parameters.target-env>>-latest
+            docker push <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-<<parameters.target-env>>-latest
             docker tag <<parameters.appName>>:latest <<parameters.ecrRepo>>/cicd:${GIT_TAG}
             docker push <<parameters.ecrRepo>>/cicd:${GIT_TAG}
   docker-install:
@@ -181,9 +184,6 @@ commands:
 ###################################
   start_container_lambda:
     parameters:
-      directory:
-        default: ""
-        type: string
       target-env:
         type: string
         default: ""
@@ -196,10 +196,11 @@ commands:
       ecrRepo:
         default: ""
         type: string
-      py-executor:
-        default: ""
-        type: string
     steps:
+      - run: 
+          name: Update Version Tag
+          command: |
+            bash commons/scripts/version_update.sh ${GIT_TAG} <<parameters.target-env>>
       - run:
           name: Python Docker Build
           command: |
@@ -299,7 +300,26 @@ commands:
       - run:
           name: Version Update
           command: bash commons/scripts/version_update.sh <<parameters.version>> <<parameters.target-env>>
-                
+########################################
+##### CONTAINER PROMOTION COMMANDS #####
+######################################## 
+  container_promotion:
+    parameters:
+      version:
+        default: ""
+        type: string
+      target-env:
+        default: ""
+        type: string
+      appName:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: Container Promotion
+          command: |
+            MANIFEST=$(aws ecr batch-get-image --repository-name cicd --image-ids imageTag=<<parameters.version>> --output json --region us-west-2 | jq --raw-output --join-output '.images[0].imageManifest')
+            aws ecr put-image --repository-name cicd --region us-west-2 --image-tag <<parameters.appName>>-<<parameters.target-env>>-latest --image-manifest "$MANIFEST"
 ###########################
 ######## SECURITY #########
 ###########################
