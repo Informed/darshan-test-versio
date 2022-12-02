@@ -40,7 +40,6 @@ commands:
           command: |
                 mkdir -p tmp_workspace
                 echo "export GIT_TAG=\"${GIT_TAG}\"" >> tmp_workspace/env_vars
-
   docker_push:
     parameters:
       appName:
@@ -156,7 +155,7 @@ commands:
             cd apps/<<parameters.directory>>
             echo Building docker image for <<parameters.appName>>
             aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin <<parameters.ecrRepo>>
-            DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -t <<parameters.appName>>:latest --build-arg PYTHON_VERSION=3.7 --build-arg HANDLER=<<parameters.directory>>.handler.handler .
+            DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -t <<parameters.appName>>:latest --build-arg PYTHON_VERSION=<<parameters.py-executor>> --build-arg HANDLER=<<parameters.directory>>.handler.handler .
 #           docker build --platform linux/amd64 -t <<parameters.appName>>:latest --build-arg PYTHON_VERSION=3.8 --build-arg OTEL_LAYER_ARN=<<parameters.otelLayerArn>> --build-arg HANDLER=<<parameters.directory>>.handler .
 ################################
 ##### APP STARTER COMMANDS #####
