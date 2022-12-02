@@ -80,7 +80,7 @@ variable "memory_size" {
 variable "layer_arns" {
   description = "List of otel layer arns"
   type        = list(string)
-  default = []
+  default     = []
 }
 
 variable "lambda_handler_file" {

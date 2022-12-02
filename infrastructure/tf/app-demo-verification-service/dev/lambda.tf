@@ -99,18 +99,18 @@ module "app_demo_verification_service_lambda_function" {
   create_package = false
   package_type   = "Image"
   image_uri      = "992538905015.dkr.ecr.us-west-2.amazonaws.com/cicd:app-demo-verification-service-${var.environment}-latest"
-  layers = var.layer_arns
+  layers         = var.layer_arns
 
   environment_variables = merge(
     {
-      "LOG_LEVEL"                           = var.log_level
-      "HONEYBADGER_API_KEY"                 = var.app_demo_verification_service_honeybadger_api_key
-      "HONEYBADGER_ENVIRONMENT"             = var.environment
-      "HONEYBADGER_FORCE_REPORT_DATA"       = var.honeybadger_force_report_data
-      "Environment"                         = var.environment
-      "EMPLOYER_NAME_LOOKUP_ENABLED"        = true
-      "AWS_DEFAULT_BUCKET"                  = data.aws_s3_bucket.exchange_bucket.id
-      "GEOCODE_TOKEN"                       = "Wu3e2Jz9Lr8YjMg9C2cjqBZTcKP18v9TpEsV2EyckWpX3xCx7Kai5uatnZZGpx2v"
+      "LOG_LEVEL"                     = var.log_level
+      "HONEYBADGER_API_KEY"           = var.app_demo_verification_service_honeybadger_api_key
+      "HONEYBADGER_ENVIRONMENT"       = var.environment
+      "HONEYBADGER_FORCE_REPORT_DATA" = var.honeybadger_force_report_data
+      "Environment"                   = var.environment
+      "EMPLOYER_NAME_LOOKUP_ENABLED"  = true
+      "AWS_DEFAULT_BUCKET"            = data.aws_s3_bucket.exchange_bucket.id
+      "GEOCODE_TOKEN"                 = "Wu3e2Jz9Lr8YjMg9C2cjqBZTcKP18v9TpEsV2EyckWpX3xCx7Kai5uatnZZGpx2v"
     },
     var.extra_environment_variables
   )
