@@ -40,6 +40,7 @@ workflows:
       - py_app_testing:
           name: app-tester-app_demo_page_ocr
           directory: "app_demo_page_ocr"
+          py-executor: "3.7"
           context:
             - dev-aws-user-creds
             - cicd-platform-slack-creds
@@ -48,7 +49,7 @@ workflows:
           target-env: "dev"
           appName: "app-demo-page-ocr"
           directory: "app_demo_page_ocr"
-          py-executor: "3.9"
+          py-executor: "3.7"
           context:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
