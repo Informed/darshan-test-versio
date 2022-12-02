@@ -201,7 +201,7 @@ commands:
           name: Initiating Container Lambda
           command: |
             source tmp_workspace/env_vars
-            FARN=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --image-uri <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-latest | jq -r .FunctionArn)
+            FARN=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --image-uri <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-<<parameters.target-env>>-latest | jq -r .FunctionArn)
             date=$( date +'%m/%d/%Y %H:%M:%S:%3N')
             aws lambda tag-resource --resource $FARN --tags version=${GIT_TAG},time="$date" --region ${AWS_REGION} 
 ####################################
