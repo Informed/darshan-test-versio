@@ -11,11 +11,10 @@ workflows:
         - equal: [true, << pipeline.parameters.api_call>>]
         - equal: [main, << pipeline.git.branch >>]
     jobs:
-      - artifact_promoter:
+      - container_promoter:
           name: artifact-promoter-app_demo_page_ocr-prod
           target-env: "prod"
           appName: "app-demo-page-ocr"
-          directory: "app_demo_page_ocr"
           version: << pipeline.parameters.version >>
           context:
             - cicd-aws-user-creds

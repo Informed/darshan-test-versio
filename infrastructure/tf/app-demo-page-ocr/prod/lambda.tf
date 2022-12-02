@@ -88,7 +88,7 @@ module "app_demo_page_ocr_lambda_function" {
   timeout        = var.timeout
   memory_size    = var.memory_size
   create_package = false
-  image_uri      = "607194293212.dkr.ecr.us-west-2.amazonaws.com/app-demo-page-ocr:latest"
+  image_uri      = "992538905015.dkr.ecr.us-west-2.amazonaws.com/cicd:app-demo-page-ocr-${var.environment}-latest"
   package_type   = "Image"
   # s3_existing_package = {
   #   bucket = "informed-techno-core-${var.environment}-lambda-images"
