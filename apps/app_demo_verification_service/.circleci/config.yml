@@ -72,7 +72,6 @@ workflows:
     jobs:
       - ruby_app_testing:
           name: app-tester-app_demo_verification_service
-          py-executor: "3.7"
           directory: "app_demo_verification_service"
           context:
             - dev-aws-user-creds
@@ -82,7 +81,6 @@ workflows:
           target-env: "dev"
           appName: "app-demo-verification-service"
           directory: "app_demo_verification_service"
-          py-executor: "3.7"
           context:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
