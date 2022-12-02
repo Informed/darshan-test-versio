@@ -47,7 +47,6 @@ workflows:
           name: app-starter-for-prod
           target-env: "prod"
           appName: "app-demo-page-ocr"
-          directory: "app_demo_page_ocr"
           context:
             - prod-aws-user-creds
             - cicd-platform-slack-creds
