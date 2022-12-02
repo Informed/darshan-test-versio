@@ -10,7 +10,7 @@ variable "profile" {
 }
 
 variable "bucket_prefix" {
-  description = "Prefix foasdr Buckets"
+  description = "Prefix foasasddr Buckets"
   type        = string
   default     = "informed"
 }
