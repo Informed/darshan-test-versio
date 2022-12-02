@@ -1,6 +1,6 @@
 # Page Ocr Setup
 asdasd
-adqwezasdasdaasdsdasdasasda
+adqwezasdasdaasdsdasdasasasdda
 ## [Install poetry](https://python-poetry.org/docs/master/#installing-with-the-official-installer)
 
 Not recommended to use pip to do the install as it will also install Poetry’s dependencies whiasdch masdight cause conflicts with other packages.
