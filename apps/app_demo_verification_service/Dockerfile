@@ -19,6 +19,6 @@ RUN bundle install --deployment --jobs 12 --retry 3
 
 COPY app_demo_verification_service ${LAMBDA_TASK_ROOT}/app_demo_verification_service
 COPY app_demo_verification_service.rb ${LAMBDA_TASK_ROOT}/
-COPY setup_verification_service.rb ${LAMBDA_TASK_ROOT}/
+COPY setup_app_demo_verification_service.rb ${LAMBDA_TASK_ROOT}/
 
 CMD [ "app_demo_verification_service.VerificationService.handler" ]
