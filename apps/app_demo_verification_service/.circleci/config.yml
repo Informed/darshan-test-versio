@@ -36,12 +36,12 @@ workflows:
         - equal: [main, << pipeline.git.branch >>]
         - equal: [false, << pipeline.parameters.api_call>>]
     jobs:
-      - ruby_app_testing:
-          name: app-tester-app_demo_verification_service
-          directory: "app_demo_verification_service"
-          context:
-            - dev-aws-user-creds
-            - cicd-platform-slack-creds
+      # - ruby_app_testing:
+      #     name: app-tester-app_demo_verification_service
+      #     directory: "app_demo_verification_service"
+      #     context:
+      #       - dev-aws-user-creds
+      #       - cicd-platform-slack-creds
       - ruby_container_builder:
           name: container-builder-app_demo_verification_service
           target-env: "dev"
@@ -50,8 +50,8 @@ workflows:
           context:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
-          requires:
-            - app-tester-app_demo_verification_service
+          # requires:
+          #   - app-tester-app_demo_verification_service
       - container_starter:
           name: container-starter-app_demo_verification_service
           target-env: "dev"
