@@ -151,10 +151,10 @@ def upload_to_s3(c, env=None):
     Upload the zip file to s3
     """
     env = env or glbs.env_name
-    if env in ["dev","dev-api"]:
+    if env in ["dev", "dev-api"]:
         profile = "cicd"
-    else: 
-        profile = env 
+    else:
+        profile = env
     zip_file_name = zip_name_with_version(env)
     version_asset_s3_path = f"{s3_lambda_bucket(env)}/{env}/{glbs.project_name}/{project_version(with_sha=is_sandbox(env))}.zip"
     latest_asset_s3_path = (
@@ -196,7 +196,7 @@ def update_lambda_function(c, env=None):
         --region {glbs.aws_region} \
         --profile {env}"
     )
-    if env in ["dev", "dev-api"]: 
+    if env in ["dev", "dev-api"]:
         c.run(f"git tag {version}")
         c.run(f"git push --tags")
 
@@ -239,7 +239,7 @@ def docker_generate_requirements(c):
         return
     else:
         c.run(
-            "poetry export --only main,layer,docker -f requirements.txt --output requirements.txt --without-hashes -vvv"
+            "poetry export --only main,layer,docker -f requirements.txt --output requirements.txt --without-hashes"
         )
 
 
@@ -250,6 +250,7 @@ def docker_build_image(c, env=None):
     Build a docker image of the lambda function (Does not deploy to ECR or Lambda)
     """
     env = env or glbs.env_name
+    glbs.set_env_name(env)
     with_sha = not env in ["dev", "dev-api"]
     if not glbs.is_ruby_project:
         otel_layer_arn = f"{ecr_repo(env)}/aws-otel-python-{glbs.arch}-ver-{glbs.otel_version.replace('.', '-')}:{glbs.otel_layer_version}"
@@ -268,7 +269,7 @@ def docker_build_image(c, env=None):
     if not glbs.is_ruby_project:
         build_args = f"--build-arg PYTHON_VERSION={python_version()} \
           --build-arg OTEL_LAYER_ARN={otel_layer_arn} \
-         --build-arg HANDLER={glbs.project_name}.handler"
+        --build-arg HANDLER={glbs.project_name}.handler.handler"
 
     c.run(
         f"DOCKER_BUILDKIT=1 \
@@ -292,6 +293,7 @@ def docker_build_and_push_image_to_ecr(c, env=None):
     Build and Push the docker image to ECR
     """
     env = env or glbs.env_name
+    glbs.set_env_name(env)
     with_sha = not env in ["dev", "dev-api"]
     logging.info(f"Pushing docker image to ECR env: {env}")
     c.run(
@@ -310,6 +312,7 @@ def docker_update_lambda_function_with_image(c, env=None):
     Update the lambda function with the new code from the image in s3 bucket
     """
     env = env or glbs.env_name
+    glbs.set_env_name(env)
     logging.info(f"Updating lambda {lambda_name(env)}")
     c.run(
         f"aws lambda update-function-code \

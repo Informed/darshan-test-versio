@@ -1,0 +1,42 @@
+jobs:
+  py_container_builder:
+    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+    executor:
+      name: python/default
+      tag: <<parameters.py-executor>>
+    parameters:
+      target-env:
+        type: string
+      directory:
+        type: string
+      appName:
+        type: string
+      ecrRepo:
+        default: 992538905015.dkr.ecr.us-west-2.amazonaws.com
+        type: string
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - start_slack_notification
+      - checkout
+      - tag_commit:
+          directory: <<parameters.directory>>
+      - aws-cli/setup
+      - setup_remote_docker:
+          version: 20.10.17
+      - ruby_docker_build:
+          directory:  <<parameters.directory>>
+          appName: <<parameters.appName>>
+          ecrRepo: <<parameters.ecrRepo>>
+      - docker_push:
+          appName: <<parameters.appName>>
+          ecrRepo: <<parameters.ecrRepo>>
+          target-env: <<parameters.target-env>>
+      - create_env_vars
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+      - notify_slack_error
+    

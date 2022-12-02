@@ -105,7 +105,7 @@ commands:
                 echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
                 poetry export --with layer -f requirements.txt --output requirements.txt --without-hashes
                 poetry build
-                poetry run pip install -r requirements.txt --upgrade --only-binary :all: --platform manylinux2010_x86_64 --target package dist/*.whl
+                poetry run pip install -r requirements.txt --upgrade --only-binary :all: --target package dist/*.whl
   py_create_package:
     parameters:
       directory:
@@ -133,7 +133,7 @@ commands:
           command: |
                 cd apps/<<parameters.directory>>
                 echo Building the code in `pwd` with: `python -V` `pip -V` and `poetry -V`
-                poetry export --only main,layer,docker -f requirements.txt --output requirements.txt --without-hashes -vvv
+                poetry export --only main,layer,docker -f requirements.txt --output requirements.txt --without-hashes
   py_docker_build:
     parameters:
       directory:
@@ -159,7 +159,28 @@ commands:
             echo Building docker image for <<parameters.appName>>
             aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin <<parameters.ecrRepo>>
             DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -t <<parameters.appName>>:latest --build-arg PYTHON_VERSION=<<parameters.py-executor>> --build-arg HANDLER=<<parameters.directory>>.handler.handler .
-#           docker build --platform linux/amd64 -t <<parameters.appName>>:latest --build-arg PYTHON_VERSION=3.8 --build-arg OTEL_LAYER_ARN=<<parameters.otelLayerArn>> --build-arg HANDLER=<<parameters.directory>>.handler .
+################################
+##### RUBY CONTAINER BUILD #####
+################################
+  ruby_docker_build:
+    parameters:
+      directory:
+        default: ""
+        type: string
+      appName:
+        default: ""
+        type: string
+      ecrRepo:
+        default: ""
+        type: string
+    steps:
+      - run:
+          name: Ruby Docker Build
+          command: |
+            cd apps/<<parameters.directory>>
+            echo Building docker image for <<parameters.appName>>
+            aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin <<parameters.ecrRepo>>
+            DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -t <<parameters.appName>>:latest .
 ################################
 ##### APP STARTER COMMANDS #####
 ################################
@@ -176,9 +197,9 @@ commands:
           name: Initiating Lambda
           command: |
             source tmp_workspace/env_vars
-            FARN=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.directory>>/latest.zip | jq -r .FunctionArn)
+            function_arn=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --s3-bucket iq-artifacts-cicd-uswest2 --s3-key <<parameters.target-env>>/<<parameters.directory>>/latest.zip | jq -r .FunctionArn)
             date=$( date +'%m/%d/%Y %H:%M:%S:%3N')
-            aws lambda tag-resource --resource $FARN --tags version=${GIT_TAG},time="$date" --region ${AWS_REGION} 
+            aws lambda tag-resource --resource $function_arn --tags version=${GIT_TAG},time="$date" --region ${AWS_REGION} 
 ###################################
 ## PYTHON CONTAINER APP STARTER ##
 ###################################
@@ -190,9 +211,6 @@ commands:
       appName:
         default: ""
         type: string
-      otelLayerArn:
-        default: ""
-        type: string
       ecrRepo:
         default: ""
         type: string
@@ -201,9 +219,9 @@ commands:
           name: Initiating Container Lambda
           command: |
             source tmp_workspace/env_vars
-            FARN=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --image-uri <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-<<parameters.target-env>>-latest | jq -r .FunctionArn)
+            function_arn=$(aws lambda update-function-code --function-name techno-core-<<parameters.target-env>>-<<parameters.appName>> --region ${AWS_REGION} --image-uri <<parameters.ecrRepo>>/cicd:<<parameters.appName>>-<<parameters.target-env>>-latest | jq -r .FunctionArn)
             date=$( date +'%m/%d/%Y %H:%M:%S:%3N')
-            aws lambda tag-resource --resource $FARN --tags version=${GIT_TAG},time="$date" --region ${AWS_REGION} 
+            aws lambda tag-resource --resource $function_arn --tags version=${GIT_TAG},time="$date" --region ${AWS_REGION} 
 ####################################
 #### RUBY APP TESTER AND LINTER ####
 ####################################
@@ -269,7 +287,7 @@ commands:
               echo Zipping the code in `pwd`
               apt-get update && apt-get install -y zip
               mkdir -p out
-              zip -r out/input_file_validator.zip .  
+              zip -r out/latest.zip .  
 ########################################
 ##### ARTIFACT PROMOTION COMMANDS ######
 ########################################
@@ -402,12 +420,7 @@ commands:
 ################################
 ###### TERRAFORM TEST ##########
 ################################
-  debug_mode_on:
-    steps:
-      - run:
-          name: Create Package
-          command: |
-              export TF_LOG="TRACE" >> $BASH_ENV
+
 ###############################
 ###### TERRAFORM DEPLOY #######
 ###############################

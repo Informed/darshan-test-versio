@@ -13,9 +13,6 @@ jobs:
       ecrRepo:
         default: 992538905015.dkr.ecr.us-west-2.amazonaws.com
         type: string
-      otelLayerArn:
-        default: "arn:aws:lambda:us-west-2:901920570463:layer:aws-otel-python-amd64-ver:1"
-        type: string
       py-executor:
         type: string
         default: "3.8"
@@ -27,7 +24,6 @@ jobs:
       - aws-cli/setup
       - start_container_lambda:
           appName: <<parameters.appName>>
-          otelLayerArn: <<parameters.otelLayerArn>>
           ecrRepo: <<parameters.ecrRepo>>
           target-env: <<parameters.target-env>>
       - notify_slack_error
