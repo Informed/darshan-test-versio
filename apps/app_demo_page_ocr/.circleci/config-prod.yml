@@ -26,7 +26,7 @@ workflows:
           context:
             - cicd-deployer-aws-user
           requires:
-            - artifact-promoter-app_demo_page_ocr-prod
+            - container-promoter-app_demo_page_ocr-prod
       - tf-plan:
           name: tf-plan-app_demo_page_ocr-prod
           target-env: "prod"
