@@ -321,4 +321,19 @@ parameters:
   tf-app-demo-page-ocr-prod: 
     type: boolean
     default: false
+  tf-app-demo-verification-service-dev: 
+    type: boolean
+    default: false
+  tf-app-demo-verification-service-dev-api: 
+    type: boolean
+    default: false
+  tf-app-demo-verification-service-qa: 
+    type: boolean
+    default: false
+  tf-app-demo-verification-service-staging: 
+    type: boolean
+    default: false
+  tf-app-demo-verification-service-prod: 
+    type: boolean
+    default: false
 
