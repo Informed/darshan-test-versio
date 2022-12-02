@@ -37,6 +37,12 @@ workflows:
         - equal: [main, << pipeline.git.branch >>]
         - equal: [false, << pipeline.parameters.api_call>>]
     jobs:
+      - py_app_testing:
+          name: app-tester-app_demo_page_ocr
+          directory: "app_demo_page_ocr"
+          context:
+            - dev-aws-user-creds
+            - cicd-platform-slack-creds
       - py_container_builder:
           name: app-builder-app_demo_page_ocr
           target-env: "dev"
@@ -46,6 +52,8 @@ workflows:
           context:
             - cicd-aws-user-creds
             - cicd-platform-slack-creds
+          requires:
+            - app-tester-app_demo_page_ocr
       - container_starter:
           name: app-starter-app_demo_page_ocr
           target-env: "dev"
