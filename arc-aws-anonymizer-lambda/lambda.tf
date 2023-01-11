@@ -23,15 +23,6 @@ module "copy_lambda_function" {
 
   environment_variables = {
     "TARGET_BUCKET"                  = var.dest_bucket
-    "ADD_DOCUMENTS_PII"              = var.add_documents_PII,
-    "REMOVE_DOCUMENTS_PII"           = var.remove_documents_PII
-    "ADD_APPLICATION_PII"            = var.add_application_PII
-    "REMOVE_APPLICATION_PII"         = var.remove_application_PII
-    "ADD_STIP_VERIFICATION_PII"      = var.add_stip_verification_PII
-    "ADD_STIP_VERIFICATION_LIST_PII" = var.add_stip_verification_list_PII
-    "REMOVE_STIP_VERIFICATION_PII"   = var.remove_stip_verification_PII
-    "ADD_SKIP_THE_STIP_PII"          = var.add_skip_the_stip_PII
-    "REMOVE_SKIP_THE_STIP_PII"       = var.remove_skip_the_stip_PII
   }
 
   tags = merge(
