@@ -17,5 +17,5 @@ data "aws_s3_bucket" "dest_bucket" {
 data "archive_file" "anonymizer-package" {
   type        = "zip"
   source_dir  = "${path.module}/src"
-  output_path = "${path.module}/out/anonymizer.zip"
+  output_path = ".terraform/modules/anonymized_lambda/arc-aws-anonymizer-lambda/out/anonymizer.zip"
 }
