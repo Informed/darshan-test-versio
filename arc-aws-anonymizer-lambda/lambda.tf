@@ -17,7 +17,7 @@ module "copy_lambda_function" {
   }
 
   create_package         = false
-  local_existing_package = "./out/anonymizer.zip"
+  local_existing_package = "${path.module}/out/anonymizer.zip"
 
   ignore_source_code_hash = true
 
@@ -58,7 +58,7 @@ module "delete_lambda_function" {
   }
 
   create_package         = false
-  local_existing_package = "./out/anonymizer.zip"
+  local_existing_package = "${path.module}/out/anonymizer.zip"
 
   ignore_source_code_hash = true
 
