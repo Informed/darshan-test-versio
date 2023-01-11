@@ -16,7 +16,10 @@ module "copy_lambda_function" {
     }
   }
 
-  source_path = "${path.module}/src/copy_data.py"
+  create_package         = false
+  local_existing_package = "./out/anonymizer.zip"
+
+  ignore_source_code_hash = true
 
   environment_variables = {
     "TARGET_BUCKET"                  = var.dest_bucket
@@ -63,7 +66,10 @@ module "delete_lambda_function" {
     }
   }
 
-  source_path = "${path.module}/src/delete_data.py"
+  create_package         = false
+  local_existing_package = "./out/anonymizer.zip"
+
+  ignore_source_code_hash = true
 
   environment_variables = {
     TARGET_BUCKET = var.dest_bucket

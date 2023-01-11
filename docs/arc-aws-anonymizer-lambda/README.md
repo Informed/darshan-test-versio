@@ -1,78 +1,51 @@
-# terraform-arc-aws-anonymizer-lambda
-Terraform Module to set up anonymized lambda function.
-----------------------
+## Requirements
 
-## What this module does
-Set-up Lambda with below capabilty:
-- Encrypt(SHA-256 + BASE64) PII data and copy over to destination bucket as soon as it is uploaded to source bucket.
-- Delete PII data from destination bucket as soon as it is deleted from source bucket. 
+| Name | Version |
+|------|---------|
+| terraform | >= 1.2.7 |
+| aws | ~> 4.6 |
 
-Here is the document consists of PII keys which are encrypted to destination bucket. 
+## Providers
 
---- https://docs.google.com/document/d/1PscLShKBS2c5WbvL2XRNYbuW7LU-cG9JM_1r3ImfEfU/edit?usp=sharing ---
+| Name | Version |
+|------|---------|
+| archive | n/a |
+| aws | ~> 4.6 |
+| aws.dest | ~> 4.6 |
+| aws.source | ~> 4.6 |
 
-## Required
+## Modules
 
-- AWS provider >= 4.8
-- Terraform 1.1.7 module provider inheritance block:
-- You need to have versioning enabled for Source Bucket.
+| Name | Source | Version |
+|------|--------|---------|
+| copy\_lambda\_function | git::https://github.com/informed/borg.git//aws-lambda | n/a |
+| delete\_lambda\_function | git::https://github.com/informed/borg.git//aws-lambda | n/a |
 
-- `aws.source` - AWS provider alias for source account
-- `aws.dest`   - AWS provider alias for destination account
+## Resources
 
-### Variables
-
-You can see description of each variable on `variables.tf` file. The ones that does not have a default value, are required.
-
-```hcl
-
-module "anonymized_lambda" {
-  source             = "git::https://github.com/informed/borg.git//arc-aws-anonymizer-lambda"
-
-  app_name           = var.app_name
-  source_bucket      = var.source_bucket
-  destination_bucket = var.destination_bucket
-  environment        = var.environment
-
-  providers = {
-    aws.source = aws.source
-    aws.dest   = aws.dest
-  }
-}
-
-provider "aws" {
-  alias  = "source"
-  region = "us-west-2"
-  profile = "your-profile"
-}
-
-
-provider "aws" {
-  alias  = "dest"
-  region = "us-east-2"
-  profile = "your-profile"
-}
-
-```
+| Name | Type |
+|------|------|
+| [aws_lambda_permission.aws-lambda-trigger-copy-permissions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
+| [aws_lambda_permission.aws-lambda-trigger-delete-permissions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
+| [aws_s3_bucket_notification.aws-lambda-trigger-copy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_notification) | resource |
+| [aws_s3_bucket_policy.allow_access_from_another_account](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
+| [archive_file.anonymizer-package](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
+| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_iam_policy_document.allow_access_from_another_account](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_s3_bucket.dest_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket) | data source |
+| [aws_s3_bucket.src_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_environment"></a> [environment](#input\_environment) | Instruction set environement for your Lambda function. Valid values are ["dev"], ["dev-api"],["qa"] ["staging"], ["prod"]. | `string` | `null` | yes |
-| <a name="input_profile"></a> [profile](#input\_profile) | AWS Profile to use for | `string` | `null` | yes |
-| <a name="input_region"></a> [assume\_region](#input\_region) | AWS Region to deploy to | `string` | `null` | yes |
-| <a name="input_app_name"></a> [attach\_app\_name](#input\_app\_name) | App name should be appended to `anonymized-copy` and `anonymized-delete` function.  | `string` | `null` | yes |
-| <a name="input_src_bucket"></a> [attach\_src\_bucket](#input\_src\_bucket) | Bucket name which has PII data which needs to be anonymized | `string` | `null` | yes |
-| <a name="input_dest_bucket"></a> [attach\_dest\_bucket](#input\_dest\_bucket) | Bucket name which needs to have anonymized PII data  | `string` | `null` | yes |
-| <a name="input_add_documents_PII"></a> [add\_documents\_PII](#input\_add\_documents\_PII) | Keys of Documents type documents which needs to be anonymized | `string` | `first_name,last_name,middle_name,suffix,email,ssn,driver_license_number,date_of_birth,dob,account_number,bank_account_number,vin,id_number, policy_number,tin,itin,applicant_phone_number,trade_in_vin,zip,city,state,street_2,street_address,phone` | no |
-| <a name="input_remove_documents_PII"></a> [add\_remove\_documents\_PII](#input\_remove\_documents\_PII) | Keys of Documents type documents which needs to be removed before copying over to destination bucket | `string` | `analysis_document_payload` | no |
-| <a name="input_add_application_PII"></a> [add\_add\_application\_PII](#input\_add\_application\_PII) | Keys of application type documents which needs to be anonymized | `string` | `first_name,last_name,middle_name,suffix,email,ssn,date_of_birth,dob,account_number,bank_account_number,vin,id_number, policy_number,tin,itin,zip,city,state,street_2,street_address,phone` | no |
-| <a name="input_remove_application_PII"></a> [add\_remove\_application\_PII](#input\_remove\_application\_PII) | Keys of Application type documents which needs to be removed before copying over to destination bucket | `string` | `null` | no |
-| <a name="input_add_stip_verification_PII"></a> [add\_add\_stip\_verification\_PII](#input\_add\_stip\_verification\_PII) | Keys of Stip verification type documents which has `expected` and `answers` and that key needs to be anonymized before copying over to destination bucket | `string` | `null` | no |
-| <a name="input_add_stip_verification_list_PII"></a> [add\_add\_stip\_verification\_list\_PII](#input\_add\_stip\_verification\_list\_PII) | Keys of Stip verification type documents which needs to be anonymized | `string` | `recommendations` | no |
-| <a name="input_remove_stip_verification_PII"></a> [add\_remove\_stip\_verification\_PII](#input\_emove\_stip\_verification\_PII) | Keys of Stip verification type documents which needs to be removed before copying over to destination bucket | `string` | `null` | no |
+| app\_name | Application name | `string` | n/a | yes |
+| dest\_bucket | dynamodb table | `string` | n/a | yes |
+| environment | Name of this environment | `string` | n/a | yes |
+| src\_bucket | backend key | `string` | n/a | yes |
+| region | Region to deploy terraform resources to | `string` | `"us-west-2"` | no |
+| tags | A map of tags to add to all resources | `map(string)` | `{}` | no |
 
-### Arch Diagram 
+## Outputs
 
-https://s.icepanel.io/dDZq4D1WrI/5TDD
+No outputs.
